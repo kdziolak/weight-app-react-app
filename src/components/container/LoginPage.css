@@ -1,0 +1,25 @@
+.login-page{
+    height: 100vh;
+}
+
+.login-page .row{
+    width: 100%;
+}
+
+
+.login-page form{
+    width: 100%;
+    min-height: 40vh;
+    padding: 30px;
+}
+
+.login-page .input-field input[type=email]:focus + label,
+.login-page .input-field input[type=password]:focus + label{
+    color: #0d47a1;
+}
+
+.login-page .input-field input[type=email]:focus,
+.login-page .input-field input[type=password]:focus  {
+    border-bottom: 1px solid #0d47a1;
+    box-shadow: 0 1px 0 0 #0d47a1;
+  }
