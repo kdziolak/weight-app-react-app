@@ -11,7 +11,7 @@ class LoginPage extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col s10 l8 offset-s1 offset-l2 center-align">
+                    <div className="col s10 l8 offset-s1 offset-l2">
                         <form className="blue lighten-5 z-depth-2">
                            <div className="row">
                                 <div className="col s12">
@@ -23,6 +23,8 @@ class LoginPage extends Component {
                                         <input type="password" id="password" className="password blue-text text-darken-4"/>
                                         <label htmlFor="password">Password:</label>
                                     </div>
+                                    <a href="#" className="right-align remind-password">Forget your password?</a>
+                                    <button className="btn blue darken-3 waves-effect waves-light">Log In</button>
                                 </div>
                            </div>
                         </form>
