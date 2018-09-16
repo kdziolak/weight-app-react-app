@@ -1,0 +1,44 @@
+.menu .nav{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 250px;
+    width: 250px;
+}
+
+.menu .nav-wrapper{
+    padding-left: 250px;
+}
+
+.menu .nav li a{
+    vertical-align: middle;
+}
+.menu .nav li a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.menu .logo-container{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.menu .logo-icon{
+    height: 100px;
+    background-image: url('../../img/fat-3313923_640.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+
+@media (max-width: 992px) {
+    .menu .nav-wrapper{
+        padding-left: 0px;
+    }
+    .menu .nav{
+        left: 0px;
+    }
+}

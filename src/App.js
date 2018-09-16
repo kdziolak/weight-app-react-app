@@ -20,7 +20,7 @@ class App extends Component {
       <HashRouter>
         <div>
           {
-            this.state.loggedIn ? <Redirect to='/' /> : <Redirect to='/login'/>
+            !this.state.loggedIn ? <Redirect to='/' /> : <Redirect to='/login'/>
           }
           <Switch>
             <Route exact path="/" render={() => (
