@@ -23,6 +23,12 @@
     margin-top: 25px;
 }
 
+.login-page .error {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
 .login-page .input-field input[type=email]:focus + label,
 .login-page .input-field input[type=password]:focus + label{
     color: #0d47a1;

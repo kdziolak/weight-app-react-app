@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LoginPage from './components/container/LoginPage'
 import {HashRouter, Route, Redirect, Switch} from 'react-router-dom'
+import fire from './firebase'
 import history from './history'
 
 class App extends Component {
@@ -8,10 +9,24 @@ class App extends Component {
     loggedIn: false
   }
 
-  loggedInChanged = (value) => {
+  loggedInChanged = () => {
+    let loggedIn = true;
     this.setState({
-      loggedIn:true
+      loggedIn
     })
+  }
+
+  handleClick = () => {
+    fire.auth().signOut()
+      .then(()=> {
+        let loggedIn = false;
+        this.setState({
+          loggedIn
+        })
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
   }
 
   render() {
@@ -19,12 +34,13 @@ class App extends Component {
       <HashRouter>
         <div>
           {
-            !this.state.loggedIn ? <Redirect to='/login'/> : null
+            this.state.loggedIn ? <Redirect to='/' /> : <Redirect to='/login'/>
           }
           <Switch>
-            <Route exact path="/" render={()=>(<p>Zalogowano</p>)} />
-            <Route exact path="/login" component={LoginPage}/>
+            <Route exact path="/" render={()=>(<button className='btn blue darken-3' onClick={this.handleClick}>Sign out</button>)} />
+            <Route exact path="/login" render={() => (<LoginPage loggedInChanged={this.loggedInChanged}/>)}/>
           </Switch>
+          
         </div>
       </HashRouter>
     );
