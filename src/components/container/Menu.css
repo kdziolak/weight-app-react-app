@@ -10,15 +10,22 @@
     padding-left: 250px;
 }
 
-.menu .nav li a{
-    vertical-align: middle;
+.menu .nav .menu-item a{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.menu .nav .menu-item a:hover{
+    background-color:#e3f2fd;
 }
 .menu .nav li a{
     display: flex;
+    width: 100%;
+    height: 70px;
     justify-content: center;
     align-items: center;
     font-size: 18px;
-    vertical-align: middle;
 }
 
 .menu .logo-container{
@@ -32,6 +39,10 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center; 
+}
+
+.menu .menu-img{
+    width: 30px;
 }
 
 @media (max-width: 992px) {

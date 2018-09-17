@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import './LoginPage.css'
 import fire from '../../firebase'
+import history from '../../history'
 
 class LoginPage extends Component {
 
