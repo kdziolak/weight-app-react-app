@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Quotes from '../presentational/Quotes'
+import './MainPage.css'
+import OptionCard from '../presentational/OptionCard';
 
 export default class MainPage extends Component {
 
@@ -20,8 +22,10 @@ export default class MainPage extends Component {
 
   render() {
     return (
-      <div className='main-page'>
+      <div className='main-page center-align'>
         <Quotes quotes={this.state.quotes}/>
+        <h3 className="options blue-text text-darken-2">What u want to do?</h3>
+        <OptionCard/>
       </div>
     )
   }
