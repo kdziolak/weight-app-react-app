@@ -1,3 +1,17 @@
 .option-card .card-title{
     font-size: 18px;
 }
+
+.option-card .card-flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.option-card .weight-img{
+    width: 100%;
+}
+.option-card .card-title{
+    text-transform: capitalize
+}

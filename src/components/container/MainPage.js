@@ -2,11 +2,15 @@ import React, { Component } from 'react'
 import Quotes from '../presentational/Quotes'
 import './MainPage.css'
 import OptionCard from '../presentational/OptionCard';
+import Weight from '../../img/weight.png'
 
 export default class MainPage extends Component {
 
     state = {
-      quotes: []
+      quotes: [],
+      optionContents: ['add weight measurement', 'add meal today', 'check your progress', 'add workout'],
+      imgs: [Weight],
+      colorCards: ['pink', 'purple', 'cyan', 'light-green']
     }
 
     componentDidMount() {
@@ -25,7 +29,19 @@ export default class MainPage extends Component {
       <div className='main-page center-align'>
         <Quotes quotes={this.state.quotes}/>
         <h3 className="options blue-text text-darken-2">What u want to do?</h3>
-        <OptionCard/>
+        <div className="container">
+          <div className="row">
+            {
+            this.state.optionContents.map((text, i) => {
+              console.log(i)
+              return(
+                <OptionCard content={text} color={this.state.colorCards[i]} img={this.state.imgs[i]}/>
+              );
+            })
+            }
+          </div>
+        </div>
+        
       </div>
     )
   }

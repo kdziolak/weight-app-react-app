@@ -1,23 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Weight from '../../img/weight.png'
+
+import './OptionCard.css'
  
-const OptionCard = () => {
+const OptionCard = (props) => {
   return (
-    <div className='option-card container'>
-        <div className="row">
-            <div className="col s12 m6 l4">
-                <Link to='/'>
-                    <div className="card pink lighten-2">
-                        <div className="card-content">
-                            <span className="card-title white-text">
-                                add weight measurement
-                            </span>
-                        </div>
-                    </div>
-                </Link>
+    <Link className='option-card col s12 m6' to='/'>
+        <div className={'card ' + props.color + ' lighten-2'}>
+            <div className="card-flex card-content">
+                <div className='weight-img left-aling'>
+                    <img className='responsive-img' src={props.img} alt=''/>
+                </div>
+                <span className="card-title white-text right-align">
+                    {
+                        props.content
+                    }
+                </span>
             </div>
         </div>
-    </div>
+    </Link>
   )
 }
 
