@@ -1,0 +1,9 @@
+.profile{
+    padding-left: 230px;
+}
+
+@media (max-width: 992px){
+    .profile{
+        padding-left: 0px;
+    }
+}

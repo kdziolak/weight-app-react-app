@@ -10,7 +10,8 @@ export default class MainPage extends Component {
       quotes: [],
       optionContents: ['add weight measurement', 'add meal today', 'check your progress', 'add workout'],
       imgs: [Weight],
-      colorCards: ['pink', 'purple', 'cyan', 'light-green']
+      colorCards: ['pink', 'purple', 'cyan', 'light-green'],
+      links: ['/measurement/add', '/', '/', '/']
     }
 
     componentDidMount() {
@@ -32,12 +33,11 @@ export default class MainPage extends Component {
         <div className="container">
           <div className="row">
             {
-            this.state.optionContents.map((text, i) => {
-              console.log(i)
+              this.state.optionContents.map((text, i) => {
               return(
-                <OptionCard content={text} color={this.state.colorCards[i]} img={this.state.imgs[i]}/>
-              );
-            })
+                <OptionCard content={text} link={this.state.links[i]} color={this.state.colorCards[i]} img={this.state.imgs[i]}/>
+              );              
+              })
             }
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import './LoginPage.css'
 import fire from '../../firebase'
-import history from '../../history'
 
 class LoginPage extends Component {
 
@@ -44,11 +43,11 @@ class LoginPage extends Component {
                            <div className="row">
                                 <div className="col s12">
                                     <div className="input-field">
-                                        <input id="email" type="email" id="email" className="email" value={this.state.email} onChange={this.handleChange}/>
+                                        <input id="email" type="email" className="email" value={this.state.email} onChange={this.handleChange}/>
                                         <label htmlFor="email">Email:</label>
                                     </div>
                                     <div className="input-field">
-                                        <input id="password" type="password" id="password" className="password blue-text text-darken-4" value={this.state.password} onChange={this.handleChange}/>
+                                        <input id="password" type="password" className="password blue-text text-darken-4" value={this.state.password} onChange={this.handleChange}/>
                                         <label htmlFor="password">Password:</label>
                                     </div>
                                     {
