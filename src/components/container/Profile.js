@@ -3,6 +3,49 @@ import ProfileCollection from '../presentational/ProfileCollection'
 import './Profile.css'
 
 class Profile extends Component {
+
+    state={
+        editBool: {
+            editUserGrowth: false
+        },
+        userValues: {
+            valueGrowth: ''
+        }
+    }
+
+    handleClick = (e) => {
+        let edit = false;
+        if(this.state.editBool.editUserGrowth) {
+            edit = false;
+            this.setState({
+                editBool: {
+                    editUserGrowth: edit
+                }
+            })
+        } else{
+            edit = true;
+        this.setState({
+            editBool: {
+                editUserGrowth: edit
+            }
+        })
+    }
+        
+
+    }
+
+    handleSubmit = (e) => {
+        
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            userValues: {
+                [e.target.id] : e.target.value
+            }
+        })
+    }
+
   render() {
     return (
       <div className='profile'>
@@ -14,7 +57,13 @@ class Profile extends Component {
             </div>
             <div className="row">
                 <div className="col s12">
-                    <ProfileCollection />
+                    <ProfileCollection
+                         handleClick={this.handleClick}
+                         handleSubmit={this.handleSubmit}
+                         handleChange={this.handleChange}
+                         editBool={this.state.editBool}
+                         userValues={this.state.userValues}
+                    />
                 </div>
             </div>
         </div>
