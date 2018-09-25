@@ -6,41 +6,42 @@ class Profile extends Component {
 
     state={
         editBool: {
-            editUserGrowth: false
+            editUserGrowth: false,
+            editUserWeight: false
         },
         userValues: {
-            valueGrowth: ''
+            tmpValue: '',
+            valueGrowth: '',
+            valueWeight: ''
         }
     }
 
     handleClick = (e) => {
-        let edit = false;
-        if(this.state.editBool.editUserGrowth) {
-            edit = false;
-            this.setState({
-                editBool: {
-                    editUserGrowth: edit
-                }
-            })
-        } else{
-            edit = true;
+        let edit = !(this.state.editBool[e.target.id])
         this.setState({
             editBool: {
-                editUserGrowth: edit
+                [e.target.id]: edit,
+                tmpValue: e.target.id
             }
         })
-    }
-        
 
     }
 
     handleSubmit = (e) => {
-        
+        e.preventDefault();
+        let edit = false;
+        this.setState({
+            editBool: {
+                ...this.state.editBool,
+                [this.state.tmpValue]: edit
+            }
+        })
     }
 
     handleChange = (e) => {
         this.setState({
             userValues: {
+                ...this.state.userValues,
                 [e.target.id] : e.target.value
             }
         })
