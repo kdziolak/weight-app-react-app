@@ -6,22 +6,28 @@ class Profile extends Component {
 
     state={
         editBool: {
+            editUserName: false,
             editUserGrowth: false,
-            editUserWeight: false
+            editUserWeight: false,
+            editUserGender: false
         },
         userValues: {
             tmpValue: '',
-            valueGrowth: '',
-            valueWeight: ''
+            valueName: '',
+            valueGrowth: 0,
+            valueWeight: 0,
+            valueGender: 0
         }
     }
 
     handleClick = (e) => {
+        console.log(e.target.parentNode)
+        let tmpValue = e.target.id
         let edit = !(this.state.editBool[e.target.id])
         this.setState({
             editBool: {
                 [e.target.id]: edit,
-                tmpValue: e.target.id
+                tmpValue
             }
         })
 
@@ -30,6 +36,7 @@ class Profile extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         let edit = false;
+        console.log(e.target)
         this.setState({
             editBool: {
                 ...this.state.editBool,

@@ -1,16 +1,24 @@
 import React from 'react'
 import './ProfileCollection.css'
+import './ProfileCollectionItem'
+import ProfileCollectionItem from './ProfileCollectionItem';
 
 const ProfileCollection = (props) => {
 
   return (
     <ul className='profile-collection collection'>
-        <li className='collection-item'>
-            <div className="collection-content">
-                <label htmlFor='personal-name' className='flow-text'>Name: </label>
-                <span id='personal-name' className='personal-name flow-text'>Marek</span>
-            </div>
-        </li>
+        <ProfileCollectionItem
+            htmlFor='personal-name'
+            collectionValue='Name'
+            userValue={props.userValues.valueName}
+            formID='editUserName'
+            inputID='valueName'
+            inputType='text'
+            editBool={props.editBool.editUserName}
+            handleClick={props.handleClick}
+            handleSubmit={props.handleSubmit}
+            handleChange={props.handleChange}
+        />
         <li className='collection-item'>
         <div className="collection-content">
                 <label htmlFor='personal-age' className='flow-text'>Age: </label>
@@ -18,10 +26,26 @@ const ProfileCollection = (props) => {
             </div>
         </li>
         <li className='collection-item'>
-        <div className="collection-content">
+            <div className="collection-content">
                 <label htmlFor='personal-gender' className='flow-text'>Gender: </label>
-                <span id='personal-gender' className='personal-name flow-text'>Marek</span>
+                <span id='personal-gender' className='personal-name flow-text'>{props.userValues.valueGender ? 'Male' : 'Female'}</span>
             </div>
+            {props.editBool.editUserGender ? (
+                <form onSubmit={props.handleSubmit}>
+                    <p className="col s6 ">
+                        <label>
+                            <input id='valueGender' name='gender' type='radio' />
+                            <span>Male</span>
+                        </label>
+                    </p>
+                    <p className="col s6 ">
+                        <label>
+                            <input id='valueGender' name='gender' type='radio' />
+                            <span>Female</span>
+                        </label>
+                    </p>
+                </form>) : null}
+            <button onClick={props.handleClick} id='editUserWeight' className='btn blue white-text far fa-edit secondary-content'></button>
         </li>
         <li className='collection-item'>
         <div className="collection-content">
