@@ -7,27 +7,32 @@ class Profile extends Component {
     state={
         editBool: {
             editUserName: false,
+            editUserAge: false,
             editUserGrowth: false,
             editUserWeight: false,
-            editUserGender: false
+            editUserGender: false,
         },
         userValues: {
             tmpValue: '',
-            valueName: '',
+            valueName: 'Noname',
             valueGrowth: 0,
             valueWeight: 0,
-            valueGender: 0
+            valueGender: false,
+            valueAge: 0
         }
     }
 
     handleClick = (e) => {
-        console.log(e.target.parentNode)
         let tmpValue = e.target.id
         let edit = !(this.state.editBool[e.target.id])
         this.setState({
             editBool: {
+                ...this.state.editBool,
                 [e.target.id]: edit,
-                tmpValue
+            },
+            userValues: {
+                ...this.state.userValues,
+                tmpValue: tmpValue
             }
         })
 
@@ -36,22 +41,34 @@ class Profile extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         let edit = false;
-        console.log(e.target)
         this.setState({
             editBool: {
                 ...this.state.editBool,
-                [this.state.tmpValue]: edit
+                [this.state.userValues.tmpValue]: edit
             }
         })
     }
 
     handleChange = (e) => {
+        let value;
+        value = e.target.value
+        if(e.target.type === 'checkbox') value = e.target.checked; 
         this.setState({
             userValues: {
                 ...this.state.userValues,
-                [e.target.id] : e.target.value
+                [e.target.id] : value
             }
         })
+    }
+
+    saveProfile = () => {
+        let { valueAge, valueName, valueWeight, valueGrowth } = this.state.userValues;
+
+        if((valueAge >= 0) && (valueName !== 'Noname') && (valueWeight >= 0) && (valueGrowth >= 0) ) {
+            console.log('wszystko ok')
+        } else {
+            console.log('nie podałeś wszystkich wartości')
+        }
     }
 
   render() {
@@ -72,6 +89,11 @@ class Profile extends Component {
                          editBool={this.state.editBool}
                          userValues={this.state.userValues}
                     />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col s12 m4 offset-m4 offset-s1">
+                    <button onClick={this.saveProfile} className="btn-large blue waves-effect">Save your profile</button>
                 </div>
             </div>
         </div>

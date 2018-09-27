@@ -1,14 +1,32 @@
 import React from 'react'
 
 const ProfileCollectionItem = (props) => {
+  const { htmlFor, collectionValue, userValue, unite, editBool, inputID, formID, handleChange, handleClick, handleSubmit, inputType, btnID} = props
+
+  const form = collectionValue === 'Gender' ? (
+    <form onSubmit={handleSubmit}>
+        <p className="col s12">
+            <label>
+                <input id={inputID} onChange={handleChange} name={collectionValue} type='checkbox' />
+                <span>Are you male?</span>
+            </label>
+        </p>
+    </form>
+  ) : (
+  <form onSubmit={handleSubmit} >
+    <div className={`input-field col s12 ${formID}`}>
+      <input onChange={handleChange} id={inputID} type={inputType} />
+      <label htmlFor={inputID}>New {collectionValue}</label>
+    </div>
+  </form>)
   return (
     <li className='collection-item'>
         <div className="collection-content">
-            <label htmlFor={props.htmlFor} className='flow-text'>{props.collectionValue}: </label>
-            <span id={props.htmlFor} className='personal-name flow-text'>{props.userValue}</span>
+            <label htmlFor={htmlFor} className='flow-text'>{collectionValue}: </label>
+            <span id={htmlFor} className='personal-name flow-text'>{userValue} {unite ? unite : null}</span>
         </div>
-        {props.editBool ? <form onSubmit={props.handleSubmit} id={props.formID} ><div className={`input-field col s12 ${props.formID}`}><input onChange={props.handleChange} id={props.inputID} type={props.inputType} /><label htmlFor={props.inputID}>New {props.collectionValue}</label></div></form> : null}
-        <button onClick={props.handleClick} className='btn blue white-text far fa-edit secondary-content'></button>
+        {editBool ? form : null}
+        <button onClick={handleClick} id={btnID} className='btn blue white-text far fa-edit secondary-content'></button>
     </li>
   )
 }
