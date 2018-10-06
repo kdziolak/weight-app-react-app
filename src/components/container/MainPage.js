@@ -35,7 +35,7 @@ export default class MainPage extends Component {
             {
               this.state.optionContents.map((text, i) => {
               return(
-                <OptionCard content={text} link={this.state.links[i]} color={this.state.colorCards[i]} img={this.state.imgs[i]}/>
+                <OptionCard key={i} content={text} link={this.state.links[i]} color={this.state.colorCards[i]} img={this.state.imgs[i]}/>
               );              
               })
             }

@@ -24,7 +24,7 @@ const ProfileCollectionItem = (props) => {
         <div className="collection-content">
             <label htmlFor={htmlFor} className='flow-text'>{collectionValue}: </label>
             <span id={htmlFor} className='personal-name flow-text'>{userValue} {unite ? unite : null}</span>
-        </div>
+        </div>  
         {editBool ? form : null}
         <button onClick={handleClick} id={btnID} className='btn blue white-text far fa-edit secondary-content'></button>
     </li>

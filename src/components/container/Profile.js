@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import ProfileCollection from '../presentational/ProfileCollection'
+import { connect } from 'react-redux';
+import { addUserData } from '../../store/actions/userActions'
 import './Profile.css'
 
 class Profile extends Component {
@@ -65,9 +67,8 @@ class Profile extends Component {
         let { valueAge, valueName, valueWeight, valueGrowth } = this.state.userValues;
 
         if((valueAge >= 0) && (valueName !== 'Noname') && (valueWeight >= 0) && (valueGrowth >= 0) ) {
-            console.log('wszystko ok')
+            this.props.addUserData(this.state.userValues)
         } else {
-            console.log('nie podałeś wszystkich wartości')
         }
     }
 
@@ -102,4 +103,10 @@ class Profile extends Component {
   }
 }
 
-export default Profile
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addUserData: (user) => dispatch(addUserData(user))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Profile)

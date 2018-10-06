@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LoginPage from './components/container/LoginPage'
 import Menu from './components/container/Menu'
 import MainPage from './components/container/MainPage'
-import {HashRouter, Route, Redirect, Switch} from 'react-router-dom'
+import { HashRouter, Route, Redirect, Switch } from 'react-router-dom'
 import AddWeightMeasurement from './components/container/AddWeightMeasurement';
 import Profile from './components/container/Profile'
 
