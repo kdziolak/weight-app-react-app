@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import './LoginPage.css'
-import fire from '../../firebase'
+import firebase from '../../firebase'
 
 class LoginPage extends Component {
 
@@ -18,7 +18,7 @@ class LoginPage extends Component {
     }
 
     handleSubmit = () => {
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(() => {
                 this.props.loggedInChanged(true)
             })

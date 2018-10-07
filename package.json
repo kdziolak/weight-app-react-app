@@ -5,7 +5,9 @@
   "dependencies": {
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-scripts": "1.1.5"
+    "react-redux-firebase": "^2.1.8",
+    "react-scripts": "1.1.5",
+    "redux-firestore": "^0.5.8"
   },
   "scripts": {
     "start": "react-scripts start",

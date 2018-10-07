@@ -37,6 +37,7 @@ class Profile extends Component {
                 tmpValue: tmpValue
             }
         })
+        this.focusInput(tmpValue)
 
     }
 
@@ -70,6 +71,11 @@ class Profile extends Component {
             this.props.addUserData(this.state.userValues)
         } else {
         }
+    }
+
+    focusInput = input => {
+        let inp = document.querySelector('.' + input)
+        inp.focus();
     }
 
   render() {

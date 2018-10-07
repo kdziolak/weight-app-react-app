@@ -15,7 +15,7 @@ const ProfileCollectionItem = (props) => {
   ) : (
   <form onSubmit={handleSubmit} >
     <div className={`input-field col s12 ${formID}`}>
-      <input onChange={handleChange} id={inputID} type={inputType} />
+      <input onChange={handleChange} id={inputID} className={btnID} type={inputType} />
       <label htmlFor={inputID}>New {collectionValue}</label>
     </div>
   </form>)
