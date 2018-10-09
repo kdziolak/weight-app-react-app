@@ -3,6 +3,7 @@ import ProfileCollection from '../presentational/ProfileCollection'
 import { connect } from 'react-redux';
 import { addUserData } from '../../store/actions/userActions'
 import './Profile.css'
+import { rejects } from 'assert';
 
 class Profile extends Component {
 
@@ -37,8 +38,6 @@ class Profile extends Component {
                 tmpValue: tmpValue
             }
         })
-        this.focusInput(tmpValue)
-
     }
 
     handleSubmit = (e) => {
@@ -72,11 +71,7 @@ class Profile extends Component {
         } else {
         }
     }
-
-    focusInput = input => {
-        let inp = document.querySelector('.' + input)
-        inp.focus();
-    }
+   
 
   render() {
     return (

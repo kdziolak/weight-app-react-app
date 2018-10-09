@@ -7,7 +7,7 @@ const ProfileCollectionItem = (props) => {
     <form onSubmit={handleSubmit}>
         <p className="col s12">
             <label>
-                <input id={inputID} onChange={handleChange} name={collectionValue} type='checkbox' />
+                <input id={inputID} onChange={handleChange}  className={btnID} name={collectionValue} type='checkbox' />
                 <span>Are you male?</span>
             </label>
         </p>
@@ -15,7 +15,7 @@ const ProfileCollectionItem = (props) => {
   ) : (
   <form onSubmit={handleSubmit} >
     <div className={`input-field col s12 ${formID}`}>
-      <input onChange={handleChange} id={inputID} className={btnID} type={inputType} />
+      <input onChange={handleChange} id={inputID} autoFocus={true} type={inputType} />
       <label htmlFor={inputID}>New {collectionValue}</label>
     </div>
   </form>)
