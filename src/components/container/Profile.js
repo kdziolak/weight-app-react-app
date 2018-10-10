@@ -26,12 +26,19 @@ class Profile extends Component {
     }
 
     handleClick = (e) => {
+        let stateTmp;
         let tmpValue = e.target.id
         let edit = !(this.state.editBool[e.target.id])
+
+        if(this.state.userValues.tmpValue){
+            stateTmp = !(this.state.editBool[this.state.userValues.tmpValue])
+        }
+
         this.setState({
             editBool: {
                 ...this.state.editBool,
-                [e.target.id]: edit,
+                [this.state.userValues.tmpValue]: stateTmp,
+                [e.target.id]: edit
             },
             userValues: {
                 ...this.state.userValues,
