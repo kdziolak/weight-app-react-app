@@ -3,7 +3,8 @@ import ProfileCollection from '../presentational/ProfileCollection'
 import { connect } from 'react-redux';
 import { addUserData } from '../../store/actions/userActions'
 import './Profile.css'
-import { rejects } from 'assert';
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 class Profile extends Component {
 
@@ -97,6 +98,7 @@ class Profile extends Component {
                          handleChange={this.handleChange}
                          editBool={this.state.editBool}
                          userValues={this.state.userValues}
+                         userProfile = {this.props.userProfile}
                     />
                 </div>
             </div>
@@ -116,5 +118,16 @@ const mapDispatchToProps = (dispatch) => {
         addUserData: (user) => dispatch(addUserData(user))
     }
 }
+const mapStateToProps = (state) => {
+    let userProfile = state.firestore.ordered.users ? state.firestore.ordered.users : [];
+    return {
+        userProfile
+    }
+}
 
-export default connect(null, mapDispatchToProps)(Profile)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        { collection: 'users' }
+    ])
+)(Profile)

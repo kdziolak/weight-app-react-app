@@ -7,6 +7,8 @@ const ProfileCollection = (props) => {
 
     const {handleClick, handleChange, handleSubmit, } = props;
 
+    props.userProfile.length ? console.log(props.userProfile) : null
+
   return (
     <ul className='profile-collection collection'>
         <ProfileCollectionItem
@@ -20,6 +22,7 @@ const ProfileCollection = (props) => {
             handleClick={handleClick}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
+            
         />
         <ProfileCollectionItem
             htmlFor='personal-age'
