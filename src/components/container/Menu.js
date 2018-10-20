@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
 import {NavLink, Link} from 'react-router-dom'
 import Profile from '../../img/weightlifting.png'
-import fire from '../../firebase';
 import './Menu.css'
-import history from '../../history'
+import {connect} from 'react-redux'
+import { signOut } from '../../store/actions/authActions'
 
-export default class Menu extends Component {
+class Menu extends Component {
 
     handleClick = () => {
-        fire.auth().signOut()
-            .then(() => {
-                this.props.loggedInChanged(false)
-                history.push('/login')
-            })
-        
+        this.props.signOut()
     }
 
   render() {
@@ -39,3 +34,11 @@ export default class Menu extends Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signOut: () => dispatch(signOut())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Menu)

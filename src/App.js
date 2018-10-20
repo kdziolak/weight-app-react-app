@@ -5,20 +5,13 @@ import MainPage from './components/container/MainPage'
 import { HashRouter, Route, Redirect, Switch } from 'react-router-dom'
 import AddWeightMeasurement from './components/container/AddWeightMeasurement';
 import Profile from './components/container/Profile'
+import SignUp from './components/container/SignUp'
+import { connect } from 'react-redux'
 
 class App extends Component {
-  state={
-    loggedIn: false
-  }
-
-  loggedInChanged = (value) => {
-    let loggedIn = value;
-    this.setState({
-      loggedIn
-    })
-  }
 
   render() {
+    const {isEmpty} = this.props;
     return (
       <HashRouter>
         <div>
@@ -31,10 +24,12 @@ class App extends Component {
               (<Menu loggedInChanged={this.loggedInChanged}/>)
             )} />  : <Route exact path="/login" render={() => (<LoginPage loggedInChanged={this.loggedInChanged}/>)}/>
           }  */}
-          <Route exact path="/login" render={() => (this.state.loggedIn ? <LoginPage loggedInChanged={this.loggedInChanged}/> : <Redirect to='/'/>)}/>
+          {console.log(this.props.auth.isLoaded)}
+          <Route exact path="/login" render={() => (isEmpty ? <LoginPage loggedInChanged={this.loggedInChanged}/> : <Redirect to='/'/>)}/>
           <Route path="/" render={() => (
-              !this.state.loggedIn ?
-              <Menu loggedInChanged={this.loggedInChanged}/> : <Redirect to='/login'/>)} /> 
+              !isEmpty ?
+              <Menu loggedInChanged={this.loggedInChanged}/> : <Redirect to='/login'/>)} />
+          <Route exact path='/signup' component={SignUp} />
           <Switch>
             <Route exact path='/' component={MainPage} />
             <Route exact path='/measurement/add' component={AddWeightMeasurement} />
@@ -46,4 +41,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return{
+      isEmpty: state.firebase.auth.isEmpty,
+      auth: state.firebase.auth
+  }
+}
+
+
+export default connect(mapStateToProps)(App);

@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { reduxFirestore, getFirestore, firestoreReducer } from 'redux-firestore'
-import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
+import { reactReduxFirebase, getFirebase, firebaseReducer } from 'react-redux-firebase'
 import fbConfing from '../firebase'
 
 import user from './reducers/userReducer'
@@ -10,7 +10,8 @@ import user from './reducers/userReducer'
 export default createStore(
     combineReducers({
         user: user,
-        firestore: firestoreReducer
+        firestore: firestoreReducer,
+        firebase: firebaseReducer
     }),
     {},
     compose(

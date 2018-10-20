@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import './LoginPage.css'
+import './SignUp.css'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { signIn } from '../../store/actions/authActions'
+import { connect } from "react-redux";
+import { signUp } from '../../store/actions/authActions'
 
-class LoginPage extends Component {
+class SignUp extends Component {
 
     state={
         email: '',
@@ -17,16 +17,17 @@ class LoginPage extends Component {
         })
     }
 
-    handleSubmit = () => {
-        this.props.signIn(this.state)
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.signUp(this.state);
     }
 
     render() {
         return(
-            <div className="login-page container center-align">
+            <div className="signup-page container center-align">
                 <div className="row">
                     <div className="col">
-                        <h2 className="blue-text text-darken-3">Login to your best weight control app!</h2>
+                        <h2 className="blue-text text-darken-3">Sign up to your best weight control app!</h2>
                     </div>
                 </div>
                 <div className="row">
@@ -42,14 +43,15 @@ class LoginPage extends Component {
                                         <input id="password" type="password" className="password blue-text text-darken-4" value={this.state.password} onChange={this.handleChange}/>
                                         <label htmlFor="password">Password:</label>
                                     </div>
-                                    {
+                                    <div class='right-align'>
+                                        <Link to='/login'>Back to login page.</Link>
+                                    </div>
+
+                                    {   
                                         this.state.errorMessage ? <p className='error red lighten-1 white-text'>{this.state.errorMessage}</p> : null
                                     }
-                                    <div className="login-links">
-                                        <Link to="/" className="right-align remind-password">Forget your password?</Link>
-                                        <Link to="/signup" className="right-align">Create account.</Link>
-                                    </div>
-                                    <button className="btn blue darken-2 waves-effect waves-light">Log In</button>
+
+                                    <button className="btn blue darken-2 waves-effect waves-light">Sign Up</button>
                                 </div>
                            </div>
                         </form>
@@ -60,10 +62,10 @@ class LoginPage extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        signIn: (loginData) => dispatch(signIn(loginData))
+        signUp: (userData) => dispatch(signUp(userData))
     }
 }
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(null ,mapDispatchToProps)(SignUp);
