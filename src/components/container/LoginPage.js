@@ -43,7 +43,7 @@ class LoginPage extends Component {
                                         <label htmlFor="password">Password:</label>
                                     </div>
                                     {
-                                        this.state.errorMessage ? <p className='error red lighten-1 white-text'>{this.state.errorMessage}</p> : null
+                                        // this.state.errorMessage ? <p className='error red lighten-1 white-text'>{this.state.errorMessage}</p> : null
                                     }
                                     <div className="login-links">
                                         <Link to="/" className="right-align remind-password">Forget your password?</Link>

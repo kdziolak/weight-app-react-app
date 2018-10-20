@@ -11,13 +11,14 @@ class Menu extends Component {
         this.props.signOut()
     }
 
+
   render() {
     return (
       <div className='menu'>
         <nav className='nav-wrapper blue'>
             <div class="container">
                 <Link to="/" class="brand-logo">Weight App</Link>
-                <Link to='#' data-target="nav" className='sidenav-trigger'><i className='material-icons'>menu</i></Link>
+                <a href='#' data-target="nav" className='sidenav-trigger'><i className='material-icons'>menu</i></a>
                 <ul id="header-desktop" className="header-desktop right hide-on-med-and-down">
                     <li><Link to='/'className='sign-out blue' onClick={this.handleClick}>Sign out</Link></li>
                 </ul>
