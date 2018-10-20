@@ -1,8 +1,7 @@
 import React from 'react'
 
 const ProfileCollectionItem = (props) => {
-  const { htmlFor, collectionValue, userValue, unite, editBool, inputID, formID, handleChange, handleClick, handleSubmit, inputType, btnID} = props
-
+  const { htmlFor, collectionValue,userValue, unite, editBool, inputID, formID, handleChange, handleClick, handleSubmit, inputType, btnID} = props
   const form = collectionValue === 'Gender' ? (
     <form onSubmit={handleSubmit}>
         <p className="col s12">

@@ -7,14 +7,12 @@ const ProfileCollection = (props) => {
 
     const {handleClick, handleChange, handleSubmit, } = props;
 
-    props.userProfile.length ? console.log(props.userProfile) : null
-
+    console.log(props.userProfile[0])
   return (
     <ul className='profile-collection collection'>
         <ProfileCollectionItem
             htmlFor='personal-name'
             collectionValue='Name'
-            userValue={props.userValues.valueName}
             btnID='editUserName'
             inputID='valueName'
             inputType='text'
@@ -22,12 +20,11 @@ const ProfileCollection = (props) => {
             handleClick={handleClick}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            
+            userValue={((props.userValues.valueName === "Noname" && props.userProfile[0]) ||  props.userValues.valueName === '') ? props.userProfile[0].valueName : props.userValues.valueName}
         />
         <ProfileCollectionItem
             htmlFor='personal-age'
             collectionValue='Age'
-            userValue={props.userValues.valueAge}
             btnID='editUserAge'
             inputID='valueAge'
             inputType='number'
@@ -35,6 +32,7 @@ const ProfileCollection = (props) => {
             handleClick={handleClick}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
+            userValue={((props.userValues.valueAge === 0 && props.userProfile[0]) ||  props.userValues.valueAge === '') ? props.userProfile[0].valueAge : props.userValues.valueAge}
         />
         <ProfileCollectionItem
             htmlFor='personal-gender'
