@@ -47,6 +47,12 @@
     margin-right: 25px;
 }
 
+.menu .user-email {
+    margin-right: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
 @media (max-width: 992px) {
     .menu .nav-wrapper{
         padding-left: 0px;

@@ -7,8 +7,8 @@ export function signUp (userData) {
             userData.email,
             userData.password
         ).then(res => {
-            return firestore.collection('usersAuth').doc(res.usersAuth.uid).set({
-                firstName: userData.name
+            return firestore.collection('usersAuth').doc(res.user.uid).set({
+                email: userData.email,
             })
         }).then(() => {
             dispatch({type: 'CREATE_NEW_USER' })

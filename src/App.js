@@ -24,12 +24,13 @@ class App extends Component {
               (<Menu loggedInChanged={this.loggedInChanged}/>)
             )} />  : <Route exact path="/login" render={() => (<LoginPage loggedInChanged={this.loggedInChanged}/>)}/>
           }  */}
-          <Route exact path="/login" render={() => (isEmpty ? <LoginPage loggedInChanged={this.loggedInChanged}/> : <Redirect to='/'/>)}/>
+          <Route exact path="/login" render={() => (isEmpty ? <LoginPage/> : <Redirect to='/'/>)}/>
+          <Route exact path='/signup' render={() => (isEmpty ? <SignUp/> : <Redirect to='/'/>)} />
           <Route path="/" render={() => (
               !isEmpty ?
               <Menu /> : <Redirect to='/login'/>)} />
-          <Route exact path='/signup' component={SignUp} />
           <Switch>
+            
             <Route exact path='/' component={MainPage} />
             <Route exact path='/measurement/add' component={AddWeightMeasurement} />
             <Route exact path='/profile' component={Profile} />
@@ -41,6 +42,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return{
       isEmpty: state.firebase.auth.isEmpty,
   }

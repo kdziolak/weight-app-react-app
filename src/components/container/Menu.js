@@ -17,14 +17,16 @@ class Menu extends Component {
     }
 
   render() {
+    const {userEmail} = this.props;
     return (
       <div className='menu'>
         <nav className='nav-wrapper blue'>
             <div class="container ">
-                <Link to="#!" className="brand-logo">Weight App</Link>
-                <a href="#" data-target="mobile-demo" className='sidenav-trigger'><i className='material-icons'>menu</i></a>
+                <Link to="/" className="brand-logo">Weight App</Link>
+                <Link to="#" data-target="mobile-demo" className='sidenav-trigger'><i className='material-icons'>menu</i></Link>
                 <ul id="header-desktop" className="header-desktop right hide-on-med-and-down">
-                    <li><Link to='/'className='sign-out blue' onClick={this.handleClick}>Sign out</Link></li>
+                    <li><p className="user-email cyan-text text-lighten-5">{userEmail ? userEmail : "I don't know who are you."}</p></li>
+                    <li><NavLink to='/'className='sign-out blue' onClick={this.handleClick}>Sign out</NavLink></li>
                 </ul>
                 <ul className="sidenav nav grey lighten-5" id="mobile-demo" ref={sidenav => this.sidenav = sidenav}>
                     <li className='logo-container blue lighten-4'><div className="logo-icon"></div></li>
@@ -45,5 +47,10 @@ const mapDispatchToProps = dispatch => {
         signOut: () => dispatch(signOut())
     }
 }
+const mapStateToProps = state => {
+    return {
+        userEmail: state.firebase.profile.email
+    }
+}
 
-export default connect(null, mapDispatchToProps)(Menu)
+export default connect(mapStateToProps, mapDispatchToProps)(Menu)
