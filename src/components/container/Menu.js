@@ -11,18 +11,17 @@ class Menu extends Component {
         this.props.signOut()
     }
 
-
   render() {
     return (
       <div className='menu'>
         <nav className='nav-wrapper blue'>
-            <div class="container">
-                <Link to="/" class="brand-logo">Weight App</Link>
-                <a href='#' data-target="nav" className='sidenav-trigger'><i className='material-icons'>menu</i></a>
+            <div class="container ">
+                <Link to="#!" className="brand-logo">Weight App</Link>
+                <a href="#" data-target="mobile-demo" className='sidenav-trigger'><i className='material-icons'>menu</i></a>
                 <ul id="header-desktop" className="header-desktop right hide-on-med-and-down">
                     <li><Link to='/'className='sign-out blue' onClick={this.handleClick}>Sign out</Link></li>
                 </ul>
-                <ul id="nav" className="nav sidenav grey lighten-5">
+                <ul className="sidenav nav grey lighten-5" id="mobile-demo">
                     <li className='logo-container blue lighten-4'><div className="logo-icon"></div></li>
                     <li className='menu-item hide-on-large-only'><NavLink to='/' onClick={this.handleClick}>Sign out</NavLink></li>
                     <li className='menu-item'><NavLink to='/profile'><img src={Profile} alt="profile" className="menu-img"/><span className="content-menu">Your profile</span></NavLink></li>

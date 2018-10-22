@@ -33,7 +33,7 @@ export function signIn (loginData) {
 }
 
 
-export function signOut (loginData) {
+export function signOut () {
     return (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
         firebase.auth().signOut()
