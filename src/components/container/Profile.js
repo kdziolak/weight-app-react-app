@@ -32,7 +32,7 @@ class Profile extends Component {
         let edit = !(this.state.editBool[e.target.id])
 
         if(this.state.userValues.tmpValue){
-            stateTmp = !(this.state.editBool[this.state.userValues.tmpValue])
+            stateTmp = ''
         }
 
         this.setState({
@@ -82,7 +82,6 @@ class Profile extends Component {
    
 
   render() {
-      
     return (
       <div className='profile'>
         <div className="container">
@@ -93,14 +92,24 @@ class Profile extends Component {
             </div>
             <div className="row">
                 <div className="col s12">
-                    <ProfileCollection
-                         handleClick={this.handleClick}
-                         handleSubmit={this.handleSubmit}
-                         handleChange={this.handleChange}
-                         editBool={this.state.editBool}
-                         userValues={this.state.userValues}
-                         userProfile = {this.props.userProfile}
-                    />
+                    {this.props.usersProfile.length ? this.props.usersProfile.map((userProfile, i) => {
+                        console.log(userProfile.userID)
+                        if(userProfile.userID === this.props.userAuthID){
+                            return (
+                                <ProfileCollection
+                                    key={i}
+                                    handleClick={this.handleClick}
+                                    handleSubmit={this.handleSubmit}
+                                    handleChange={this.handleChange}
+                                    editBool={this.state.editBool}
+                                    userValues={this.state.userValues}
+                                    userProfile = {userProfile}
+                                />
+                            )
+                        }
+                        return null;
+                    }): null}
+                    
                 </div>
             </div>
             <div className="row">
@@ -120,9 +129,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
-    let userProfile = state.firestore.ordered.users ? state.firestore.ordered.users : [];
+    let usersProfile = state.firestore.ordered.users ? state.firestore.ordered.users : [];
     return {
-        userProfile
+        usersProfile,
+        userAuthID: state.firebase.auth.uid
     }
 }
 

@@ -15,26 +15,14 @@ class App extends Component {
     return (
       <HashRouter>
         <div>
-          {/* {
-            this.state.loggedIn ? <Redirect to='/login'/> : <Redirect to='/'/>
-          } */}
-          {/* {
-            !this.state.loggedIn ? <Route path="/" render={() => (
-              log
-              (<Menu loggedInChanged={this.loggedInChanged}/>)
-            )} />  : <Route exact path="/login" render={() => (<LoginPage loggedInChanged={this.loggedInChanged}/>)}/>
-          }  */}
           <Route exact path="/login" render={() => (isEmpty ? <LoginPage/> : <Redirect to='/'/>)}/>
           <Route exact path='/signup' render={() => (isEmpty ? <SignUp/> : <Redirect to='/'/>)} />
           <Route path="/" render={() => (
               !isEmpty ?
               <Menu /> : <Redirect to='/login'/>)} />
-          <Switch>
-            
-            <Route exact path='/' component={MainPage} />
-            <Route exact path='/measurement/add' component={AddWeightMeasurement} />
-            <Route exact path='/profile' component={Profile} />
-          </Switch>
+          <Route exact path='/' render={() => (!isEmpty ? <MainPage/> : <Redirect to='/login'/>)} />
+          <Route exact path='/measurement/add' render={() => (!isEmpty ? <AddWeightMeasurement/> : <Redirect to='/login'/>)}/>
+          <Route exact path='/profile' render={() => (!isEmpty ? <Profile/> : <Redirect to='/login'/>)} />
         </div>
       </HashRouter>
     );

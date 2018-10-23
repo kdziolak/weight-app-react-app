@@ -18,7 +18,7 @@ const ProfileCollection = (props) => {
             handleClick={handleClick}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            userValue={((props.userValues.valueName === "Noname" && props.userProfile[0]) ||  props.userValues.valueName === '') ? props.userProfile[0].valueName : props.userValues.valueName}
+            userValue={((props.userValues.valueName === "Noname"  ||  props.userValues.valueName === '') && props.userProfile) ? props.userProfile.valueName : props.userValues.valueName}
         />
         <ProfileCollectionItem
             htmlFor='personal-age'
@@ -30,12 +30,12 @@ const ProfileCollection = (props) => {
             handleClick={handleClick}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            userValue={((props.userValues.valueAge === 0 && props.userProfile[0]) ||  props.userValues.valueAge === '') ? props.userProfile[0].valueAge : props.userValues.valueAge}
+            userValue={((props.userValues.valueAge === 0  ||  props.userValues.valueAge === '') && props.userProfile) ? props.userProfile.valueAge : props.userValues.valueAge}
         />
         <ProfileCollectionItem
             htmlFor='personal-gender'
             collectionValue='Gender'
-            userValue={((props.userValues.valueGender === false && props.userProfile[0]) ||  props.userValues.valueGender === '') ? (props.userProfile[0].valueGender ? 'Male' : 'Female') : (props.userValues.valueGender ? 'Male' : 'Female') }
+            userValue={((props.userValues.valueGender === "Female"  ||  props.userValues.valueGender === '') && props.userProfile) ? (props.userProfile.valueGender ? 'Male' : 'Female') : (props.userValues.valueGender ? 'Male' : 'Female') }
             btnID='editUserGender'
             inputID='valueGender'
             inputType='checkbox'
@@ -47,7 +47,7 @@ const ProfileCollection = (props) => {
         <ProfileCollectionItem
             htmlFor='personal-growth'
             collectionValue='Growth'
-            userValue={((props.userValues.valueGrowth === 0 && props.userProfile[0]) ||  props.userValues.valueGrowth === '') ? props.userProfile[0].valueGrowth : props.userValues.valueGrowth}
+            userValue={((props.userValues.valueGrowth === 0 || props.userValues.valueGrowth === '') &&  props.userProfile ) ? props.userProfile.valueGrowth : props.userValues.valueGrowth}
             btnID='editUserGrowth'
             inputID='valueGrowth'
             inputType='number'
@@ -60,7 +60,7 @@ const ProfileCollection = (props) => {
         <ProfileCollectionItem
             htmlFor='personal-weight'
             collectionValue='Weight'
-            userValue={((props.userValues.valueWeight === 0 && props.userProfile[0]) ||  props.userValues.valueWeight === '') ? props.userProfile[0].valueWeight : props.userValues.valueWeight}
+            userValue={((props.userValues.valueWeight === 0 || props.userValues.valueWeight === '') && props.userProfile ) ? props.userProfile.valueWeight : props.userValues.valueWeight}
             btnID='editUserWeight'
             inputID='valueWeight'
             inputType='number'
