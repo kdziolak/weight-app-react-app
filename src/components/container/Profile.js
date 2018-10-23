@@ -82,6 +82,23 @@ class Profile extends Component {
    
 
   render() {
+      let renderProfile = this.props.usersProfile.map((userProfile, i) => {
+          if(userProfile.userID === this.props.userAuthID){
+              return (
+                <ProfileCollection
+                    key={i}
+                    handleClick={this.handleClick}
+                    handleSubmit={this.handleSubmit}
+                    handleChange={this.handleChange}
+                    editBool={this.state.editBool}
+                    userValues={this.state.userValues}
+                    userProfile = {userProfile}
+                />  
+              )
+          }
+          return null;
+      });
+      
     return (
       <div className='profile'>
         <div className="container">
@@ -92,24 +109,18 @@ class Profile extends Component {
             </div>
             <div className="row">
                 <div className="col s12">
-                    {this.props.usersProfile.length ? this.props.usersProfile.map((userProfile, i) => {
-                        console.log(userProfile.userID)
-                        if(userProfile.userID === this.props.userAuthID){
-                            return (
-                                <ProfileCollection
-                                    key={i}
-                                    handleClick={this.handleClick}
-                                    handleSubmit={this.handleSubmit}
-                                    handleChange={this.handleChange}
-                                    editBool={this.state.editBool}
-                                    userValues={this.state.userValues}
-                                    userProfile = {userProfile}
-                                />
-                            )
-                        }
-                        return null;
-                    }): null}
-                    
+                {console.log(renderProfile)}
+                    { renderProfile[0] !== null ? renderProfile : (
+                         <ProfileCollection
+                            
+                            handleClick={this.handleClick}
+                            handleSubmit={this.handleSubmit}
+                            handleChange={this.handleChange}
+                            editBool={this.state.editBool}
+                            userValues={this.state.userValues}
+                           
+                        />  
+                    )}
                 </div>
             </div>
             <div className="row">
