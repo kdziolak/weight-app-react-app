@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ProfileCollection from '../presentational/ProfileCollection'
 import { connect } from 'react-redux';
-import { addUserData } from '../../store/actions/userActions'
+import { addUserData, editUserProfile } from '../../store/actions/userActions'
 import './Profile.css'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -23,7 +23,8 @@ class Profile extends Component {
             valueWeight: 0,
             valueGender: false,
             valueAge: 0
-        }
+        },
+        message: ''
     }
 
     handleClick = (e) => {
@@ -67,17 +68,27 @@ class Profile extends Component {
             userValues: {
                 ...this.state.userValues,
                 [e.target.id] : value
-            }
+            },
+            message: ''
         })
     }
 
     saveProfile = () => {
         let { valueAge, valueName, valueWeight, valueGrowth } = this.state.userValues;
-
-        if((valueAge >= 0) && (valueName !== 'Noname') && (valueWeight >= 0) && (valueGrowth >= 0) ) {
+        if((valueAge !== 0) && (valueName !== 'Noname') && (valueWeight !== 0) && (valueGrowth !== 0) ) {
             this.props.addUserData(this.state.userValues)
+            this.setState({
+                message:'Profile has been saved.'
+            })
         } else {
+            this.setState({
+                message: 'Check all values are correct.'
+            })
         }
+    }
+
+    editProfile = () => {
+        this.props.editUserProfile(this.state.userValues, this.props.userAuthID)
     }
    
 
@@ -109,7 +120,6 @@ class Profile extends Component {
             </div>
             <div className="row">
                 <div className="col s12">
-                {console.log(renderProfile)}
                     { renderProfile[0] !== null ? renderProfile : (
                          <ProfileCollection
                             
@@ -124,9 +134,20 @@ class Profile extends Component {
                 </div>
             </div>
             <div className="row">
+                
                 <div className="col s12 m4 offset-m4 offset-s1">
-                    <button onClick={this.saveProfile} className="btn-large blue waves-effect">Save your profile</button>
+                {renderProfile[0] === null ? 
+                    <button onClick={this.saveProfile}className="btn-large blue waves-effect">Save your profile</button> :
+                    <button onClick={this.editProfile} className="btn-large blue waves-effect">Edit your profile</button> 
+                }
+                    
                 </div>
+                <div className="col s12">
+                    {
+                         this.state.message ? <p className='card-panel red lighten-1 white-text center flow-text'>{this.state.message}</p> : null
+                    }
+                </div>
+                   
             </div>
         </div>
       </div>
@@ -136,10 +157,12 @@ class Profile extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addUserData: (user) => dispatch(addUserData(user))
+        addUserData: (user) => dispatch(addUserData(user)),
+        editUserProfile: (user, userID) => dispatch(editUserProfile(user, userID))
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state)
     let usersProfile = state.firestore.ordered.users ? state.firestore.ordered.users : [];
     return {
         usersProfile,

@@ -27,3 +27,26 @@ export function addUserData (user) {
 
     }
 }
+
+export function editUserProfile (user, userID) {
+    return (dispatch, getState, {getFirebase, getFirestore} ) => {
+
+        const firestore = getFirestore();
+        const userEmail = getState().firebase.profile.email;
+        const userID = getState().firebase.auth.uid;
+        let docID = 0;
+
+        firestore.collection('users').where('userID','==' , userID).get().then((snap) => {
+            snap.docs.forEach(el => {
+                docID = el.id;
+            })
+        }).then(() =>{
+            firestore.collection('users').doc(docID).update({
+                ...user
+            }).then(() => {
+                console.log('huuu ra')
+            })
+        })
+
+    }
+} 
