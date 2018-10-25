@@ -5,6 +5,7 @@ import { addUserData, editUserProfile } from '../../store/actions/userActions'
 import './Profile.css'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import M from 'materialize-css'
 
 class Profile extends Component {
 
@@ -58,6 +59,7 @@ class Profile extends Component {
                 [this.state.userValues.tmpValue]: edit
             }
         })
+        
     }
 
     handleChange = (e) => {
@@ -75,16 +77,23 @@ class Profile extends Component {
 
     saveProfile = () => {
         let { valueAge, valueName, valueWeight, valueGrowth } = this.state.userValues;
+        let message = '';
+        let color = '';
         if((valueAge !== 0) && (valueName !== 'Noname') && (valueWeight !== 0) && (valueGrowth !== 0) ) {
             this.props.addUserData(this.state.userValues)
+            message = 'Profile has been saved.';
+            color = 'green';
             this.setState({
-                message:'Profile has been saved.'
+                message
             })
         } else {
+            message = 'Check all values are correct.'
+            color = 'red'
             this.setState({
-                message: 'Check all values are correct.'
+                message
             })
         }
+        M.toast({html: `${message}`, classes: color})
     }
 
     editProfile = () => {
@@ -141,11 +150,6 @@ class Profile extends Component {
                     <button onClick={this.editProfile} className="btn-large blue waves-effect">Edit your profile</button> 
                 }
                     
-                </div>
-                <div className="col s12">
-                    {
-                         this.state.message ? <p className='card-panel red lighten-1 white-text center flow-text'>{this.state.message}</p> : null
-                    }
                 </div>
                    
             </div>
