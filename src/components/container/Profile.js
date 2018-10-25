@@ -25,7 +25,8 @@ class Profile extends Component {
             valueGender: false,
             valueAge: 0
         },
-        message: ''
+        message: '',
+        userProfile: {}
     }
 
     handleClick = (e) => {
@@ -97,7 +98,12 @@ class Profile extends Component {
     }
 
     editProfile = () => {
-        this.props.editUserProfile(this.state.userValues, this.props.userAuthID)
+        this.props.usersProfile.forEach(userProfile => {
+            if(userProfile.userID === this.props.userAuthID){
+                this.props.editUserProfile(this.state.userValues, userProfile)
+            }
+        })
+        
     }
    
 
@@ -166,7 +172,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state)
     let usersProfile = state.firestore.ordered.users ? state.firestore.ordered.users : [];
     return {
         usersProfile,
