@@ -3,7 +3,7 @@ const user = (
       {
         name: '',
         age: null,
-        gender: null,
+        gender: 'Choose gender.',
         growth: 0,
         weight: 0
       }
@@ -23,6 +23,14 @@ const user = (
             weight: action.user.valueWeight
           }
         ];
+        break;
+      }
+      case "EDIT_SUCCESS": {
+        console.log(action.type)
+        break;
+      }
+      case "EDIT_ERROR": {
+        console.log(action.type)
         break;
       }
     }

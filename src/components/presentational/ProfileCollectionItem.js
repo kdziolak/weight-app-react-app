@@ -6,8 +6,14 @@ const ProfileCollectionItem = (props) => {
     <form onSubmit={handleSubmit}>
         <p className="col s12">
             <label>
-                <input id={inputID} onChange={handleChange}  className={btnID} name={collectionValue} type='checkbox' />
-                <span>Are you male?</span>
+                <input id={inputID} onChange={handleChange}  className={btnID + ' radioMale'} name={collectionValue} type='radio' />
+                <span>Male</span>
+            </label>
+        </p>
+        <p className="col s12">
+            <label>
+                <input id={inputID} onChange={handleChange}  className={btnID + ' radioFemale'} name={collectionValue} type='radio' />
+                <span>Female</span>
             </label>
         </p>
     </form>

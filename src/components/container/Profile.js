@@ -22,7 +22,7 @@ class Profile extends Component {
             valueName: 'Noname',
             valueGrowth: 0,
             valueWeight: 0,
-            valueGender: false,
+            valueGender: 'Choose gender.',
             valueAge: 0
         },
         message: '',
@@ -66,7 +66,8 @@ class Profile extends Component {
     handleChange = (e) => {
         let value;
         value = e.target.value
-        if(e.target.type === 'checkbox') value = e.target.checked; 
+        e.target.classList.contains('radioMale') ? value = "Male" : null;
+        e.target.classList.contains('radioFemale') ? value = "Female" : null;
         this.setState({
             userValues: {
                 ...this.state.userValues,
@@ -98,12 +99,8 @@ class Profile extends Component {
     }
 
     editProfile = () => {
-        this.props.usersProfile.forEach(userProfile => {
-            if(userProfile.userID === this.props.userAuthID){
-                this.props.editUserProfile(this.state.userValues, userProfile)
-            }
-        })
-        
+        this.props.editUserProfile(this.state.userValues)
+        M.toast({html: `Updated you profile.`, classes: 'orange'})
     }
    
 
@@ -124,6 +121,29 @@ class Profile extends Component {
           }
           return null;
       });
+
+      if(!this.props.usersProfile || renderProfile[0] === null) {
+          return (
+            <div className="profile container spiner-height">
+                <div className="row">
+                    <div className="col s12 center-align">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+          )
+      }
       
     return (
       <div className='profile'>
@@ -155,9 +175,7 @@ class Profile extends Component {
                     <button onClick={this.saveProfile}className="btn-large blue waves-effect">Save your profile</button> :
                     <button onClick={this.editProfile} className="btn-large blue waves-effect">Edit your profile</button> 
                 }
-                    
-                </div>
-                   
+                </div>  
             </div>
         </div>
       </div>

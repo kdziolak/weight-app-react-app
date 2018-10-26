@@ -28,20 +28,34 @@ export function addUserData (user) {
     }
 }
 
-export function editUserProfile (user, userFromFire) {
-    
+export function editUserProfile (user) {
     return (dispatch, getState, {getFirebase, getFirestore} ) => {
-        
+        const firestore = getFirestore();
+        let docID = '';
+        let userDataFromForm = [user.valueName, user.valueAge, user.valueGrowth, user.valueGender, user.valueWeight];
+        let dataNames = ['valueName', 'valueAge', 'valueGrowth', 'valueGender', 'valueWeight'];
+        let uid = getState().firebase.auth.uid;
         let editUserObject = {
             valueName: '',
             valueAge: '',
-            valueGender: false,
+            valueGender: '',
             valueGrowth: 0,
             valueWeight: 0
         }
         
-        const editUserValue = (fb, form, dataName) => {
-            if(fb !== form && form !== "Noname" && form !== 0 && ( form === true || form === false) ) {
+        const sendToFirebase = (editObj) =>{
+            firestore.collection('users').doc(docID).update({
+                valueName: editObj.valueName,
+                valueAge: editObj.valueAge,
+                valueGender: editObj.valueGender,
+                valueGrowth: editObj.valueGrowth,
+                valueWeight: editObj.valueWeight,
+            })
+        }
+
+        const editUserValue = (fb, form, dataName, i, length) => {
+
+            if(fb !== form && form !== "Noname" && form !== 0 && (form !== 'Male' || form !== 'Female') ) {
                 editUserObject = {
                     ...editUserObject,
                     [dataName]: form
@@ -52,44 +66,24 @@ export function editUserProfile (user, userFromFire) {
                     [dataName]: fb
                 }
             }
+            if(i === length){
+                sendToFirebase(editUserObject)
+            }
         }
 
-        const firestore = getFirestore();
-        let docID = '';
-        firestore.collection('users').where('userID','==' , userFromFire.userID).get().then((snap) => {
-            snap.docs.forEach(el => {
-                docID = el.id;
-            })
-        }).then(() =>{
-            let dataNames = ['valueName', 'valueAge',  'valueGrowth','valueGender', 'valueWeight'];
-            firestore.collection('users').doc(docID).onSnapshot((el) => {
-                let {valueName, valueAge, valueGrowth, valueGender, valueWeight} = el.data();
-                let userDataFromFb = [valueName, valueAge, valueGrowth, valueGender, valueWeight];
-                let userDataFromForm = [user.valueName, user.valueAge, user.valueGrowth, user.valueGender, user.valueWeight];
-                userDataFromFb.forEach((userFromFb, i) => {
-                    userDataFromForm.forEach((userFromForm, j) =>{
-                        dataNames.forEach((dataName, k) => {
-                            if(i === j && k === i && j === k){
-                                editUserValue(userFromFb, userFromForm, dataName)
-                            }
-                        })
-                    })
-                })
-                
+
+        
+        firestore.collection('users').where('userID','==' , uid).get().then((snap) => {
+            docID = snap.docs[0].id;
+            let {valueName, valueAge, valueGrowth, valueGender, valueWeight} = snap.docs[0].data();
+            let userDataFromFb = [valueName, valueAge, valueGrowth, valueGender, valueWeight];
+            userDataFromFb.forEach((userFromFb, i) => {
+                editUserValue(userFromFb, userDataFromForm[i], dataNames[i], i, (dataNames.length - 1) );
             })
         }).then(() => {
-            console.log(editUserObject)
-            // firestore.collection('users').doc(docID).update({
-            //     valueName: editUserObject.valueName,
-            //     valueAge: editUserObject.valueAge,
-            //     valueGender: editUserObject.valueGender,
-            //     valueGrowth: editUserObject.valueGrowth,
-            //     valueWeight: editUserObject.valueWeight,
-            //     userID: userFromFire.userID,
-            //     userEmail: userFromFire.userEmail,
-            //     tmpValue: userFromFire.tmpValue
-            // })
+            dispatch({type: 'EDIT_SUCCESS'})
+        }).catch(err =>{
+            dispatch({type: 'EDIT_ERROR'})
         })
-
     }
 } 

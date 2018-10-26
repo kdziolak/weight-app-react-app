@@ -1,7 +1,10 @@
 .profile{
     padding-left: 230px;
 }
-
+.profile.spiner-height{
+    min-height: calc(100vh - 100px);
+    line-height: calc(100vh - 100px);
+}
 
 @media (max-width: 992px){
     .profile{

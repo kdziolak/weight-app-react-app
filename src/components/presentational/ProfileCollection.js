@@ -4,7 +4,6 @@ import './ProfileCollectionItem'
 import ProfileCollectionItem from './ProfileCollectionItem';
 
 const ProfileCollection = (props) => {
-
     const {handleClick, handleChange, handleSubmit, } = props;
   return (
     <ul className='profile-collection collection'>
@@ -35,10 +34,10 @@ const ProfileCollection = (props) => {
         <ProfileCollectionItem
             htmlFor='personal-gender'
             collectionValue='Gender'
-            userValue={((props.userValues.valueGender === "Female"  ||  props.userValues.valueGender === '') && props.userProfile) ? (props.userProfile.valueGender ? 'Male' : 'Female') : (props.userValues.valueGender ? 'Male' : 'Female') }
+            userValue={((props.userValues.valueGender === "Choose gender."  ||  props.userValues.valueGender === '') && props.userProfile) ? props.userProfile.valueGender : props.userValues.valueGender }
             btnID='editUserGender'
             inputID='valueGender'
-            inputType='checkbox'
+            inputType='radio'
             editBool={props.editBool.editUserGender}
             handleClick={handleClick}
             handleSubmit={handleSubmit}

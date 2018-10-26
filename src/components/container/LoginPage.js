@@ -9,6 +9,7 @@ class LoginPage extends Component {
     state={
         email: '',
         password: '',
+        loading: false
     }
 
     handleChange = e => {
@@ -18,10 +19,38 @@ class LoginPage extends Component {
     }
 
     handleSubmit = () => {
+        this.setState({
+            loading: true
+        })
         this.props.signIn(this.state)
     }
 
     render() {
+        if(this.state.loading){
+            return(
+            <div className="login-page container spiner-login">
+                <div className="row">
+                    <div className="col s12 center-align">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                     <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            );
+        }
+        
         return(
             <div className="login-page container center-align">
                 <div className="row">
