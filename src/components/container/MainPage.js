@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Quotes from '../presentational/Quotes'
 import './MainPage.css'
 import OptionCard from '../presentational/OptionCard';
+import HeaderTitle from '../presentational/HeaderTitle'
 import Weight from '../../img/weight.png'
 
 export default class MainPage extends Component {
@@ -31,7 +32,7 @@ export default class MainPage extends Component {
     return (
       <div className='main-page center-align'>
         <Quotes quotes={this.state.quotes}/>
-        <h3 className="options blue-text text-darken-2">What u want to do?</h3>
+        <HeaderTitle headerNumber={2} content='Add new weight' classes='blue-text' />
         <div className="container">
           <div className="row">
             {
