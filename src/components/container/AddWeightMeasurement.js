@@ -1,22 +1,55 @@
 import React, { Component } from 'react'
 import './AddWeightMeasurement.css'
 import HeaderTitle from '../presentational/HeaderTitle'
+import Paragraph from '../presentational/Paragraph'
 import InputField from '../presentational/InputField'
+import M from 'materialize-css'
+
+
 
 class AddWeightMeasurement extends Component {
+    state = {
+        inputsArray: [
+            {
+                type: 'number',
+                id: 'new-weight-input',
+                label: 'Add new weight',
+                classes: 'blue-text text-darken-3'
+            },
+            {
+                type: 'text',
+                id: 'date-input',
+                label: 'Date',
+                classes: 'blue-text text-darken-3',
+                getDatepicker: (e) => {
+                    M.Datepicker.init(e.target)
+                }
+            }
+        ],
+        previousWeightValue: 50,
+        lastWeightMesurementDate: '21.09.2018'
+    }
+
+
   render() {
+      
     return (
       <div className='add-weight-measurement container'>
         <div className="row">
             <HeaderTitle headerNumber={3} content='Add new weight' classes='center-align blue-text text-darken-1'/>
         </div>
+        <div className="row">
+            <div className="col s12 center-align">
+                <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${this.state.previousWeightValue} kg and has been added ${this.state.lastWeightMesurementDate}`}/>
+            </div>
+        </div>
         <div className="row center-align">
             <div className="col s12">
-                <form>
+                <form onSubmit={e => {e.preventDefault()}}>
                     {
-                        // this.props.inputsArray.map((input, i) => {
-                        //     <InputField key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>
-                        // })
+                        this.state.inputsArray.map((input, i) => {
+                            return <InputField getDatepicker={input.getDatepicker ? input.getDatepicker : null} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
+                        })
                     }
                 </form>
             </div>

@@ -121,8 +121,7 @@ class Profile extends Component {
           }
           return null;
       });
-
-      if(!this.props.usersProfile || renderProfile[0] === null) {
+      if(!                                                                                                                                                                                                                                                                                              this.props.usersProfile || renderProfile[0] === null) {
           return (
             <div className="profile container spiner-height">
                 <div className="row">

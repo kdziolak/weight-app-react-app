@@ -26,11 +26,9 @@ const user = (
         break;
       }
       case "EDIT_SUCCESS": {
-        console.log(action.type)
         break;
       }
       case "EDIT_ERROR": {
-        console.log(action.type)
         break;
       }
     }
