@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authActions'
 
+import HeaderTitle from '../presentational/HeaderTitle'
+import Button from '../presentational/Button'
+
 class LoginPage extends Component {
 
     state={
@@ -54,8 +57,8 @@ class LoginPage extends Component {
         return(
             <div className="login-page container center-align">
                 <div className="row">
-                    <div className="col">
-                        <h2 className="blue-text text-darken-3">Login to your best weight control app!</h2>
+                    <div className="col s12 center-align">
+                        <HeaderTitle headerNumber={2} classes='blue-text text-darken-3' content='Login to your best weight control app!'/>
                     </div>
                 </div>
                 <div className="row">
@@ -78,7 +81,7 @@ class LoginPage extends Component {
                                         <Link to="/" className="right-align remind-password">Forget your password?</Link>
                                         <Link to="/signup" className="right-align">Create account.</Link>
                                     </div>
-                                    <button className="btn blue darken-2 waves-effect waves-light">Log In</button>
+                                    <Button classes="btn btn-large blue darken-2 waves-effect waves-light" content='Log In'/>
                                 </div>
                            </div>
                         </form>

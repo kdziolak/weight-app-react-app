@@ -3,8 +3,8 @@ import './AddWeightMeasurement.css'
 import HeaderTitle from '../presentational/HeaderTitle'
 import Paragraph from '../presentational/Paragraph'
 import InputField from '../presentational/InputField'
+import Button from '../presentational/Button'
 import M from 'materialize-css'
-
 
 
 class AddWeightMeasurement extends Component {
@@ -36,7 +36,9 @@ class AddWeightMeasurement extends Component {
     return (
       <div className='add-weight-measurement container'>
         <div className="row">
-            <HeaderTitle headerNumber={3} content='Add new weight' classes='center-align blue-text text-darken-1'/>
+            <div className="col s12 center-align">
+                <HeaderTitle headerNumber={3} content='Add new weight' classes='blue-text text-darken-1'/>
+            </div>
         </div>
         <div className="row">
             <div className="col s12 center-align">
@@ -51,6 +53,7 @@ class AddWeightMeasurement extends Component {
                             return <InputField getDatepicker={input.getDatepicker ? input.getDatepicker : null} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
                         })
                     }
+                    <Button  classes='btn btn-large blue waves-effect' content='Add weight mesurement'/>
                 </form>
             </div>
         </div>

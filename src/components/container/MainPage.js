@@ -32,7 +32,7 @@ export default class MainPage extends Component {
     return (
       <div className='main-page center-align'>
         <Quotes quotes={this.state.quotes}/>
-        <HeaderTitle headerNumber={2} content='Add new weight' classes='blue-text' />
+        <HeaderTitle headerNumber={2} content='What you want to do?' />
         <div className="container">
           <div className="row">
             {
