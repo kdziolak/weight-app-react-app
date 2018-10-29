@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './AddWeightMeasurement.css'
-import HeaderTitle from '../presentational/HeaderTitle'
-import Paragraph from '../presentational/Paragraph'
-import InputField from '../presentational/InputField'
-import Button from '../presentational/Button'
+import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
+import Paragraph from '../../presentational/Paragraph/Paragraph'
+import InputField from '../../presentational/InputField/InputField'
+import Button from '../../presentational/Button/Button'
 import M from 'materialize-css'
 
 

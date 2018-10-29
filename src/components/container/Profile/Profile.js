@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import ProfileCollection from '../presentational/ProfileCollection'
+import ProfileCollection from '../../presentational/ProfileCollection/ProfileCollection'
 import { connect } from 'react-redux';
-import { addUserData, editUserProfile } from '../../store/actions/userActions'
+import { addUserData, editUserProfile } from '../../../store/actions/userActions'
 import './Profile.css'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'

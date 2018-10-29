@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Quotes from '../presentational/Quotes'
-import './MainPage.css'
-import OptionCard from '../presentational/OptionCard';
-import HeaderTitle from '../presentational/HeaderTitle'
-import Weight from '../../img/weight.png'
+import Quotes from '../../presentational/Quotes/Quotes'
+import './MainPage'
+import OptionCard from '../../presentational/OptionCard/OptionCard';
+import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
+import Weight from '../../../img/weight.png'
 
 export default class MainPage extends Component {
 

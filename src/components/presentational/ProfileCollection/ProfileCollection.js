@@ -1,7 +1,7 @@
 import React from 'react'
 import './ProfileCollection.css'
-import './ProfileCollectionItem'
-import ProfileCollectionItem from './ProfileCollectionItem';
+// import '../ProfileCollectionItem/ProfileCollectionItem'
+import ProfileCollectionItem from '../ProfileCollectionItem/ProfileCollectionItem';
 
 const ProfileCollection = (props) => {
     const {handleClick, handleChange, handleSubmit, } = props;

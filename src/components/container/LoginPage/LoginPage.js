@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import './LoginPage.css'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { signIn } from '../../store/actions/authActions'
+import { signIn } from '../../../store/actions/authActions'
 
-import HeaderTitle from '../presentational/HeaderTitle'
-import Button from '../presentational/Button'
+import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
+import Button from '../../presentational/Button/Button'
 
 class LoginPage extends Component {
 

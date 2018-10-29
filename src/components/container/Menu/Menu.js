@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {NavLink, Link} from 'react-router-dom'
-import Profile from '../../img/weightlifting.png'
-import './Menu.css'
+import Profile from '../../../img/fat-3313923_640.png'
+import './Menu'
 import {connect} from 'react-redux'
-import { signOut } from '../../store/actions/authActions'
+import { signOut } from '../../../store/actions/authActions'
 import M from 'materialize-css'
 
 class Menu extends Component {

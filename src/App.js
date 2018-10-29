@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import LoginPage from './components/container/LoginPage'
-import Menu from './components/container/Menu'
-import MainPage from './components/container/MainPage'
+import LoginPage from './components/container/LoginPage/LoginPage'
+import Menu from './components/container/Menu/Menu'
+import MainPage from './components/container/MainPage/MainPage'
 import { HashRouter, Route, Redirect} from 'react-router-dom'
-import AddWeightMeasurement from './components/container/AddWeightMeasurement';
-import Profile from './components/container/Profile'
-import SignUp from './components/container/SignUp'
+import AddWeightMeasurement from './components/container/AddWeightMeasurement/AddWeightMeasurement';
+import Profile from './components/container/Profile/Profile'
+import SignUp from './components/container/SignUp/SignUp'
 import { connect } from 'react-redux'
 
 class App extends Component {
