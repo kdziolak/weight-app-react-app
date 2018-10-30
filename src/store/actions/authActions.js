@@ -27,7 +27,7 @@ export function signIn (loginData) {
                 // this.props.loggedInChanged(true)
             })
             .catch((err) => {
-                dispatch({type: 'SIGNIN_ERROR'})
+                dispatch({type: 'SIGNIN_ERROR', payload: err})
             })
     }
 }

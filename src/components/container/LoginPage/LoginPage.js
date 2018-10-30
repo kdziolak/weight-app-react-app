@@ -22,10 +22,16 @@ class LoginPage extends Component {
     }
 
     handleSubmit = () => {
-        this.setState({
-            loading: true
-        })
         this.props.signIn(this.state)
+        if(this.props.errorMessage || this.props.errorMessage === ''){
+            this.setState({
+                loading: false
+            })
+        }else{
+            this.setState({
+                loading: true
+            })
+        }
     }
 
     render() {
@@ -75,7 +81,7 @@ class LoginPage extends Component {
                                         <label htmlFor="password">Password:</label>
                                     </div>
                                     {
-                                        // this.state.errorMessage ? <p className='error red lighten-1 white-text'>{this.state.errorMessage}</p> : null
+                                        this.props.errorMessage ? <p className='error red lighten-1 white-text'>{this.props.errorMessage}</p> : null
                                     }
                                     <div className="login-links">
                                         <Link to="/" className="right-align remind-password">Forget your password?</Link>
@@ -92,10 +98,16 @@ class LoginPage extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        errorMessage: state.auth.errorMessage,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         signIn: (loginData) => dispatch(signIn(loginData))
     }
 }
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

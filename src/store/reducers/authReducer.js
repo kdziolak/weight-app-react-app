@@ -1,17 +1,20 @@
 const auth = (
-    state = [
-      {
-        
-      }
-    ],
+    state = {
+        errorMessage: ''
+      },
     action = {}
   ) => {
     switch (action.type) {
       case "SIGNIN_SUCCESS": 
-        console.log(action.type)
+        state = {
+          errorMessage: ''
+        }
         break;
     case "SIGNIN_ERROR": 
-        console.log(action.type)
+        console.log(action.payload.message)
+        state = {
+            errorMessage: action.payload.message
+          }
         break;
       }
     
@@ -19,5 +22,5 @@ const auth = (
     return state;
   };
   
-  export default user;
+  export default auth;
   

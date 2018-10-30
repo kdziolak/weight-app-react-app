@@ -30,6 +30,9 @@ class AddWeightMeasurement extends Component {
         lastWeightMesurementDate: '21.09.2018'
     }
 
+    onSubmitHandle = e => {
+        e.preventDefault()
+    }
 
   render() {
       
@@ -47,7 +50,7 @@ class AddWeightMeasurement extends Component {
         </div>
         <div className="row center-align">
             <div className="col s12">
-                <form onSubmit={e => {e.preventDefault()}}>
+                <form onSubmit={this.onSubmitHandle}>
                     {
                         this.state.inputsArray.map((input, i) => {
                             return <InputField getDatepicker={input.getDatepicker ? input.getDatepicker : null} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;

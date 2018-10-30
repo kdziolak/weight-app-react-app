@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Quotes from '../../presentational/Quotes/Quotes'
-import './MainPage'
+import './MainPage.css'
 import OptionCard from '../../presentational/OptionCard/OptionCard';
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Weight from '../../../img/weight.png'

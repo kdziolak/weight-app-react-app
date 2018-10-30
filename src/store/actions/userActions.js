@@ -17,11 +17,10 @@ export function addUserData (user) {
             })
         })
         .catch(err => {
-            console.log(err)
-            // dispatch({
-            //     type: 'SHOW_ERROR',
-            //     err
-            // })
+            dispatch({
+                type: 'SHOW_ERROR',
+                err
+            })
         })
         
 

@@ -51,7 +51,7 @@ class SignUp extends Component {
                                         this.state.errorMessage ? <p className='error red lighten-1 white-text'>{this.state.errorMessage}</p> : null
                                     }
 
-                                    <button className="btn blue darken-2 waves-effect waves-light">Sign Up</button>
+                                    <button className="btn btn-large blue darken-2 waves-effect waves-light">Sign Up</button>
                                 </div>
                            </div>
                         </form>

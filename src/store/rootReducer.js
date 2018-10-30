@@ -6,9 +6,11 @@ import { reactReduxFirebase, getFirebase, firebaseReducer } from 'react-redux-fi
 import fbConfing from '../firebase'
 
 import user from './reducers/userReducer'
+import auth from './reducers/authReducer'
 
 export default createStore(
     combineReducers({
+        auth: auth,
         user: user,
         firestore: firestoreReducer,
         firebase: firebaseReducer
