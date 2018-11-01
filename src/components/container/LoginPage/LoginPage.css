@@ -10,9 +10,8 @@
     width: 100%;
 }
 
-.login-page.spiner-login {
-    height: 100vh;
-    line-height: 100vh;
+.spiner-login {
+    line-height: 40vh;
 }
 
 .login-page form{

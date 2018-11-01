@@ -12,6 +12,7 @@ class App extends Component {
 
   render() {
     const {isEmpty} = this.props;
+
     return (
       <HashRouter>
         <div>

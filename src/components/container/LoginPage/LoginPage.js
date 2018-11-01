@@ -12,7 +12,8 @@ class LoginPage extends Component {
     state={
         email: '',
         password: '',
-        loading: false
+        loading: false,
+        errorMessage: ''
     }
 
     handleChange = e => {
@@ -23,43 +24,13 @@ class LoginPage extends Component {
 
     handleSubmit = () => {
         this.props.signIn(this.state)
-        if(this.props.errorMessage || this.props.errorMessage === ''){
-            this.setState({
-                loading: false
-            })
-        }else{
-            this.setState({
-                loading: true
-            })
-        }
+        this.setState({
+            loading:true,
+            errorMessage: this.props.errorMessage
+        })   
     }
 
     render() {
-        if(this.state.loading){
-            return(
-            <div className="login-page container spiner-login">
-                <div className="row">
-                    <div className="col s12 center-align">
-                        <div class="preloader-wrapper big active">
-                            <div class="spinner-layer spinner-blue-only">
-                                <div class="circle-clipper left">
-                                     <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                
-            );
-        }
-        
         return(
             <div className="login-page container center-align">
                 <div className="row">
@@ -70,7 +41,48 @@ class LoginPage extends Component {
                 <div className="row">
                     <div className="col s10 l8 offset-s1 offset-l2">
                         <form className="blue lighten-5 z-depth-2" onSubmit={this.handleSubmit}>
-                           <div className="row">
+                        {
+                            this.state.loading && !this.props.errorMessage ? 
+                                <div className="row">
+                                    <div className="col s12 center-align">
+                                        <div class="preloader-wrapper big active">
+                                            <div class="spinner-layer spinner-blue-only">
+                                                <div class="circle-clipper left">
+                                                    <div class="circle"></div>
+                                                </div>
+                                                <div class="gap-patch">
+                                                    <div class="circle"></div>
+                                                </div>
+                                                <div class="circle-clipper right">
+                                                    <div class="circle"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             :
+                            <div className="row">
+                            <div className="col s12">
+                                <div className="input-field">
+                                    <input id="email" type="email" className="email" value={this.state.email} onChange={this.handleChange}/>
+                                    <label htmlFor="email">Email:</label>
+                                </div>
+                                <div className="input-field">
+                                    <input id="password" type="password" className="password blue-text text-darken-4" value={this.state.password} onChange={this.handleChange}/>
+                                    <label htmlFor="password">Password:</label>
+                                </div>
+                                {
+                                    this.state.errorMessage ? <p className='error red lighten-1 white-text z-depth-1'>{this.props.errorMessage}</p> : null
+                                }
+                                <div className="login-links">
+                                    <Link to="/" className="right-align remind-password">Forget your password?</Link>
+                                    <Link to="/signup" className="right-align">Create account.</Link>
+                                </div>
+                                <Button classes="btn btn-large blue darken-2 waves-effect waves-light" content='Log In'/>
+                            </div>
+                       </div>
+                        }
+                            {/* <div className="row">
                                 <div className="col s12">
                                     <div className="input-field">
                                         <input id="email" type="email" className="email" value={this.state.email} onChange={this.handleChange}/>
@@ -81,7 +93,7 @@ class LoginPage extends Component {
                                         <label htmlFor="password">Password:</label>
                                     </div>
                                     {
-                                        this.props.errorMessage ? <p className='error red lighten-1 white-text'>{this.props.errorMessage}</p> : null
+                                        this.state.errorMessage ? <p className='error red lighten-1 white-text z-depth-1'>{this.props.errorMessage}</p> : null
                                     }
                                     <div className="login-links">
                                         <Link to="/" className="right-align remind-password">Forget your password?</Link>
@@ -89,7 +101,7 @@ class LoginPage extends Component {
                                     </div>
                                     <Button classes="btn btn-large blue darken-2 waves-effect waves-light" content='Log In'/>
                                 </div>
-                           </div>
+                           </div> */}
                         </form>
                     </div>
                 </div>
@@ -101,6 +113,7 @@ class LoginPage extends Component {
 const mapStateToProps = state => {
     return {
         errorMessage: state.auth.errorMessage,
+        userIsLoaded: state.auth.isLoading
     }
 }
 

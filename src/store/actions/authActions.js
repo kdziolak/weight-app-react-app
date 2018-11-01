@@ -24,7 +24,6 @@ export function signIn (loginData) {
         firebase.auth().signInWithEmailAndPassword(loginData.email, loginData.password)
             .then(() =>  {
                 dispatch({type: 'SIGNIN_SUCCESS'})
-                // this.props.loggedInChanged(true)
             })
             .catch((err) => {
                 dispatch({type: 'SIGNIN_ERROR', payload: err})
