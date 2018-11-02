@@ -25,9 +25,10 @@ class LoginPage extends Component {
     handleSubmit = () => {
         this.props.signIn(this.state)
         this.setState({
-            loading:true,
-            errorMessage: this.props.errorMessage
-        })   
+            loading: true,
+            email: '', 
+            password: ''
+        })
     }
 
     render() {
@@ -43,10 +44,10 @@ class LoginPage extends Component {
                         <form className="blue lighten-5 z-depth-2" onSubmit={this.handleSubmit}>
                         {
                             this.state.loading && !this.props.errorMessage ? 
-                                <div className="row">
+                                <div className="row spiner-login">
                                     <div className="col s12 center-align">
                                         <div class="preloader-wrapper big active">
-                                            <div class="spinner-layer spinner-blue-only">
+                                            <div class="spinner-layer spinner-blue-only ">
                                                 <div class="circle-clipper left">
                                                     <div class="circle"></div>
                                                 </div>
@@ -72,7 +73,7 @@ class LoginPage extends Component {
                                     <label htmlFor="password">Password:</label>
                                 </div>
                                 {
-                                    this.state.errorMessage ? <p className='error red lighten-1 white-text z-depth-1'>{this.props.errorMessage}</p> : null
+                                    this.props.errorMessage ? <p className='error red lighten-1 white-text z-depth-1'>{this.props.errorMessage}</p> : null
                                 }
                                 <div className="login-links">
                                     <Link to="/" className="right-align remind-password">Forget your password?</Link>
