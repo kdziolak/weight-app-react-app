@@ -3,6 +3,11 @@
     padding-left: 230px;
 }
 
+.add-weight-measurement form > div,
+.add-weight-measurement form > button {
+    margin-top: 30px;
+}
+
 @media (max-width: 992px){
     .add-weight-measurement{
         padding-left: 0px;

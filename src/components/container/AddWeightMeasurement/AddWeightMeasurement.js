@@ -21,6 +21,7 @@ class AddWeightMeasurement extends Component {
                 type: 'number',
                 id: 'new-weight-input',
                 label: 'Add new weight',
+                min: 1,
                 classes: 'blue-text text-darken-3'
             },
             {
@@ -28,24 +29,24 @@ class AddWeightMeasurement extends Component {
                 id: 'date-input',
                 label: 'Date',
                 classes: 'blue-text text-darken-3',
-                getDatepicker: (e) => {
+                showDatepicker: (e) => {
                     let datapickerOptions = {
                         format: 'dd.mm.yyyy',
                         onSelect: (date) => {
-                            console.log(moment(date).format('DD.M.YYYY'))
-                            // this.setState({ 
-                            //     inputValues: {
-                            //         ...this.state.inputValues,
-                            //         date
-                            //     }
-                            // })
+                            this.setState({ 
+                                inputValues: {
+                                    ...this.state.inputValues,
+                                    date: moment(date).format('DD.M.YYYY')
+                                },
+                                message: ''
+                            })
                         }
                     }
-
                     M.Datepicker.init(e.target, datapickerOptions)
                 }
             }
         ],
+        message: '',
         previousWeightValue: 50,
         lastWeightMesurementDate: '21.09.2018'
     }
@@ -53,7 +54,13 @@ class AddWeightMeasurement extends Component {
     onSubmitHandle = e => {
         let {weight, date} = this.state.inputValues
         e.preventDefault()
-        if(weight && date) this.props.newWeightMeasurement(this.state.inputValues)
+        if(weight && date) {
+            this.props.newWeightMeasurement(this.state.inputValues)
+        } else {
+            this.setState({
+                message: 'Wprowadź wszystkie dane!'
+            })
+        }
     }
 
     handleOnChange = (e) => {
@@ -61,8 +68,9 @@ class AddWeightMeasurement extends Component {
             this.setState({
                 inputValues: {
                     ...this.state.inputValues,
-                    weight: e.target.value
-                }
+                    weight: e.target.value,
+                },
+                message: ''
             })
         }
     }
@@ -86,8 +94,11 @@ class AddWeightMeasurement extends Component {
                 <form onSubmit={this.onSubmitHandle}>
                     {
                         this.state.inputsArray.map((input, i) => {
-                            return <InputField getDatepicker={input.getDatepicker ? input.getDatepicker : null} changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
+                            return <InputField minVal={input.min ? input.min : null} showDatepicker={input.showDatepicker ? input.showDatepicker : null} changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
                         })
+                    }
+                    {
+                        this.state.message ? <p className='red white-text flow-text z-depth-1'>{this.state.message}</p> : null
                     }
                     <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement'/>
                 </form>
