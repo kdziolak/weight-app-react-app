@@ -100,7 +100,7 @@ class Profile extends Component {
 
     editProfile = () => {
         this.props.editUserProfile(this.state.userValues)
-        M.toast({html: `Updated you profile.`, classes: 'orange'})
+        M.toast({html: `Updated your profile.`, classes: 'orange'})
     }
    
 

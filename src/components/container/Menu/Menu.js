@@ -22,7 +22,7 @@ class Menu extends Component {
     return (
       <div className='menu'>
         <nav className='nav-wrapper blue'>
-            <div class="container ">
+            <div className="container ">
                 <Link to="/" className="brand-logo">Weight App</Link>
                 <Link to="#" data-target="mobile-demo" className='sidenav-trigger'><i className='material-icons'>menu</i></Link>
                 <ul id="header-desktop" className="header-desktop right hide-on-med-and-down">
