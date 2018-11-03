@@ -28,27 +28,44 @@ class AddWeightMeasurement extends Component {
                 type: 'text',
                 id: 'date-input',
                 label: 'Date',
-                classes: 'blue-text text-darken-3',
-                showDatepicker: (e) => {
-                    let datapickerOptions = {
-                        format: 'dd.mm.yyyy',
-                        onSelect: (date) => {
-                            this.setState({ 
-                                inputValues: {
-                                    ...this.state.inputValues,
-                                    date: moment(date).format('DD.M.YYYY')
-                                },
-                                message: ''
-                            })
-                        }
-                    }
-                    M.Datepicker.init(e.target, datapickerOptions)
-                }
+                classes: 'datepicker blue-text text-darken-3',
+                // showDatepicker: (e) => {
+                //     let datapickerOptions = {
+                //         format: 'dd.mm.yyyy',
+                //         onSelect: (date) => {
+                //             this.setState({ 
+                //                 inputValues: {
+                //                     ...this.state.inputValues,
+                //                     date: moment(date).format('DD.M.YYYY')
+                //                 },
+                //                 message: ''
+                //             })
+                //         }
+                //     }
+                //     M.Datepicker.init(e.target, datapickerOptions)
+                // }
             }
         ],
         message: '',
         previousWeightValue: 50,
         lastWeightMesurementDate: '21.09.2018'
+    }
+
+    showDatepicker = (e) => {
+        console.log(e.target)
+        let datapickerOptions = {
+            format: 'dd.mm.yyyy',
+            onSelect: (date) => {
+                this.setState({ 
+                    inputValues: {
+                        ...this.state.inputValues,
+                        date: moment(date).format('DD.M.YYYY')
+                    },
+                    message: ''
+                })
+            }
+        }
+        M.Datepicker.init(e.target, datapickerOptions)
     }
 
     onSubmitHandle = e => {
@@ -94,7 +111,7 @@ class AddWeightMeasurement extends Component {
                 <form onSubmit={this.onSubmitHandle}>
                     {
                         this.state.inputsArray.map((input, i) => {
-                            return <InputField minVal={input.min ? input.min : null} showDatepicker={input.showDatepicker ? input.showDatepicker : null} changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
+                            return <InputField minVal={input.min ? input.min : null} showDatepicker={input.id === 'date-input' ? this.showDatepicker : null} changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
                         })
                     }
                     {
