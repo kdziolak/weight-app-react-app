@@ -52,20 +52,28 @@ class AddWeightMeasurement extends Component {
     }
 
     showDatepicker = (e) => {
-        console.log(e.target)
-        let datapickerOptions = {
-            format: 'dd.mm.yyyy',
+        let datepickerOptions = {
+            onOpen: function() {
+                this.doneBtn.remove()
+            },
+            autoClose: true,
+            defaultDate: new Date(),
+            format: 'dd mmmm yyyy',
+            i18n: {
+                done: null
+            },
             onSelect: (date) => {
                 this.setState({ 
                     inputValues: {
                         ...this.state.inputValues,
-                        date: moment(date).format('DD.M.YYYY')
+                        date: moment(date).format('DD MMMM YYYY')
                     },
                     message: ''
                 })
             }
         }
-        M.Datepicker.init(e.target, datapickerOptions)
+        // console.log(datepickerOptions.i18n)
+        M.Datepicker.init(e.target, datepickerOptions)
     }
 
     onSubmitHandle = e => {
@@ -73,6 +81,13 @@ class AddWeightMeasurement extends Component {
         e.preventDefault()
         if(weight && date) {
             this.props.newWeightMeasurement(this.state.inputValues)
+            this.setState({
+                inputValues: {
+                    weight: '',
+                    date: ''
+                },
+                message: 'Ok wszyskto wysłane'
+            })
         } else {
             this.setState({
                 message: 'Wprowadź wszystkie dane!'
@@ -93,7 +108,7 @@ class AddWeightMeasurement extends Component {
     }
 
   render() {
-      
+      let { inputsArray, inputValues } = this.state;
     return (
       <div className='add-weight-measurement container'>
         <div className="row">
@@ -110,8 +125,14 @@ class AddWeightMeasurement extends Component {
             <div className="col s12">
                 <form onSubmit={this.onSubmitHandle}>
                     {
-                        this.state.inputsArray.map((input, i) => {
-                            return <InputField minVal={input.min ? input.min : null} showDatepicker={input.id === 'date-input' ? this.showDatepicker : null} changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} classes={input.classes} label={input.label}/>;
+                        inputsArray.map((input, i) => {
+                            return (<InputField minVal={input.min ? input.min : null} 
+                            value={input.id == 'date-input' ? inputValues.date : inputValues.weight} 
+                            showDatepicker={input.id === 'date-input' ? this.showDatepicker : null} 
+                            changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} 
+                            classes={input.classes} 
+                            label={input.label}/>
+                        )
                         })
                     }
                     {
