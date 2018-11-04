@@ -6,7 +6,7 @@ import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Paragraph from '../../presentational/Paragraph/Paragraph'
 import InputField from '../../presentational/InputField/InputField'
 import Button from '../../presentational/Button/Button'
-import {newWeightMeasurement} from '../../../store/actions/weightActions'
+import {sendDataToDatabase} from '../../../store/actions/weightActions'
 import M from 'materialize-css'
 
 
@@ -80,7 +80,7 @@ class AddWeightMeasurement extends Component {
         let {weight, date} = this.state.inputValues
         e.preventDefault()
         if(weight && date) {
-            this.props.newWeightMeasurement(this.state.inputValues)
+            this.props.sendDataToDatabase(this.state.inputValues)
             this.setState({
                 inputValues: {
                     weight: '',
@@ -88,10 +88,9 @@ class AddWeightMeasurement extends Component {
                 },
                 message: 'Ok wszyskto wysłane'
             })
+            M.toast({html: `New weight have been added.`, classes: 'green'})
         } else {
-            this.setState({
-                message: 'Wprowadź wszystkie dane!'
-            })
+            M.toast({html: `Incorrect data. Fill inputs field.`, classes: 'red'})
         }
     }
 
@@ -135,9 +134,6 @@ class AddWeightMeasurement extends Component {
                         )
                         })
                     }
-                    {
-                        this.state.message ? <p className='red white-text flow-text z-depth-1'>{this.state.message}</p> : null
-                    }
                     <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement'/>
                 </form>
             </div>
@@ -151,7 +147,7 @@ class AddWeightMeasurement extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        newWeightMeasurement: (data) => dispatch(newWeightMeasurement(data))
+        sendDataToDatabase: (data) => dispatch(sendDataToDatabase(data))
     }
 }
 
