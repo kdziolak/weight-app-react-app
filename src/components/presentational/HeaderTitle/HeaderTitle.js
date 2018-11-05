@@ -14,6 +14,7 @@ export default function HeaderTitle(props) {
             return <h5 className={props.classes}>{props.content}</h5>
         case 6: 
             return <h6 className={props.classes}>{props.content}</h6>
+        default: 
+            return <h1 className={props.classes}>{props.content}</h1>;
     }
-    return <h1 className={props.classes}>{props.content}</h1>;
 }

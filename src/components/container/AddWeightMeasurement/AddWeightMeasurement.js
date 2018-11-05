@@ -46,7 +46,6 @@ class AddWeightMeasurement extends Component {
                 // }
             }
         ],
-        message: '',
         previousWeightValue: 50,
         lastWeightMesurementDate: '21.09.2018'
     }
@@ -58,6 +57,7 @@ class AddWeightMeasurement extends Component {
             },
             autoClose: true,
             defaultDate: new Date(),
+            maxDate: new Date(),
             format: 'dd mmmm yyyy',
             i18n: {
                 done: null
@@ -67,8 +67,7 @@ class AddWeightMeasurement extends Component {
                     inputValues: {
                         ...this.state.inputValues,
                         date: moment(date).format('DD MMMM YYYY')
-                    },
-                    message: ''
+                    }
                 })
             }
         }
@@ -86,7 +85,6 @@ class AddWeightMeasurement extends Component {
                     weight: '',
                     date: ''
                 },
-                message: 'Ok wszyskto wysłane'
             })
             M.toast({html: `New weight have been added.`, classes: 'green'})
         } else {
@@ -122,11 +120,11 @@ class AddWeightMeasurement extends Component {
         </div>
         <div className="row center-align">
             <div className="col s12">
-                <form onSubmit={this.onSubmitHandle}>
+            <form onSubmit={this.onSubmitHandle}>
                     {
                         inputsArray.map((input, i) => {
                             return (<InputField minVal={input.min ? input.min : null} 
-                            value={input.id == 'date-input' ? inputValues.date : inputValues.weight} 
+                            value={input.id === 'date-input' ? inputValues.date : inputValues.weight} 
                             showDatepicker={input.id === 'date-input' ? this.showDatepicker : null} 
                             changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} 
                             classes={input.classes} 

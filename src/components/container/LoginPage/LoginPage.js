@@ -33,10 +33,12 @@ class LoginPage extends Component {
 
     render() {
         return(
-            <div className="login-page container center-align">
+            <div className='login-page'>
+                <div className="bg-alpha">
+                <div className="container center-align">
                 <div className="row">
                     <div className="col s12 center-align">
-                        <HeaderTitle headerNumber={2} classes='blue-text text-darken-3' content='Login to your best weight control app!'/>
+                        <HeaderTitle headerNumber={2} classes='blue-text text-lighten-1' content='Login to your best weight control app!'/>
                     </div>
                 </div>
                 <div className="row">
@@ -76,8 +78,8 @@ class LoginPage extends Component {
                                     this.props.errorMessage ? <p className='error red lighten-1 white-text z-depth-1'>{this.props.errorMessage}</p> : null
                                 }
                                 <div className="login-links">
-                                    <Link to="/" className="right-align remind-password">Forget your password?</Link>
-                                    <Link to="/signup" className="right-align">Create account.</Link>
+                                    <Link to="/" className="remind-password">Forget your password?</Link>
+                                    <Link to="/signup">Create account.</Link>
                                 </div>
                                 <Button classes="btn btn-large blue darken-2 waves-effect waves-light" content='Log In'/>
                             </div>
@@ -107,6 +109,10 @@ class LoginPage extends Component {
                     </div>
                 </div>
             </div>
+                </div>
+                
+            </div>
+            
         );
     }
 }

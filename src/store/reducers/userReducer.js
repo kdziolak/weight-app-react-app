@@ -26,14 +26,15 @@ const user = (
         break;
       }
       case "EDIT_SUCCESS": {
-        break;
+        return state;
       }
       case "EDIT_ERROR": {
-        break;
+        return state;
+      }
+      default: {
+        return state;
       }
     }
-  
-    return state;
   };
   
   export default user;

@@ -66,8 +66,8 @@ class Profile extends Component {
     handleChange = (e) => {
         let value;
         value = e.target.value
-        e.target.classList.contains('radioMale') ? value = "Male" : null;
-        e.target.classList.contains('radioFemale') ? value = "Female" : null;
+        if(e.target.classList.contains('radioMale')) value = "Male"
+        if(e.target.classList.contains('radioFemale')) value = "Female"
         this.setState({
             userValues: {
                 ...this.state.userValues,

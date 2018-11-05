@@ -82,7 +82,7 @@ export function editUserProfile (user) {
         }).then(() => {
             dispatch({type: 'EDIT_SUCCESS'})
         }).catch(err =>{
-            dispatch({type: 'EDIT_ERROR'})
+            dispatch({type: 'EDIT_ERROR', err})
         })
     }
 } 

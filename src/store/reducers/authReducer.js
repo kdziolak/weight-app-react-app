@@ -11,17 +11,17 @@ const auth = (
           isLoading: true,
           errorMessage: ''
         }
-        break;
-    case "SIGNIN_ERROR": 
+        return state;
+      case "SIGNIN_ERROR": 
         state = {
             isLoading: false,
             errorMessage: action.payload.message
           }
-        break;
+        return state;
+      default: {
+        return state;
       }
-    
-  
-    return state;
+    }
   };
   
   export default auth;
