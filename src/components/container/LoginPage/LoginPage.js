@@ -3,6 +3,7 @@ import './LoginPage.css'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signIn } from '../../../store/actions/authActions'
+import M from 'materialize-css'
 
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Button from '../../presentational/Button/Button'
@@ -22,13 +23,18 @@ class LoginPage extends Component {
         })
     }
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
+        e.preventDefault()
         this.props.signIn(this.state)
         this.setState({
             loading: true,
             email: '', 
             password: ''
         })
+    }
+
+    showToast = () => {
+        
     }
 
     render() {
@@ -75,7 +81,7 @@ class LoginPage extends Component {
                                     <label htmlFor="password">Password:</label>
                                 </div>
                                 {
-                                    this.props.errorMessage ? <p className='error red lighten-1 white-text z-depth-1'>{this.props.errorMessage}</p> : null
+                                    this.showToast()
                                 }
                                 <div className="login-links">
                                     <Link to="/" className="remind-password">Forget your password?</Link>
@@ -120,7 +126,6 @@ class LoginPage extends Component {
 const mapStateToProps = state => {
     return {
         errorMessage: state.auth.errorMessage,
-        userIsLoaded: state.auth.isLoading
     }
 }
 

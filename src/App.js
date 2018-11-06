@@ -14,7 +14,7 @@ class App extends Component {
     const {isEmpty} = this.props;
 
     return (
-      <HashRouter>
+      <HashRouter basename='/'>
         <div>
           <Route exact path="/login" render={() => (isEmpty ? <LoginPage/> : <Redirect to='/'/>)}/>
           <Route exact path='/signup' render={() => (isEmpty ? <SignUp/> : <Redirect to='/'/>)} />

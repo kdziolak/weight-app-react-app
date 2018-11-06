@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './AddWeightMeasurement.css'
 import { connect } from 'react-redux'
+import { firestoreConnect, isEmpty } from 'react-redux-firebase'
+import { compose } from 'redux'
 import moment from 'moment'
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Paragraph from '../../presentational/Paragraph/Paragraph'
@@ -141,7 +143,13 @@ class AddWeightMeasurement extends Component {
   }
 }
 
-
+const mapStateToProps = state => {
+    console.log(state.firestore.ordered)
+    return{
+        userAuthID: state.firebase.auth.uid,
+        usersID: state.firestore.ordered
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -149,4 +157,19 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddWeightMeasurement); 
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect((props) => {
+        if(isEmpty(props.usersID)){
+            return [
+                { collection: 'users'}
+            ]
+        }
+        // props.usersID.users.forEach(user => console.log(user.userID))
+        let user = props.usersID.users.filter(user => user.userID !== props.userAuthID)
+        // console.log(user);
+        return [
+            { collection: 'users', doc: user.userID, collection: 'measurements'}
+        ]
+    })
+)(AddWeightMeasurement)

@@ -17,7 +17,7 @@
 
 .login-page form{
     width: 100%;
-    min-height: 40vh;
+    height: 50vh;
     padding: 30px;
     border-radius: 2px;
 }
