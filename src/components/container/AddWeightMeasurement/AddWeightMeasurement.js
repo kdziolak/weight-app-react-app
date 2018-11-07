@@ -108,6 +108,7 @@ class AddWeightMeasurement extends Component {
 
   render() {
       let { inputsArray, inputValues } = this.state;
+      let { measurementDate, weightValue } = this.props.measurement;
     return (
       <div className='add-weight-measurement container'>
         <div className="row">
@@ -117,7 +118,7 @@ class AddWeightMeasurement extends Component {
         </div>
         <div className="row">
             <div className="col s12 center-align">
-                <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${this.state.previousWeightValue} kg and has been added ${this.state.lastWeightMesurementDate}`}/>
+                <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`}/>
             </div>
         </div>
         <div className="row center-align">
@@ -144,10 +145,14 @@ class AddWeightMeasurement extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state.firestore.ordered)
+    let measurement = {}
+    if(!isEmpty(state.firestore.ordered.measurements)){
+        measurement = state.firestore.ordered.measurements[0]
+    }
     return{
         userAuthID: state.firebase.auth.uid,
-        usersID: state.firestore.ordered
+        usersID: state.firestore.ordered,
+        measurement
     }
 }
 
@@ -166,10 +171,19 @@ export default compose(
             ]
         }
         // props.usersID.users.forEach(user => console.log(user.userID))
-        let user = props.usersID.users.filter(user => user.userID !== props.userAuthID)
-        // console.log(user);
+        let [user] = props.usersID.users.filter(user => user.userID === props.userAuthID)
         return [
-            { collection: 'users', doc: user.userID, collection: 'measurements'}
+            { 
+                collection: 'users',
+                doc: user.id,
+                subcollections: [
+                    {
+                        collection: 'measurements',
+                        orderBy: ['measurementDate', 'desc']
+                    }
+                ],
+                storeAs: 'measurements'
+            }
         ]
     })
 )(AddWeightMeasurement)
