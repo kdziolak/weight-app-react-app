@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Redirect} from 'react-router-dom'
+import { HashRouter, Route, Redirect, Switch} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import LoginPage from './components/container/LoginPage/LoginPage'
@@ -15,6 +15,8 @@ class App extends Component {
   render() {
     const {isEmpty} = this.props;
 
+    console.log(isEmpty)
+
     return (
       <HashRouter basename='/'>
         <div>
@@ -24,8 +26,10 @@ class App extends Component {
               !isEmpty ?
               <Menu /> : <Redirect to='/login'/>)} />
           <Route exact path='/' render={() => (!isEmpty ? <MainPage/> : <Redirect to='/login'/>)} />
-          <Route exact path='/measurement/add' render={() => (!isEmpty ? <AddWeightMeasurement/> : <Redirect to='/login'/>)}/>
-          <Route exact path='/measurement/results' render={() => {!isEmpty ? <MeasurementsResults/> : <Redirect to='/login'/>}}/>
+          <Switch>
+            <Route exact path='/measurement/add' render={() => (!isEmpty ? <AddWeightMeasurement/> : <Redirect to='/login'/>)}/>
+            <Route exact path='/measurement/results' render={() => (!isEmpty ? <MeasurementsResults/> : <Redirect to='/login'/>)}/>
+          </Switch>
           <Route exact path='/profile' render={() => (!isEmpty ? <Profile/> : <Redirect to='/login'/>)} />
         </div>
       </HashRouter>

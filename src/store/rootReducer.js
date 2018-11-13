@@ -7,9 +7,11 @@ import fbConfing from '../firebase'
 
 import user from './reducers/userReducer'
 import auth from './reducers/authReducer'
+import measurement from './reducers/measurementReducer'
 
 export default createStore(
     combineReducers({
+        measurement: measurement,
         auth: auth,
         user: user,
         firestore: firestoreReducer,

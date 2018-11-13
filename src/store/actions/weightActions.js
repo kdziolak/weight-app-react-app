@@ -1,4 +1,4 @@
-export function fetchDataFromDatabase(weightData) {
+export function fetchDataFromDatabase() {
     return (dispatch, getState, {getFirebase, getFirestore} ) => {
         let firestore = getFirestore();
         let uid = getState().firebase.auth.uid;
@@ -6,16 +6,26 @@ export function fetchDataFromDatabase(weightData) {
         firestore.collection('users').where('userID','==' , uid).get().then((snap) => {
             docsID = [...docsID, snap.docs[0].id]
         })
-        .then((id) => {
+        .then(() => {
             firestore.collection('users').doc(docsID[0]).collection('measurements').get().then((z) => {
                docsID = [...docsID, z.docs[0].id]
-            }).then((id) => {
-                firestore.collection('users').doc(docsID[0]).collection('measurements').doc(docsID[1]).get().then((z) => {
-                    console.log(z.data())
-                 })
-
+                dispatch({
+                    type: "FETCH_MEASUREMENTS_DATA",
+                    payloads: z
+                })
             })
-        }).catch(err =>{
+            // .then(() => {
+            //     firestore.collection('users').doc(docsID[0]).collection('measurements').get().then((z) => {
+            //         console.log(z.docs)
+            //         // dispatch({
+            //         //     type: "FETCH_MEASUREMENTS_DATA",
+            //         //     payloads: z
+            //         // })
+            //      })
+
+            // })
+        })
+        .catch(err =>{
             console.log(err)
         })
     }
