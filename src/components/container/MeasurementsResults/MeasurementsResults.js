@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
+import './MeasurementsResults.css'
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle';
 import { connect } from 'react-redux'
+import {compose} from 'redux'
+import { firestoreConnect, isEmpty } from 'react-redux-firebase'
 import {fetchDataFromDatabase} from '../../../store/actions/weightActions'
+import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
+import Preloader from '../../presentational/Preloader/Preloader';
 
 class MeasurementsResults extends Component {
   componentDidMount() {
     this.props.fetchDataFromDatabase()
   }
   render(){
+    console.log(this.props.measurements)
+    const measurements = this.props.measurements.length ? <ResultsTable measurements={this.props.measurements}/> : <div className='spinner-container'><Preloader/></div>
+
     return(
-      <div className='component-padding'>
+      <div className='.measurements-results component-padding'>
         <div className="container">
           <div className="row">
             <div className="col s12">
@@ -17,29 +25,25 @@ class MeasurementsResults extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col s12">
-              <table className='highlight'>
-                <thead>
-                  <tr>
-                      <th>Measurement date: </th>
-                      <th>Kind of measurement:</th>
-                      <th>Measurement value:</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>Alvin</td>
-                    <td>Eclair</td>
-                    <td>$0.87</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="col s12 center-align">
+                {measurements}
             </div>
           </div>
         </div>
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  let measurements = {}
+  if(!isEmpty(state.firestore.ordered.measurements)){
+      measurements = state.firestore.ordered.measurements
+  }
+  return{
+      userAuthID: state.firebase.auth.uid,
+      usersID: state.firestore.ordered,
+      measurements
   }
 }
 
@@ -49,4 +53,27 @@ const mapDispatchToProp = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProp)(MeasurementsResults);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProp),
+  firestoreConnect((props) => {
+      if(isEmpty(props.usersID)){
+          return [
+              { collection: 'users'}
+          ]
+      }
+      let [user] = props.usersID.users.filter(user => user.userID === props.userAuthID)
+      return [
+          { 
+              collection: 'users',
+              doc: user.id,
+              subcollections: [
+                  {
+                      collection: 'measurements',
+                      orderBy: ['measurementDate', 'desc']
+                  }
+              ],
+              storeAs: 'measurements'
+          }
+      ]
+  })
+)(MeasurementsResults)

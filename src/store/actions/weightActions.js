@@ -1,3 +1,5 @@
+
+
 export function fetchDataFromDatabase() {
     return (dispatch, getState, {getFirebase, getFirestore} ) => {
         let firestore = getFirestore();

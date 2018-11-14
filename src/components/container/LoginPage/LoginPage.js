@@ -3,10 +3,9 @@ import './LoginPage.css'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signIn } from '../../../store/actions/authActions'
-import M from 'materialize-css'
-
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Button from '../../presentational/Button/Button'
+import Preloader from '../../presentational/Preloader/Preloader'
 
 class LoginPage extends Component {
 
@@ -33,10 +32,6 @@ class LoginPage extends Component {
         })
     }
 
-    showToast = () => {
-        
-    }
-
     render() {
         return(
             <div className='login-page'>
@@ -54,19 +49,7 @@ class LoginPage extends Component {
                             this.state.loading && !this.props.errorMessage ? 
                                 <div className="row spiner-login">
                                     <div className="col s12 center-align">
-                                        <div className="preloader-wrapper big active">
-                                            <div className="spinner-layer spinner-blue-only ">
-                                                <div className="circle-clipper left">
-                                                    <div className="circle"></div>
-                                                </div>
-                                                <div className="gap-patch">
-                                                    <div className="circle"></div>
-                                                </div>
-                                                <div className="circle-clipper right">
-                                                    <div className="circle"></div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <Preloader />
                                     </div>
                                 </div>
                              :
@@ -80,14 +63,11 @@ class LoginPage extends Component {
                                     <input id="password" type="password" className="password blue-text text-darken-4" value={this.state.password} onChange={this.handleChange}/>
                                     <label htmlFor="password">Password:</label>
                                 </div>
-                                {
-                                    this.showToast()
-                                }
                                 <div className="login-links">
                                     <Link to="/" className="remind-password">Forget your password?</Link>
                                     <Link to="/signup">Create account.</Link>
                                 </div>
-                                <Button classes="btn btn-large blue darken-2 waves-effect waves-light" content='Log In'/>
+                                <Button classes={`btn btn-large blue darken-2 waves-effect waves-light`} content='Log In'/>
                             </div>
                        </div>
                         }

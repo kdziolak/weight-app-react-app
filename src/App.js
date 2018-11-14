@@ -15,8 +15,6 @@ class App extends Component {
   render() {
     const {isEmpty} = this.props;
 
-    console.log(isEmpty)
-
     return (
       <HashRouter basename='/'>
         <div>
