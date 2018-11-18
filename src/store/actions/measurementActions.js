@@ -47,7 +47,7 @@ export function sendDataToDatabase(data) {
                 weightValue: data.weight,
                 measurementDate: data.date
             }).then(() => {
-                console.log('xxx')
+                dispatch({type: 'ADDED_DATA_TO_DATABASE'})
             })
         }).catch(err =>{
             console.log(err)

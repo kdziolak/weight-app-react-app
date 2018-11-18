@@ -1,7 +1,6 @@
 import React from 'react'
 
 const ResultsTable = (props) => {
-    console.log(props.measurements)
     let tableContent = props.measurements.map((el, i) => {
         return(
             <tr key={i}>
@@ -15,7 +14,7 @@ const ResultsTable = (props) => {
     <table className='highlight'>
         <thead>
             <tr>
-                <th className='center-align'>Measurement date: </th>
+                <th className='center-align'>Measurement date:</th>
                 <th className='center-align'>Kind of measurement:</th>
                 <th className='center-align'>Measurement value:</th>
             </tr>

@@ -4,7 +4,7 @@ import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle';
 import { connect } from 'react-redux'
 import {compose} from 'redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
-import {fetchDataFromDatabase} from '../../../store/actions/weightActions'
+import {fetchDataFromDatabase} from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
 
@@ -13,7 +13,6 @@ class MeasurementsResults extends Component {
     this.props.fetchDataFromDatabase()
   }
   render(){
-    console.log(this.props.measurements)
     const measurements = this.props.measurements.length ? <ResultsTable measurements={this.props.measurements}/> : <div className='spinner-container'><Preloader/></div>
 
     return(

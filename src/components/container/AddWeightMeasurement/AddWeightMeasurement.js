@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
+import { Redirect } from 'react-router-dom'
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Paragraph from '../../presentational/Paragraph/Paragraph'
 import InputField from '../../presentational/InputField/InputField'
 import Button from '../../presentational/Button/Button'
-import {sendDataToDatabase} from '../../../store/actions/weightActions'
+import {sendDataToDatabase} from '../../../store/actions/measurementActions'
 import M from 'materialize-css'
 
 
@@ -24,6 +25,7 @@ class AddWeightMeasurement extends Component {
                 id: 'new-weight-input',
                 label: 'Add new weight',
                 min: 1,
+                max: 200,
                 classes: 'blue-text text-darken-3'
             },
             {
@@ -49,7 +51,7 @@ class AddWeightMeasurement extends Component {
             }
         ],
         previousWeightValue: 50,
-        lastWeightMesurementDate: '21.09.2018'
+        lastWeightMesurementDate: '21.09.2018',
     }
 
     showDatepicker = (e) => {
@@ -73,9 +75,10 @@ class AddWeightMeasurement extends Component {
                 })
             }
         }
-        // console.log(datepickerOptions.i18n)
         M.Datepicker.init(e.target, datepickerOptions)
     }
+
+    
 
     onSubmitHandle = e => {
         let {weight, date} = this.state.inputValues
@@ -86,15 +89,19 @@ class AddWeightMeasurement extends Component {
                 inputValues: {
                     weight: '',
                     date: ''
-                },
+                }
             })
-            M.toast({html: `New weight have been added.`, classes: 'green'})
+            M.toast({html: `New weight has been added.`, classes: 'green'})
         } else {
             M.toast({html: `Incorrect data. Fill inputs field.`, classes: 'red'})
         }
     }
 
     handleOnChange = (e) => {
+        if(e.target.value === '0'){
+            M.toast({html: `First number cannot be zero.`, classes: 'orange'})
+            e.target.value = '';
+        }
         if(e.target.id === 'new-weight-input'){
             this.setState({
                 inputValues: {
@@ -107,8 +114,11 @@ class AddWeightMeasurement extends Component {
     }
 
   render() {
-      let { inputsArray, inputValues } = this.state;
-      let { measurementDate, weightValue } = this.props.measurement;
+    let { inputsArray, inputValues } = this.state;
+    let lastMeasurement = this.props.measurements.length ? this.props.measurements[0] : {}
+
+    let {measurementDate, weightValue} = lastMeasurement;
+
     return (
       <div className='add-weight-measurement container'>
         <div className="row">
@@ -126,7 +136,8 @@ class AddWeightMeasurement extends Component {
             <form onSubmit={this.onSubmitHandle}>
                     {
                         inputsArray.map((input, i) => {
-                            return (<InputField minVal={input.min ? input.min : null} 
+                            return (<InputField minVal={input.min ? input.min : null}
+                            maxVal={input.max ? input.max : null}  
                             value={input.id === 'date-input' ? inputValues.date : inputValues.weight} 
                             showDatepicker={input.id === 'date-input' ? this.showDatepicker : null} 
                             changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} 
@@ -139,20 +150,19 @@ class AddWeightMeasurement extends Component {
                 </form>
             </div>
         </div>
+        {this.props.redirect ? <Redirect to="/measurement/results"/> : null}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-    let measurement = {}
-    if(!isEmpty(state.firestore.ordered.measurements)){
-        measurement = state.firestore.ordered.measurements[0]
-    }
+    
     return{
+        redirect: state.measurement.redirect,
         userAuthID: state.firebase.auth.uid,
         usersID: state.firestore.ordered,
-        measurement
+        measurements: !isEmpty(state.firestore.ordered.measurements) ? state.firestore.ordered.measurements : {}
     }
 }
 

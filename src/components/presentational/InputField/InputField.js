@@ -11,7 +11,7 @@ const InputField = props => {
     }
     return (
     <div className="input-field">
-        <input onKeyDown={onKeydownHandler} value={props.value} onFocus={props.showDatepicker} onChange={props.changeValue} min={`${props.minVal}`} type={props.type} id={props.id} className={props.classes}/>
+        <input onKeyDown={onKeydownHandler} value={props.value} onFocus={props.showDatepicker} onChange={props.changeValue} max={`${props.maxVal}`} min={`${props.minVal}`} type={props.type} id={props.id} className={props.classes}/>
         <label htmlFor={props.id}>{props.label}</label>
     </div>
     ) 
