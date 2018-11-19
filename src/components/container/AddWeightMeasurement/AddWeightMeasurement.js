@@ -66,6 +66,17 @@ class AddWeightMeasurement extends Component {
             i18n: {
                 done: null
             },
+            disableDayFn: (day) =>{
+                let dates = []
+                this.props.measurements.forEach((measurement) => {
+                    let date = new Date(measurement.measurementDate).toDateString()
+                    dates = [...dates, date]
+                })
+                if(dates.indexOf(day.toDateString()) >=0 ){
+                    return true;
+                }
+                return false;
+            },
             onSelect: (date) => {
                 this.setState({ 
                     inputValues: {
@@ -189,7 +200,7 @@ export default compose(
                 subcollections: [
                     {
                         collection: 'measurements',
-                        orderBy: ['measurementDate', 'desc']
+                        orderBy: ['measurementDate','desc']
                     }
                 ],
                 storeAs: 'measurements'
