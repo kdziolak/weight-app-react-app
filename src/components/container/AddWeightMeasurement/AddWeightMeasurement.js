@@ -68,6 +68,7 @@ class AddWeightMeasurement extends Component {
             },
             disableDayFn: (day) =>{
                 let dates = []
+                if(isEmpty(this.props.measurements)) return false;
                 this.props.measurements.forEach((measurement) => {
                     let date = new Date(measurement.measurementDate).toDateString()
                     dates = [...dates, date]

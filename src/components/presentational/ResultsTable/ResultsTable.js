@@ -5,7 +5,7 @@ const ResultsTable = (props) => {
         return(
             <tr key={i}>
                 <td className='center-align'>{el.measurementDate}</td>
-                <td className='center-align'>{el.mesurementType}</td>
+                <td className='center-align'>{el.measurementType}</td>
                 <td className='center-align'>{el.weightValue}</td>
             </tr>
         );

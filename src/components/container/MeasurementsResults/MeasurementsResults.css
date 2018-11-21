@@ -3,3 +3,12 @@
     min-height: 40vh;
     line-height: 40vh;
 }
+
+.measurements-results .example-appear {
+    opacity: 0.01;
+}
+  
+.measurements-results .example-appear.example-appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+  }

@@ -9,23 +9,15 @@ export function fetchDataFromDatabase() {
             docsID = [...docsID, snap.docs[0].id]
         })
         .then(() => {
-            firestore.collection('users').doc(docsID[0]).collection('measurements').get().then((z) => {
-               docsID = [...docsID, z.docs[0].id]
+            firestore.collection('users').doc(docsID[0]).collection('measurements').get().then((data) => {
+               docsID = [...docsID, data.docs[0].id]
                 dispatch({
-                    type: "FETCH_MEASUREMENTS_DATA",
-                    payloads: z
+                    type: "SUCCESS_FETCHING_MEASUREMENTS_DATA",
+                    payloads: data
                 })
+            }).catch(err => {
+                dispatch({type: 'ERROR_FETCHING_MEASUREMENTS_DATA', err: err.message})
             })
-            // .then(() => {
-            //     firestore.collection('users').doc(docsID[0]).collection('measurements').get().then((z) => {
-            //         console.log(z.docs)
-            //         // dispatch({
-            //         //     type: "FETCH_MEASUREMENTS_DATA",
-            //         //     payloads: z
-            //         // })
-            //      })
-
-            // })
         })
         .catch(err =>{
             console.log(err)
@@ -43,7 +35,7 @@ export function sendDataToDatabase(data) {
         .then((id) => {
             let collection =  firestore.collection('users').doc(id).collection('measurements');
             collection.add({
-                mesurementType: 'weight',
+                measurementType: 'weight',
                 weightValue: data.weight,
                 measurementDate: data.date
             }).then(() => {
