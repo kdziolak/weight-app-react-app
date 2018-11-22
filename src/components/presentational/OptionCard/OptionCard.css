@@ -1,5 +1,5 @@
 .option-card .card-title{
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .option-card .card-flex {
@@ -12,6 +12,12 @@
 .option-card .weight-img{
     width: 100%;
 }
+
+.option-card .show-results-img{
+    width: 80%;
+    max-width: 100px;
+}
+
 .option-card .card-title{
     text-transform: capitalize
 }

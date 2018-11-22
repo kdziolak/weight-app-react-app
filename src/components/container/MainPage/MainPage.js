@@ -4,15 +4,17 @@ import './MainPage.css'
 import OptionCard from '../../presentational/OptionCard/OptionCard';
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Weight from '../../../img/weight.png'
+import Table from '../../../img/test.png'
 
 export default class MainPage extends Component {
 
     state = {
       quotes: [],
-      optionContents: ['add weight measurement', 'add meal today', 'check your progress', 'add workout'],
-      imgs: [Weight],
-      colorCards: ['pink', 'purple', 'cyan', 'light-green'],
-      links: ['/measurement/add', '/', '/', '/']
+      optionContents: ['add weight measurement', 'show measurements results', 'add meal today', 'check your progress', 'add workout'],
+      imgs: [Weight, Table],
+      colorCards: ['pink', 'purple', 'cyan', 'light-green', 'orange'],
+      links: ['/measurement/add', '/measurement/results', '/', '/', '/'],
+      imgClass: ['add-weight-img', 'show-results-img']
     }
 
     componentDidMount() {
@@ -38,7 +40,7 @@ export default class MainPage extends Component {
             {
               this.state.optionContents.map((text, i) => {
               return(
-                <OptionCard key={i} content={text} link={this.state.links[i]} color={this.state.colorCards[i]} img={this.state.imgs[i]}/>
+                <OptionCard key={i} content={text} link={this.state.links[i]} color={this.state.colorCards[i]} img={this.state.imgs[i]} imgClass={this.state.imgClass[i]}/>
               );              
               })
             }

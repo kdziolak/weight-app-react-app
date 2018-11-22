@@ -17,7 +17,8 @@ const InputField = props => {
             onChange={props.changeValue}
             max={`${props.maxVal}`}
             min={`${props.minVal}`} 
-            type={props.type} id={props.id} 
+            type={props.type}
+            id={props.id} 
             className={props.classes}/>
         <label htmlFor={props.id}>{props.label}</label>
     </div>

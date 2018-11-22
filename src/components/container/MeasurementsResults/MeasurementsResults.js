@@ -13,39 +13,91 @@ import moment from 'moment'
 import M from 'materialize-css'
 
 class MeasurementsResults extends Component {
-  state = {
-    search: 'date'
-  }
 
+  
+  state = {
+    search: 'date',
+    filterDates: {
+      from: '',
+      to: ''
+    },
+    measurements: []
+  }
+    
   onSelectHandle = (e) => {
     this.setState({
-      search: e.target.value
+      search: e.target.value,
+      filterDates: {
+        from: '',
+        to: ''
+      }
     })
   }
 
   showDatepicker = (e) => {
+    let target = e.target;
+    let that = this;
     let datepickerOptions = {
         onOpen: function() {
             this.doneBtn.remove()
         },
         autoClose: true,
         defaultDate: new Date(),
+        minDate: that.state.filterDates.from && target.id==='to-date-input' ? new Date(that.state.filterDates.from) : null,
         maxDate: new Date(),
         format: 'dd mmmm yyyy', 
+        onSelect: function(date) {
+          that.setState({
+            measurements: that.props.measurements
+          })
+          if(target.id === 'from-date-input'){
+            that.setState({
+              ...that.state,
+              filterDates: {
+                ...that.state.filterDates,
+                from: moment(date).format('DD MMMM YYYY')
+              }
+            })
+          } else if(target.id === 'to-date-input'){
+            that.setState({
+              filterDates: {
+                ...that.state.filterDates,
+                to: moment(date).format('DD MMMM YYYY')
+              }
+            })
+          }
+          that.filterDate()
+        }
     }
     M.Datepicker.init(e.target, datepickerOptions)
 }
 
+  filterDate = () => {
+    let filterDate = this.state.measurements.filter(measurement => ((measurement.measurementDate >= this.state.filterDates.from && measurement.measurementDate < this.state.filterDates.to) || (measurement.measurementDate >= this.state.filterDates.from && this.state.filterDates.to === '')))
+    if(!filterDate.length) filterDate = [{
+      measurementDate:"Not found",
+      measurementType:"",
+      weightValue:""
+    }]
+    this.setState({
+      measurements: filterDate
+    })
+  }
+
   componentDidMount() {
     this.props.fetchDataFromDatabase()
     M.AutoInit();
+  }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      measurements: nextProps.measurements
+    })
   }
-  componentDidUpdate() {
-    M.AutoInit();
-  }
+  
   render(){
-    const measurements = this.props.measurements.length ? <ResultsTable measurements={this.props.measurements}/> : <div className='spinner-container'><Preloader/></div>
+    let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
+    const renderTableOrSpinner = this.props.measurements.length ? <ResultsTable measurements={measurements}/> : <div className='spinner-container'><Preloader/></div>
 
     return(
       <div className='measurements-results component-padding'>
@@ -60,14 +112,31 @@ class MeasurementsResults extends Component {
               <Select onSelectHandle={this.onSelectHandle} />
             </div>
           </div>
+         
           {
-              this.state.search === 'date' ? 
+            this.state.search === 'date' ?
               <div className="row">
-                <div className="col s6 offset-s3">
-                  <InputField type='text' showDatepicker={this.showDatepicker} classes='datepicker blue-text text-darken-3'/>
-                </div>
-              </div> : null
-            }
+                <div className="col s6">
+                <InputField type='text' 
+                  id='from-date-input' 
+                  htmlFor='from-date-input' 
+                  label='From' 
+                  showDatepicker={this.showDatepicker} 
+                  classes='datepicker blue-text text-darken-3'/>
+                  </div>
+                  <div className="col s6">
+                <InputField type='text' 
+                  id='to-date-input' 
+                  htmlFor='to-date-input' 
+                  label='To' 
+                  showDatepicker={this.showDatepicker} 
+                  classes='datepicker blue-text text-darken-3'/>
+                  </div>
+          </div>
+                : null
+          }
+           
+          
           <div className="row">
             {
               this.props.fetchError ? 
@@ -76,7 +145,9 @@ class MeasurementsResults extends Component {
               </div>
               : 
               <div className="col s12 center-align">
-                  {measurements}
+                  {
+                    renderTableOrSpinner
+                  }
               </div>
             }
            
@@ -103,7 +174,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProp = dispatch => {
   return {
-    fetchDataFromDatabase: () => dispatch(fetchDataFromDatabase())
+    fetchDataFromDatabase: () => dispatch(fetchDataFromDatabase()),
   }
 }
 
