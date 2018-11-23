@@ -21,6 +21,10 @@ class MeasurementsResults extends Component {
       from: '',
       to: ''
     },
+    filterValues: {
+      from: '',
+      to: ''
+    },
     measurements: []
   }
     
@@ -30,8 +34,28 @@ class MeasurementsResults extends Component {
       filterDates: {
         from: '',
         to: ''
+      },
+      measurements: this.props.measurements
+    })
+   
+  }
+
+
+  onChangeHandle = e => {
+    this.setState({
+      measurements: this.props.measurements,
+      filterValues: {
+        ...this.state.filterValues,
+        [e.target.dataset.key]: e.target.value
       }
     })
+    if(e.target.value !== ''){
+      this.filterDataTable(this.props.measurements, {
+        ...this.state.filterValues,
+        [e.target.dataset.key]: e.target.value
+      }, 'weightValue')
+    }
+    
   }
 
   showDatepicker = (e) => {
@@ -66,21 +90,21 @@ class MeasurementsResults extends Component {
               }
             })
           }
-          that.filterDate()
+          that.filterDataTable(that.state.measurements, that.state.filterDates, 'measurementDate')
         }
     }
     M.Datepicker.init(e.target, datepickerOptions)
 }
 
-  filterDate = () => {
-    let filterDate = this.state.measurements.filter(measurement => ((measurement.measurementDate >= this.state.filterDates.from && measurement.measurementDate < this.state.filterDates.to) || (measurement.measurementDate >= this.state.filterDates.from && this.state.filterDates.to === '')))
-    if(!filterDate.length) filterDate = [{
-      measurementDate:"Not found",
-      measurementType:"",
+  filterDataTable = (measurements, filterDatas, option) => {
+    let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
+    if(!filterData.length) filterData = [{
+      measurementDate:"",
+      measurementType:"Not found",
       weightValue:""
     }]
     this.setState({
-      measurements: filterDate
+      measurements: filterData
     })
   }
 
@@ -94,7 +118,11 @@ class MeasurementsResults extends Component {
       measurements: nextProps.measurements
     })
   }
-  
+
+  componentDidUpdate() {
+    M.AutoInit()
+  }
+
   render(){
     let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
     const renderTableOrSpinner = this.props.measurements.length ? <ResultsTable measurements={measurements}/> : <div className='spinner-container'><Preloader/></div>
@@ -109,7 +137,9 @@ class MeasurementsResults extends Component {
           </div>
           <div className="row">
             <div className="col s6 offset-s3">
-              <Select onSelectHandle={this.onSelectHandle} />
+              <Select 
+                onSelectHandle={this.onSelectHandle}
+                options={['date', 'type', 'value']} />
             </div>
           </div>
          
@@ -117,22 +147,62 @@ class MeasurementsResults extends Component {
             this.state.search === 'date' ?
               <div className="row">
                 <div className="col s6">
-                <InputField type='text' 
-                  id='from-date-input' 
-                  htmlFor='from-date-input' 
-                  label='From' 
-                  showDatepicker={this.showDatepicker} 
-                  classes='datepicker blue-text text-darken-3'/>
-                  </div>
-                  <div className="col s6">
-                <InputField type='text' 
-                  id='to-date-input' 
-                  htmlFor='to-date-input' 
-                  label='To' 
-                  showDatepicker={this.showDatepicker} 
-                  classes='datepicker blue-text text-darken-3'/>
-                  </div>
-          </div>
+                  <InputField 
+                  type='text' 
+                    id='from-date-input' 
+                    htmlFor='from-date-input' 
+                    label='From' 
+                    showDatepicker={this.showDatepicker} 
+                    classes='datepicker blue-text text-darken-3 no-autoinit'/>
+                </div>
+                <div className="col s6">
+                      <InputField type='text' 
+                        id='to-date-input' 
+                        htmlFor='to-date-input' 
+                        label='To' 
+                        showDatepicker={this.showDatepicker} 
+                        classes='datepicker blue-text text-darken-3 no-autoinit'/>
+                </div>
+              </div>
+                : null
+          }
+          {
+            this.state.search === 'value' ?
+              <div className="row">
+                <div className="col s6">
+                  <InputField 
+                    dataKey='from' 
+                    changeValue={this.onChangeHandle}
+                    type='text' 
+                    id='from-weight-input' 
+                    htmlFor='from-weight-input' 
+                    label='From' 
+                    classes='blue-text text-darken-3'/>
+                </div>
+                <div className="col s6">
+                  <InputField
+                    dataKey='to' 
+                    changeValue={this.onChangeHandle}
+                    type='text' 
+                    id='to-weight-input' 
+                    htmlFor='to-weight-input' 
+                    label='To' 
+                    classes='blue-text text-darken-3'/>
+                </div>
+              </div>
+                : null
+          }
+          {
+            this.state.search === 'type' ? (
+              <div className="row">
+                <div className="col s6 offset-s3">
+                  <Select
+                    options={[`weight`]} 
+                    onSelectHandle={e => {}}/>
+                </div>
+              </div>
+            )
+              
                 : null
           }
            
