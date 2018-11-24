@@ -3,7 +3,6 @@ import Select from '../../Select/Select'
 import InputField from '../../InputField/InputField'
 
 const CollapsibleBody = ({search, onSelectHandle, onChangeHandle, showDatepicker}) => {
-    console.log(showDatepicker)
   return (
     <div className='collapsible-body'>
         <div className="row">

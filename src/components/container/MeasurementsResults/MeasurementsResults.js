@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import './MeasurementsResults.css'
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle';
+import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux'
 import {compose} from 'redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
 import {fetchDataFromDatabase} from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
+import Pagination from '../../presentational/Pagination/Pagination'
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
 import moment from 'moment'
 import M from 'materialize-css'
@@ -24,7 +26,9 @@ class MeasurementsResults extends Component {
       from: '',
       to: ''
     },
-    measurements: []
+    measurements: [],
+    lastPerPage: 0,
+    perPage: 4
   }
     
   onSelectHandle = (e) => {
@@ -124,7 +128,7 @@ class MeasurementsResults extends Component {
 
   render(){
     let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
-    const renderTableOrSpinner = this.props.measurements.length ? <ResultsTable measurements={measurements}/> : <div className='spinner-container'><Preloader/></div>
+    const renderTableOrSpinner = this.props.measurements.length ? <ResultsTable measurements={measurements} perPage={this.state.perPage} lastPerPage={this.state.lastPerPage}/> : <div className='spinner-container'><Preloader/></div>
 
     return(
       <div className='measurements-results component-padding'>
@@ -154,10 +158,27 @@ class MeasurementsResults extends Component {
                   }
               </div>
             }
-           
+            <ReactPaginate
+              pageCount={Math.ceil(this.props.measurements.length/3)}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={2}
+              containerClassName='pagination center-align'
+              pageClassName='waves-effect'
+              activeClassName='active'
+              onPageChange={(e)=>{
+                let pageNumber = e.selected + 1;
+                let perPage = 3 * pageNumber;
+                let lastPerPage = (3 * pageNumber) - 3;
+                
+                this.setState({
+                  lastPerPage,
+                  perPage
+                })
+              }}
+            />
+            
           </div>
          </div>
-        
         </div>
       </div>
     )
