@@ -7,8 +7,7 @@ import { firestoreConnect, isEmpty } from 'react-redux-firebase'
 import {fetchDataFromDatabase} from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
-import Select from '../../presentational/Select/Select'
-import InputField from '../../presentational/InputField/InputField'
+import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
 import moment from 'moment'
 import M from 'materialize-css'
 
@@ -135,79 +134,14 @@ class MeasurementsResults extends Component {
               <HeaderTitle headerNumber={3} content='Your progress!' classes='blue-text text-darken-1'/>
             </div>
           </div>
-          <div className="row">
-            <div className="col s6 offset-s3">
-              <Select 
-                onSelectHandle={this.onSelectHandle}
-                options={['date', 'type', 'value']} />
-            </div>
-          </div>
-         
-          {
-            this.state.search === 'date' ?
-              <div className="row">
-                <div className="col s6">
-                  <InputField 
-                  type='text' 
-                    id='from-date-input' 
-                    htmlFor='from-date-input' 
-                    label='From' 
-                    showDatepicker={this.showDatepicker} 
-                    classes='datepicker blue-text text-darken-3 no-autoinit'/>
-                </div>
-                <div className="col s6">
-                      <InputField type='text' 
-                        id='to-date-input' 
-                        htmlFor='to-date-input' 
-                        label='To' 
-                        showDatepicker={this.showDatepicker} 
-                        classes='datepicker blue-text text-darken-3 no-autoinit'/>
-                </div>
-              </div>
-                : null
-          }
-          {
-            this.state.search === 'value' ?
-              <div className="row">
-                <div className="col s6">
-                  <InputField 
-                    dataKey='from' 
-                    changeValue={this.onChangeHandle}
-                    type='text' 
-                    id='from-weight-input' 
-                    htmlFor='from-weight-input' 
-                    label='From' 
-                    classes='blue-text text-darken-3'/>
-                </div>
-                <div className="col s6">
-                  <InputField
-                    dataKey='to' 
-                    changeValue={this.onChangeHandle}
-                    type='text' 
-                    id='to-weight-input' 
-                    htmlFor='to-weight-input' 
-                    label='To' 
-                    classes='blue-text text-darken-3'/>
-                </div>
-              </div>
-                : null
-          }
-          {
-            this.state.search === 'type' ? (
-              <div className="row">
-                <div className="col s6 offset-s3">
-                  <Select
-                    options={[`weight`]} 
-                    onSelectHandle={e => {}}/>
-                </div>
-              </div>
-            )
-              
-                : null
-          }
-           
-          
-          <div className="row">
+          <FilterCollapsible
+            search={this.state.search} 
+            onSelectHandle={this.onSelectHandle} 
+            onChangeHandle={this.onChangeHandle} 
+            showDatepicker={this.showDatepicker}
+          />
+         <div className='card-panel'>
+         <div className="row">
             {
               this.props.fetchError ? 
               <div className="col s12 center-align">
@@ -222,6 +156,8 @@ class MeasurementsResults extends Component {
             }
            
           </div>
+         </div>
+        
         </div>
       </div>
     )

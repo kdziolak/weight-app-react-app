@@ -17,7 +17,7 @@ class App extends Component {
 
     return (
       <HashRouter basename='/'>
-        <div>
+        <div style={isEmpty ? {paddingTop: '0'} : {paddingTop: '8vh'}}>
           <Route exact path="/login" render={() => (isEmpty ? <LoginPage/> : <Redirect to='/'/>)}/>
           <Route exact path='/signup' render={() => (isEmpty ? <SignUp/> : <Redirect to='/'/>)} />
           <Route path="/" render={() => (

@@ -4,7 +4,7 @@ import './ProfileCollection.css'
 import ProfileCollectionItem from '../ProfileCollectionItem/ProfileCollectionItem';
 
 const ProfileCollection = (props) => {
-    const {handleClick, handleChange, handleSubmit, } = props;
+    const {handleClick, handleChange, handleSubmit} = props;
   return (
     <ul className='profile-collection collection'>
         <ProfileCollectionItem

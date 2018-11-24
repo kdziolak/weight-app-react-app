@@ -7,6 +7,7 @@ import moment from 'moment'
 import { Redirect } from 'react-router-dom'
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Paragraph from '../../presentational/Paragraph/Paragraph'
+import Preloader from '../../presentational/Preloader/Preloader'
 import InputField from '../../presentational/InputField/InputField'
 import Button from '../../presentational/Button/Button'
 import {sendDataToDatabase} from '../../../store/actions/measurementActions'
@@ -52,6 +53,7 @@ class AddWeightMeasurement extends Component {
         ],
         previousWeightValue: 50,
         lastWeightMesurementDate: '21.09.2018',
+        spinner: false
     }
 
     showDatepicker = (e) => {
@@ -101,7 +103,8 @@ class AddWeightMeasurement extends Component {
                 inputValues: {
                     weight: '',
                     date: ''
-                }
+                },
+                spinner: true
             })
             M.toast({html: `New weight has been added.`, classes: 'green'})
         } else {
@@ -131,6 +134,17 @@ class AddWeightMeasurement extends Component {
 
     let {measurementDate, weightValue} = lastMeasurement;
 
+    if(this.state.spinner && !this.props.redirect) 
+        return(
+        <div className='add-weight-measurement container'>
+            <div className="row">
+                <div className="col s12 center-align" style={{height: '100vh'}}>
+                    <Preloader/>
+                </div>
+            </div>
+        </div>
+        )
+ 
     return (
       <div className='add-weight-measurement container'>
         <div className="row">

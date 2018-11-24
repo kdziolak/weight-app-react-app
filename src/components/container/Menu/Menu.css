@@ -1,13 +1,22 @@
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    z-index: 2;
+}
 .menu .nav{
     position: fixed;
     top: 0;
     bottom: 0;
+
     left: 250px;
     width: 250px;
 }
 
 .menu .nav-wrapper{
     padding-left: 230px;
+    min-height: 8vh;
 }
 
 .menu .nav .menu-item a{
