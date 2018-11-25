@@ -28,7 +28,7 @@ class MeasurementsResults extends Component {
     },
     measurements: [],
     lastPerPage: 0,
-    perPage: 4
+    perPage: 8
   }
     
   onSelectHandle = (e) => {
@@ -145,7 +145,7 @@ class MeasurementsResults extends Component {
             showDatepicker={this.showDatepicker}
           />
          <div className='card-panel'>
-         <div className="row">
+         <div className="row table-height">
             {
               this.props.fetchError ? 
               <div className="col s12 center-align">
@@ -156,26 +156,27 @@ class MeasurementsResults extends Component {
                   {
                     renderTableOrSpinner
                   }
+                   <ReactPaginate
+                    pageCount={Math.ceil(this.props.measurements.length/8)}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    containerClassName='pagination center-align'
+                    pageClassName='waves-effect'
+                    activeClassName='active'
+                    onPageChange={(e)=>{
+                      let pageNumber = e.selected + 1;
+                      let perPage = 8 * pageNumber;
+                      let lastPerPage = (8 * pageNumber) - 8;
+                      
+                      this.setState({
+                        lastPerPage,
+                        perPage
+                      })
+                    }}
+                  />
               </div>
             }
-            <ReactPaginate
-              pageCount={Math.ceil(this.props.measurements.length/3)}
-              pageRangeDisplayed={3}
-              marginPagesDisplayed={2}
-              containerClassName='pagination center-align'
-              pageClassName='waves-effect'
-              activeClassName='active'
-              onPageChange={(e)=>{
-                let pageNumber = e.selected + 1;
-                let perPage = 3 * pageNumber;
-                let lastPerPage = (3 * pageNumber) - 3;
-                
-                this.setState({
-                  lastPerPage,
-                  perPage
-                })
-              }}
-            />
+           
             
           </div>
          </div>

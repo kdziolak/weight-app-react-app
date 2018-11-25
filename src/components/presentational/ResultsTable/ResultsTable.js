@@ -12,7 +12,7 @@ const ResultsTable = (props) => {
         );
     })
   return (
-    <table id='myTable' className='highlight'>
+    <table className='highlight'>
         <thead>
             <tr>
                 <th className='center-align'>Measurement date:</th>

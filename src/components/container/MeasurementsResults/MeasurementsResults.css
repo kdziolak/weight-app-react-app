@@ -8,6 +8,18 @@
     opacity: 0.01;
 }
   
+
+.table-height{
+    position: relative;
+    height: 60vh;
+}
+
+.pagination {
+    position: absolute;
+    left:50%;
+    bottom: 0;
+    transform: translate(-50%);
+}
 .measurements-results .example-appear.example-appear-active {
     opacity: 1;
     transition: opacity .5s ease-in;
