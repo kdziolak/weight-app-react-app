@@ -20,7 +20,7 @@ class Menu extends Component {
   render() {
     const {userEmail} = this.props;
     return (
-      <div className='menu'>
+      <div className='menu navbar-fixed'>
         <nav className='nav-wrapper blue'>
             <div className="container ">
                 <Link to="/" className="brand-logo">Weight App</Link>

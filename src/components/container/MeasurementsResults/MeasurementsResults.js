@@ -8,7 +8,6 @@ import { firestoreConnect, isEmpty } from 'react-redux-firebase'
 import {fetchDataFromDatabase} from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
-import Pagination from '../../presentational/Pagination/Pagination'
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
 import moment from 'moment'
 import M from 'materialize-css'
@@ -59,6 +58,13 @@ class MeasurementsResults extends Component {
       }, 'weightValue')
     }
     
+  }
+
+  handleClick = e => {
+    let arr = this.state.measurements.filter(el => el.measurementDate !== this.state.measurements[e.target.parentNode.dataset.key].measurementDate)
+    this.setState({
+      measurements: arr
+    })
   }
 
   showDatepicker = (e) => {
@@ -116,10 +122,15 @@ class MeasurementsResults extends Component {
     M.AutoInit();
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      measurements: nextProps.measurements
-    })
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if(nextProps.measurements.length){
+      return ({
+        measurements: nextProps.measurements
+      })
+    }
+    return ({
+      measurements: []
+    });
   }
 
   componentDidUpdate() {
@@ -128,8 +139,14 @@ class MeasurementsResults extends Component {
 
   render(){
     let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
-    const renderTableOrSpinner = this.props.measurements.length ? <ResultsTable measurements={measurements} perPage={this.state.perPage} lastPerPage={this.state.lastPerPage}/> : <div className='spinner-container'><Preloader/></div>
-
+    const renderTableOrSpinner = this.props.measurements.length ? 
+          <div className='table-height'>
+            <ResultsTable 
+              measurements={measurements} 
+              perPage={this.state.perPage} 
+              lastPerPage={this.state.lastPerPage}
+              handleClick={this.handleClick}
+            /></div> : <div className='spinner-container'><Preloader/></div>
     return(
       <div className='measurements-results component-padding'>
         <div className="container">
@@ -145,22 +162,23 @@ class MeasurementsResults extends Component {
             showDatepicker={this.showDatepicker}
           />
          <div className='card-panel'>
-         <div className="row table-height">
+         <div className="row">
             {
               this.props.fetchError ? 
               <div className="col s12 center-align">
                   <p className='flow-text red white-text z-depth-2'>Sorry. You don't have any activities.</p>
               </div>
               : 
-              <div className="col s12 center-align">
+              <div className="col s12 center-align table-flex">
                   {
                     renderTableOrSpinner
                   }
+
                    <ReactPaginate
                     pageCount={Math.ceil(this.props.measurements.length/8)}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={2}
-                    containerClassName='pagination center-align'
+                    containerClassName='pagination center-align hide-on-med-and-down'
                     pageClassName='waves-effect'
                     activeClassName='active'
                     onPageChange={(e)=>{

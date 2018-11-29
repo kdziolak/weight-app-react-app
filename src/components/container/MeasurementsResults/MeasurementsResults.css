@@ -7,20 +7,33 @@
 .measurements-results .example-appear {
     opacity: 0.01;
 }
-  
 
-.table-height{
-    position: relative;
-    height: 60vh;
-}
 
-.pagination {
-    position: absolute;
-    left:50%;
-    bottom: 0;
-    transform: translate(-50%);
-}
 .measurements-results .example-appear.example-appear-active {
     opacity: 1;
     transition: opacity .5s ease-in;
-  }
+}
+
+@media (min-width: 992px) {
+    .table-flex{
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .table-height{
+        flex-basis: 90%;
+    }
+    .pagination {
+        padding-top: 5%;
+        height: 10%;
+    }
+}
+
+@media (max-width: 992px) {
+    thead{
+        font-size: 0.8rem;
+        max-width: 50%;
+    }
+}

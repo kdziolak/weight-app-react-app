@@ -1,23 +1,27 @@
 import React from 'react'
+import Button from '../Button/Button'
 
 const ResultsTable = (props) => {
     let tableContent = props.measurements.map((el, i) => {
         if(i < props.perPage && i >= props.lastPerPage)
         return(
-            <tr key={i}>
-                <td className='center-align'>{el.measurementDate}</td>
-                <td className='center-align'>{el.measurementType}</td>
-                <td className='center-align'>{el.weightValue}</td>
+        
+            <tr key={el.id}>
+                <td>{el.measurementDate}</td>
+                <td>{el.measurementType}</td>
+                <td>{el.weightValue}</td>
+                <td><Button btnNumber={el.id} clickHandle={props.handleClick} classes='btn btn-floating red waves-effect waves-light ' content={<i className="material-icons">delete</i>} /></td>
             </tr>
         );
     })
   return (
-    <table className='highlight'>
+    <table className='centered highlight responsive-table'>
         <thead>
             <tr>
-                <th className='center-align'>Measurement date:</th>
-                <th className='center-align'>Kind of measurement:</th>
-                <th className='center-align'>Measurement value:</th>
+                <th >Measurement date:</th>
+                <th>Kind of measurement:</th>
+                <th>Measurement value:</th>
+                <th>Options:</th>
             </tr>
         </thead>
         <tbody>

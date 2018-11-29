@@ -6,7 +6,7 @@ const Select = (props) => {
         <select onChange={(e) => props.onSelectHandle(e)}>
         {
           props.options.map(option => {
-            return <option value={option}>{option}</option>
+            return <option key={option} value={option}>{option}</option>
           })
         }
         </select>
