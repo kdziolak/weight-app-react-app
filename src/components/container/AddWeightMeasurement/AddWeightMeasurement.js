@@ -10,7 +10,7 @@ import Paragraph from '../../presentational/Paragraph/Paragraph'
 import Preloader from '../../presentational/Preloader/Preloader'
 import InputField from '../../presentational/InputField/InputField'
 import Button from '../../presentational/Button/Button'
-import {sendDataToDatabase} from '../../../store/actions/measurementActions'
+import { sendDataToDatabase } from '../../../store/actions/measurementActions'
 import M from 'materialize-css'
 
 
@@ -58,7 +58,7 @@ class AddWeightMeasurement extends Component {
 
     showDatepicker = (e) => {
         let datepickerOptions = {
-            onOpen: function() {
+            onOpen: function () {
                 this.doneBtn.remove()
             },
             autoClose: true,
@@ -68,20 +68,20 @@ class AddWeightMeasurement extends Component {
             i18n: {
                 done: null
             },
-            disableDayFn: (day) =>{
+            disableDayFn: (day) => {
                 let dates = []
-                if(isEmpty(this.props.measurements)) return false;
+                if (isEmpty(this.props.measurements)) return false;
                 this.props.measurements.forEach((measurement) => {
                     let date = new Date(measurement.measurementDate).toDateString()
                     dates = [...dates, date]
                 })
-                if(dates.indexOf(day.toDateString()) >=0 ){
+                if (dates.indexOf(day.toDateString()) >= 0) {
                     return true;
                 }
                 return false;
             },
             onSelect: (date) => {
-                this.setState({ 
+                this.setState({
                     inputValues: {
                         ...this.state.inputValues,
                         date: moment(date).format('DD MMMM YYYY')
@@ -92,12 +92,12 @@ class AddWeightMeasurement extends Component {
         M.Datepicker.init(e.target, datepickerOptions)
     }
 
-    
+
 
     onSubmitHandle = e => {
-        let {weight, date} = this.state.inputValues
+        let { weight, date } = this.state.inputValues
         e.preventDefault()
-        if(weight && date) {
+        if (weight && date) {
             this.props.sendDataToDatabase(this.state.inputValues)
             this.setState({
                 inputValues: {
@@ -106,18 +106,18 @@ class AddWeightMeasurement extends Component {
                 },
                 spinner: true
             })
-            M.toast({html: `New weight has been added.`, classes: 'green'})
+            M.toast({ html: `New weight has been added.`, classes: 'green' })
         } else {
-            M.toast({html: `Incorrect data. Fill inputs field.`, classes: 'red'})
+            M.toast({ html: `Incorrect data. Fill inputs field.`, classes: 'red' })
         }
     }
 
     handleOnChange = (e) => {
-        if(e.target.value === '0'){
-            M.toast({html: `First number cannot be zero.`, classes: 'orange'})
+        if (e.target.value === '0') {
+            M.toast({ html: `First number cannot be zero.`, classes: 'orange' })
             e.target.value = '';
         }
-        if(e.target.id === 'new-weight-input'){
+        if (e.target.id === 'new-weight-input') {
             this.setState({
                 inputValues: {
                     ...this.state.inputValues,
@@ -128,63 +128,63 @@ class AddWeightMeasurement extends Component {
         }
     }
 
-  render() {
-    let { inputsArray, inputValues } = this.state;
-    let lastMeasurement = this.props.measurements.length ? this.props.measurements[0] : {}
+    render() {
+        let { inputsArray, inputValues } = this.state;
+        let lastMeasurement = this.props.measurements.length ? this.props.measurements[0] : {}
 
-    let {measurementDate, weightValue} = lastMeasurement;
+        let { measurementDate, weightValue } = lastMeasurement;
 
-    if(this.state.spinner && !this.props.redirect) 
-        return(
-        <div className='add-weight-measurement container'>
-            <div className="row">
-                <div className="col s12 center-align" style={{height: '100vh'}}>
-                    <Preloader/>
+        if (this.state.spinner && !this.props.redirect)
+            return (
+                <div className='add-weight-measurement container'>
+                    <div className="row">
+                        <div className="col s12 center-align" style={{ height: '100vh' }}>
+                            <Preloader />
+                        </div>
+                    </div>
                 </div>
+            )
+
+        return (
+            <div className='add-weight-measurement container'>
+                <div className="row">
+                    <div className="col s12 center-align">
+                        <HeaderTitle headerNumber={3} content='Add new weight' classes='blue-text text-darken-1' />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col s12 center-align">
+                        <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`} />
+                    </div>
+                </div>
+                <div className="row center-align">
+                    <div className="col s12">
+                        <form onSubmit={this.onSubmitHandle}>
+                            {
+                                inputsArray.map((input, i) => {
+                                    return (<InputField minVal={input.min ? input.min : null}
+                                        maxVal={input.max ? input.max : null}
+                                        value={input.id === 'date-input' ? inputValues.date : inputValues.weight}
+                                        showDatepicker={input.id === 'date-input' ? this.showDatepicker : null}
+                                        changeValue={this.handleOnChange} key={i} type={input.type} id={input.id}
+                                        classes={input.classes}
+                                        label={input.label} />
+                                    )
+                                })
+                            }
+                            <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement' />
+                        </form>
+                    </div>
+                </div>
+                {this.props.redirect ? <Redirect to="/measurement/results" /> : null}
             </div>
-        </div>
         )
- 
-    return (
-      <div className='add-weight-measurement container'>
-        <div className="row">
-            <div className="col s12 center-align">
-                <HeaderTitle headerNumber={3} content='Add new weight' classes='blue-text text-darken-1'/>
-            </div>
-        </div>
-        <div className="row">
-            <div className="col s12 center-align">
-                <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`}/>
-            </div>
-        </div>
-        <div className="row center-align">
-            <div className="col s12">
-            <form onSubmit={this.onSubmitHandle}>
-                    {
-                        inputsArray.map((input, i) => {
-                            return (<InputField minVal={input.min ? input.min : null}
-                            maxVal={input.max ? input.max : null}  
-                            value={input.id === 'date-input' ? inputValues.date : inputValues.weight} 
-                            showDatepicker={input.id === 'date-input' ? this.showDatepicker : null} 
-                            changeValue={this.handleOnChange} key={i} type={input.type} id={input.id} 
-                            classes={input.classes} 
-                            label={input.label}/>
-                        )
-                        })
-                    }
-                    <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement'/>
-                </form>
-            </div>
-        </div>
-        {this.props.redirect ? <Redirect to="/measurement/results"/> : null}
-      </div>
-    )
-  }
+    }
 }
 
 const mapStateToProps = state => {
-    
-    return{
+
+    return {
         redirect: state.measurement.redirect,
         userAuthID: state.firebase.auth.uid,
         usersID: state.firestore.ordered,
@@ -201,21 +201,21 @@ const mapDispatchToProps = dispatch => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect((props) => {
-        if(isEmpty(props.usersID)){
+        if (isEmpty(props.usersID)) {
             return [
-                { collection: 'users'}
+                { collection: 'users' }
             ]
         }
         // props.usersID.users.forEach(user => console.log(user.userID))
         let [user] = props.usersID.users.filter(user => user.userID === props.userAuthID)
         return [
-            { 
+            {
                 collection: 'users',
                 doc: user.id,
                 subcollections: [
                     {
                         collection: 'measurements',
-                        orderBy: ['measurementDate','desc']
+                        orderBy: ['measurementDate', 'desc']
                     }
                 ],
                 storeAs: 'measurements'

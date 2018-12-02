@@ -3,9 +3,9 @@ import './MeasurementsResults.css'
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle';
 import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux'
-import {compose} from 'redux'
+import { compose } from 'redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
-import {fetchDataFromDatabase} from '../../../store/actions/measurementActions'
+import { deleteMeasurementFromDB } from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
@@ -14,7 +14,7 @@ import M from 'materialize-css'
 
 class MeasurementsResults extends Component {
 
-  
+
   state = {
     search: 'date',
     filterDates: {
@@ -29,7 +29,7 @@ class MeasurementsResults extends Component {
     lastPerPage: 0,
     perPage: 8
   }
-    
+
   onSelectHandle = (e) => {
     this.setState({
       search: e.target.value,
@@ -39,7 +39,7 @@ class MeasurementsResults extends Component {
       },
       measurements: this.props.measurements
     })
-   
+
   }
 
 
@@ -51,66 +51,61 @@ class MeasurementsResults extends Component {
         [e.target.dataset.key]: e.target.value
       }
     })
-    if(e.target.value !== ''){
+    if (e.target.value !== '') {
       this.filterDataTable(this.props.measurements, {
         ...this.state.filterValues,
         [e.target.dataset.key]: e.target.value
       }, 'weightValue')
     }
-    
+
   }
 
   handleClick = e => {
-    let arr = this.state.measurements.filter(el => el.measurementDate !== this.state.measurements[e.target.parentNode.dataset.key].measurementDate)
-    this.setState({
-      measurements: arr
-    })
+    let measurement = this.props.measurements.find(el => el.id === e.target.parentNode.dataset.key)
+    this.props.deleteMeasurementFromDB(measurement)
   }
 
   showDatepicker = (e) => {
     let target = e.target;
     let that = this;
     let datepickerOptions = {
-        onOpen: function() {
-            this.doneBtn.remove()
-        },
-        autoClose: true,
-        defaultDate: new Date(),
-        minDate: that.state.filterDates.from && target.id==='to-date-input' ? new Date(that.state.filterDates.from) : null,
-        maxDate: new Date(),
-        format: 'dd mmmm yyyy', 
-        onSelect: function(date) {
+      onOpen: function () {
+        this.doneBtn.remove()
+      },
+      autoClose: true,
+      defaultDate: new Date(),
+      minDate: that.state.filterDates.from && target.id === 'to-date-input' ? new Date(that.state.filterDates.from) : null,
+      maxDate: new Date(),
+      format: 'dd mmmm yyyy',
+      onSelect: function (date) {
+        if (target.id === 'from-date-input') {
           that.setState({
-            measurements: that.props.measurements
+            ...that.state,
+            filterDates: {
+              ...that.state.filterDates,
+              from: moment(date).format('DD MMMM YYYY')
+            }
           })
-          if(target.id === 'from-date-input'){
-            that.setState({
-              ...that.state,
-              filterDates: {
-                ...that.state.filterDates,
-                from: moment(date).format('DD MMMM YYYY')
-              }
-            })
-          } else if(target.id === 'to-date-input'){
-            that.setState({
-              filterDates: {
-                ...that.state.filterDates,
-                to: moment(date).format('DD MMMM YYYY')
-              }
-            })
-          }
-          that.filterDataTable(that.state.measurements, that.state.filterDates, 'measurementDate')
+        } else if (target.id === 'to-date-input') {
+          that.setState({
+            filterDates: {
+              ...that.state.filterDates,
+              to: moment(date).format('DD MMMM YYYY')
+            }
+          })
         }
+        that.filterDataTable(that.props.measurements, that.state.filterDates, 'measurementDate')
+      }
     }
     M.Datepicker.init(e.target, datepickerOptions)
-}
+  }
 
   filterDataTable = (measurements, filterDatas, option) => {
     let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
-    if(!filterData.length) filterData = [{
-      measurementDate:"",
-      measurementType:"Not found",
-      weightValue:""
+    if (!filterData.length) filterData = [{
+      measurementDate: "",
+      measurementType: "Not found",
+      weightValue: ""
     }]
     this.setState({
       measurements: filterData
@@ -118,133 +113,137 @@ class MeasurementsResults extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchDataFromDatabase()
     M.AutoInit();
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if(nextProps.measurements.length){
-      return ({
-        measurements: nextProps.measurements
-      })
-    }
-    return ({
-      measurements: []
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.measurements.length) {
+  //     this.setState({
+  //       measurements: nextProps.measurements
+  //     })
+  //   }
+  // }
+
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.measurements.length !== prevProps.measurements.length) {
+  //     this.setState({
+  //       measurements: this.props.measurements
+  //     })
+  //   }
+  // }
 
   componentDidUpdate() {
     M.AutoInit()
   }
 
-  render(){
+  render() {
     let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
-    const renderTableOrSpinner = this.props.measurements.length ? 
-          <div className='table-height'>
-            <ResultsTable 
-              measurements={measurements} 
-              perPage={this.state.perPage} 
-              lastPerPage={this.state.lastPerPage}
-              handleClick={this.handleClick}
-            /></div> : <div className='spinner-container'><Preloader/></div>
-    return(
+    const renderTableOrSpinner = this.props.measurements.length ?
+      <div className='table-height'>
+        <ResultsTable
+          measurements={measurements}
+          perPage={this.state.perPage}
+          lastPerPage={this.state.lastPerPage}
+          handleClick={this.handleClick}
+        /></div> : <div className='spinner-container'><Preloader /></div>
+    return (
       <div className='measurements-results component-padding'>
         <div className="container">
           <div className="row">
             <div className="col s12">
-              <HeaderTitle headerNumber={3} content='Your progress!' classes='blue-text text-darken-1'/>
+              <HeaderTitle headerNumber={3} content='Your progress!' classes='blue-text text-darken-1' />
             </div>
           </div>
           <FilterCollapsible
-            search={this.state.search} 
-            onSelectHandle={this.onSelectHandle} 
-            onChangeHandle={this.onChangeHandle} 
+            search={this.state.search}
+            onSelectHandle={this.onSelectHandle}
+            onChangeHandle={this.onChangeHandle}
             showDatepicker={this.showDatepicker}
           />
-         <div className='card-panel'>
-         <div className="row">
-            {
-              this.props.fetchError ? 
-              <div className="col s12 center-align">
-                  <p className='flow-text red white-text z-depth-2'>Sorry. You don't have any activities.</p>
-              </div>
-              : 
-              <div className="col s12 center-align table-flex">
-                  {
-                    renderTableOrSpinner
-                  }
+          <div className='card-panel'>
+            <div className="row">
+              {
+                this.props.fetchError ?
+                  <div className="col s12 center-align">
+                    <p className='flow-text red white-text z-depth-2'>Sorry. You don't have any activities.</p>
+                  </div>
+                  :
+                  <div className="col s12 center-align table-flex">
+                    {
+                      renderTableOrSpinner
+                    }
 
-                   <ReactPaginate
-                    pageCount={Math.ceil(this.props.measurements.length/8)}
-                    pageRangeDisplayed={3}
-                    marginPagesDisplayed={2}
-                    containerClassName='pagination center-align hide-on-med-and-down'
-                    pageClassName='waves-effect'
-                    activeClassName='active'
-                    onPageChange={(e)=>{
-                      let pageNumber = e.selected + 1;
-                      let perPage = 8 * pageNumber;
-                      let lastPerPage = (8 * pageNumber) - 8;
-                      
-                      this.setState({
-                        lastPerPage,
-                        perPage
-                      })
-                    }}
-                  />
-              </div>
-            }
-           
-            
+                    <ReactPaginate
+                      pageCount={Math.ceil(this.props.measurements.length / 8)}
+                      pageRangeDisplayed={3}
+                      marginPagesDisplayed={2}
+                      containerClassName='pagination center-align hide-on-med-and-down'
+                      pageClassName='waves-effect'
+                      activeClassName='active'
+                      onPageChange={(e) => {
+                        let pageNumber = e.selected + 1;
+                        let perPage = 8 * pageNumber;
+                        let lastPerPage = (8 * pageNumber) - 8;
+
+                        this.setState({
+                          lastPerPage,
+                          perPage
+                        })
+                      }}
+                    />
+                  </div>
+              }
+
+
+            </div>
           </div>
-         </div>
         </div>
       </div>
     )
-     
+
   }
 }
 
 const mapStateToProps = state => {
   let measurements = {}
-  if(!isEmpty(state.firestore.ordered.measurements)){
-      measurements = state.firestore.ordered.measurements
+  if (!isEmpty(state.firestore.ordered.measurements)) {
+    measurements = state.firestore.ordered.measurements
   }
-  return{
-      fetchError: state.measurement.error,
-      userAuthID: state.firebase.auth.uid,
-      usersID: state.firestore.ordered,
-      measurements
+  return {
+    fetchError: state.measurement.error,
+    userAuthID: state.firebase.auth.uid,
+    usersID: state.firestore.ordered,
+    measurements
   }
 }
 
 const mapDispatchToProp = dispatch => {
   return {
-    fetchDataFromDatabase: () => dispatch(fetchDataFromDatabase()),
+    deleteMeasurementFromDB: (elemToRemove) => dispatch(deleteMeasurementFromDB(elemToRemove)),
   }
 }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProp),
   firestoreConnect((props) => {
-      if(isEmpty(props.usersID)){
-          return [
-              { collection: 'users'}
-          ]
-      }
-      let [user] = props.usersID.users.filter(user => user.userID === props.userAuthID)
+    if (isEmpty(props.usersID)) {
       return [
-          { 
-              collection: 'users',
-              doc: user.id,
-              subcollections: [
-                  {
-                      collection: 'measurements',
-                      orderBy: ['measurementDate', 'desc']
-                  }
-              ],
-              storeAs: 'measurements'
-          }
+        { collection: 'users' }
       ]
+    }
+    let [user] = props.usersID.users.filter(user => user.userID === props.userAuthID)
+    return [
+      {
+        collection: 'users',
+        doc: user.id,
+        subcollections: [
+          {
+            collection: 'measurements',
+            orderBy: ['measurementDate', 'desc']
+          }
+        ],
+        storeAs: 'measurements'
+      }
+    ]
   })
 )(MeasurementsResults)
