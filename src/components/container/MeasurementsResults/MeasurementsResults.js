@@ -116,22 +116,6 @@ class MeasurementsResults extends Component {
     M.AutoInit();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.measurements.length) {
-  //     this.setState({
-  //       measurements: nextProps.measurements
-  //     })
-  //   }
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.measurements.length !== prevProps.measurements.length) {
-  //     this.setState({
-  //       measurements: this.props.measurements
-  //     })
-  //   }
-  // }
-
   componentDidUpdate() {
     M.AutoInit()
   }

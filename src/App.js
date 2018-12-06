@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Redirect, Switch} from 'react-router-dom'
+import { HashRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import LoginPage from './components/container/LoginPage/LoginPage'
 import Menu from './components/container/Menu/Menu'
 import MainPage from './components/container/MainPage/MainPage'
@@ -13,22 +12,22 @@ import MeasurementsResults from './components/container/MeasurementsResults/Meas
 class App extends Component {
 
   render() {
-    const {isEmpty} = this.props;
+    const { isEmpty } = this.props;
 
     return (
       <HashRouter basename='/'>
-        <div style={isEmpty ? {paddingTop: '0'} : {paddingTop: '8vh'}}>
-          <Route exact path="/login" render={() => (isEmpty ? <LoginPage/> : <Redirect to='/'/>)}/>
-          <Route exact path='/signup' render={() => (isEmpty ? <SignUp/> : <Redirect to='/'/>)} />
+        <div style={isEmpty ? { paddingTop: '0' } : { paddingTop: '8vh' }}>
+          <Route exact path="/login" render={() => (isEmpty ? <LoginPage /> : <Redirect to='/' />)} />
+          <Route exact path='/signup' render={() => (isEmpty ? <SignUp /> : <Redirect to='/' />)} />
           <Route path="/" render={() => (
-              !isEmpty ?
-              <Menu /> : <Redirect to='/login'/>)} />
-          <Route exact path='/' render={() => (!isEmpty ? <MainPage/> : <Redirect to='/login'/>)} />
+            !isEmpty ?
+              <Menu /> : <Redirect to='/login' />)} />
+          <Route exact path='/' render={() => (!isEmpty ? <MainPage /> : <Redirect to='/login' />)} />
           <Switch>
-            <Route exact path='/measurement/add' render={() => (!isEmpty ? <AddWeightMeasurement/> : <Redirect to='/login'/>)}/>
-            <Route exact path='/measurement/results' render={() => (!isEmpty ? <MeasurementsResults/> : <Redirect to='/login'/>)}/>
+            <Route exact path='/measurement/add' render={() => (!isEmpty ? <AddWeightMeasurement /> : <Redirect to='/login' />)} />
+            <Route exact path='/measurement/results' render={() => (!isEmpty ? <MeasurementsResults /> : <Redirect to='/login' />)} />
           </Switch>
-          <Route exact path='/profile' render={() => (!isEmpty ? <Profile/> : <Redirect to='/login'/>)} />
+          <Route exact path='/profile' render={() => (!isEmpty ? <Profile /> : <Redirect to='/login' />)} />
         </div>
       </HashRouter>
     );
@@ -36,8 +35,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return{
-      isEmpty: state.firebase.auth.isEmpty,
+  return {
+    isEmpty: state.firebase.auth.isEmpty,
   }
 }
 

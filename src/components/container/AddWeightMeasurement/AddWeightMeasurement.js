@@ -146,37 +146,41 @@ class AddWeightMeasurement extends Component {
             )
 
         return (
-            <div className='add-weight-measurement container'>
-                <div className="row">
-                    <div className="col s12 center-align">
-                        <HeaderTitle headerNumber={3} content='Add new weight' classes='blue-text text-darken-1' />
+            <div className='add-weight-measurement container '>
+                <div className='card-panel'>
+                    <div className="row">
+                        <div className="col s12 center-align">
+                            <HeaderTitle headerNumber={3} content='Add new weight' classes='blue-text text-darken-1' />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col s12 center-align">
-                        <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`} />
+                    <div className="row">
+                        <div className="col s12 center-align">
+                            <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`} />
+                        </div>
                     </div>
-                </div>
-                <div className="row center-align">
-                    <div className="col s12">
-                        <form onSubmit={this.onSubmitHandle}>
-                            {
-                                inputsArray.map((input, i) => {
-                                    return (<InputField minVal={input.min ? input.min : null}
-                                        maxVal={input.max ? input.max : null}
-                                        value={input.id === 'date-input' ? inputValues.date : inputValues.weight}
-                                        showDatepicker={input.id === 'date-input' ? this.showDatepicker : null}
-                                        changeValue={this.handleOnChange} key={i} type={input.type} id={input.id}
-                                        classes={input.classes}
-                                        label={input.label} />
-                                    )
-                                })
-                            }
-                            <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement' />
-                        </form>
+                    <div className="row center-align">
+                        <div className="col s12">
+                            <form onSubmit={this.onSubmitHandle}>
+                                {
+                                    inputsArray.map((input, i) => {
+                                        return (<InputField minVal={input.min ? input.min : null}
+                                            maxVal={input.max ? input.max : null}
+                                            value={input.id === 'date-input' ? inputValues.date : inputValues.weight}
+                                            showDatepicker={input.id === 'date-input' ? this.showDatepicker : null}
+                                            changeValue={this.handleOnChange} key={i} type={input.type} id={input.id}
+                                            classes={input.classes}
+                                            label={input.label} />
+                                        )
+                                    })
+                                }
+
+                                <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement' />
+
+                            </form>
+                        </div>
                     </div>
+                    {this.props.redirect ? <Redirect to="/measurement/results" /> : null}
                 </div>
-                {this.props.redirect ? <Redirect to="/measurement/results" /> : null}
             </div>
         )
     }
