@@ -34,21 +34,6 @@ class AddWeightMeasurement extends Component {
                 id: 'date-input',
                 label: 'Date',
                 classes: 'datepicker blue-text text-darken-3',
-                // showDatepicker: (e) => {
-                //     let datapickerOptions = {
-                //         format: 'dd.mm.yyyy',
-                //         onSelect: (date) => {
-                //             this.setState({ 
-                //                 inputValues: {
-                //                     ...this.state.inputValues,
-                //                     date: moment(date).format('DD.M.YYYY')
-                //                 },
-                //                 message: ''
-                //             })
-                //         }
-                //     }
-                //     M.Datepicker.init(e.target, datapickerOptions)
-                // }
             }
         ],
         previousWeightValue: 50,
@@ -131,14 +116,13 @@ class AddWeightMeasurement extends Component {
     render() {
         let { inputsArray, inputValues } = this.state;
         let lastMeasurement = this.props.measurements.length ? this.props.measurements[0] : {}
-
         let { measurementDate, weightValue } = lastMeasurement;
 
         if (this.state.spinner && !this.props.redirect)
             return (
-                <div className='add-weight-measurement container'>
+                <div className='add-weight-measurement container add-weight-measurement-preloader'>
                     <div className="row">
-                        <div className="col s12 center-align" style={{ height: '100vh' }}>
+                        <div className="col s12 center-align">
                             <Preloader />
                         </div>
                     </div>
@@ -146,40 +130,42 @@ class AddWeightMeasurement extends Component {
             )
 
         return (
-            <div className='add-weight-measurement container '>
-                <div className='card-panel'>
+            <div className='add-weight-measurement'>
+                <div className='container'>
                     <div className="row">
-                        <div className="col s12 center-align">
+                        <div className="col s12">
                             <HeaderTitle headerNumber={3} content='Add new weight' classes='blue-text text-darken-1' />
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col s12 center-align">
-                            <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`} />
+                    <div className='card-panel'>
+                        <div className="row">
+                            <div className="col s12 center-align">
+                                <Paragraph classes='flow-text' content={`Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`} />
+                            </div>
                         </div>
-                    </div>
-                    <div className="row center-align">
-                        <div className="col s12">
-                            <form onSubmit={this.onSubmitHandle}>
-                                {
-                                    inputsArray.map((input, i) => {
-                                        return (<InputField minVal={input.min ? input.min : null}
-                                            maxVal={input.max ? input.max : null}
-                                            value={input.id === 'date-input' ? inputValues.date : inputValues.weight}
-                                            showDatepicker={input.id === 'date-input' ? this.showDatepicker : null}
-                                            changeValue={this.handleOnChange} key={i} type={input.type} id={input.id}
-                                            classes={input.classes}
-                                            label={input.label} />
-                                        )
-                                    })
-                                }
+                        <div className="row center-align">
+                            <div className="col s12">
+                                <form onSubmit={this.onSubmitHandle}>
+                                    {
+                                        inputsArray.map((input, i) => {
+                                            return (<InputField minVal={input.min ? input.min : null}
+                                                maxVal={input.max ? input.max : null}
+                                                value={input.id === 'date-input' ? inputValues.date : inputValues.weight}
+                                                showDatepicker={input.id === 'date-input' ? this.showDatepicker : null}
+                                                changeValue={this.handleOnChange} key={i} type={input.type} id={input.id}
+                                                classes={input.classes}
+                                                label={input.label} />
+                                            )
+                                        })
+                                    }
 
-                                <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement' />
+                                    <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement' />
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
+                        {this.props.redirect ? <Redirect to="/measurement/results" /> : null}
                     </div>
-                    {this.props.redirect ? <Redirect to="/measurement/results" /> : null}
                 </div>
             </div>
         )
@@ -198,7 +184,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        sendDataToDatabase: (data) => dispatch(sendDataToDatabase(data))
+        sendDataToDatabase: (data) => dispatch(sendDataToDatabase(data)),
     }
 }
 

@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
-import { deleteMeasurementFromDB } from '../../../store/actions/measurementActions'
+import { deleteMeasurementFromDB, changeRedirectState, filterMeasurementsByDate } from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
@@ -79,21 +79,24 @@ class MeasurementsResults extends Component {
       format: 'dd mmmm yyyy',
       onSelect: function (date) {
         if (target.id === 'from-date-input') {
-          that.setState({
-            ...that.state,
-            filterDates: {
-              ...that.state.filterDates,
-              from: moment(date).format('DD MMMM YYYY')
-            }
-          })
-        } else if (target.id === 'to-date-input') {
-          that.setState({
-            filterDates: {
-              ...that.state.filterDates,
-              to: moment(date).format('DD MMMM YYYY')
-            }
-          })
+          that.props.filterMeasurementsByDate({ from: moment(date).format('DD MMMM YYYY'), to: moment(new Date()).format('DD MMMM YYYY') })
         }
+        // if (target.id === 'from-date-input') {
+        //   that.setState({
+        //     ...that.state,
+        //     filterDates: {
+        //       ...that.state.filterDates,
+        //       from: moment(date).format('DD MMMM YYYY')
+        //     }
+        //   })
+        // } else if (target.id === 'to-date-input') {
+        //   that.setState({
+        //     filterDates: {
+        //       ...that.state.filterDates,
+        //       to: moment(date).format('DD MMMM YYYY')
+        //     }
+        //   })
+        // }
         that.filterDataTable(that.props.measurements, that.state.filterDates, 'measurementDate')
       }
     }
@@ -113,23 +116,38 @@ class MeasurementsResults extends Component {
   }
 
   componentDidMount() {
+    this.props.changeRedirectState()
     M.AutoInit();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevState) {
+    if (this.props.filterMeasurements.length && prevState.measurements.length !== this.props.filterMeasurements.length) {
+      this.setState({
+        measurements: this.props.filterMeasurements
+      })
+    }
     M.AutoInit()
   }
 
   render() {
     let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
-    const renderTableOrSpinner = this.props.measurements.length ?
+
+    const renderTableOrSpinner = this.props.measurements.length ? (
       <div className='table-height'>
         <ResultsTable
           measurements={measurements}
           perPage={this.state.perPage}
           lastPerPage={this.state.lastPerPage}
           handleClick={this.handleClick}
-        /></div> : <div className='spinner-container'><Preloader /></div>
+        />
+      </div>
+    )
+      : (
+        <div className='spinner-container'>
+          <Preloader />
+        </div>
+      )
+
     return (
       <div className='measurements-results component-padding'>
         <div className="container">
@@ -197,13 +215,16 @@ const mapStateToProps = state => {
     fetchError: state.measurement.error,
     userAuthID: state.firebase.auth.uid,
     usersID: state.firestore.ordered,
-    measurements
+    measurements,
+    filterMeasurements: state.measurement.measurementsData
   }
 }
 
 const mapDispatchToProp = dispatch => {
   return {
     deleteMeasurementFromDB: (elemToRemove) => dispatch(deleteMeasurementFromDB(elemToRemove)),
+    changeRedirectState: () => dispatch(changeRedirectState()),
+    filterMeasurementsByDate: dates => dispatch(filterMeasurementsByDate(dates))
   }
 }
 

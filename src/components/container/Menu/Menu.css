@@ -17,6 +17,8 @@
 }
 
 .menu .nav-wrapper{
+    display: flex;
+    align-items: center;
     padding-left: 230px;
     min-height: 8vh;
 }

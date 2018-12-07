@@ -1,4 +1,4 @@
-
+import M from 'materialize-css'
 
 export function fetchDataFromDatabase() {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
@@ -22,6 +22,14 @@ export function fetchDataFromDatabase() {
             .catch(err => {
                 console.log(err)
             })
+    }
+}
+
+export function changeRedirectState() {
+    return dispatch => {
+        dispatch({
+            type: 'CHANGE_REDIRECT_STATE'
+        })
     }
 }
 
@@ -56,10 +64,38 @@ export function deleteMeasurementFromDB(elemToRemove) {
         })
             .then((id) => {
                 firestore.collection('users').doc(id).collection('measurements').doc(elemToRemove.id).delete().then(() => {
-                    console.log('wooo hoo! chyba się udało xD')
+                    return M.toast({ html: 'Measurement has been removed.', classes: 'red' })
                 });
             }).catch(err => {
                 console.log(err)
             })
     }
+}
+
+export function filterMeasurementsByDate(dates) {
+    console.log(dates)
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        let firestore = getFirestore();
+        let uid = getState().firebase.auth.uid;
+        firestore.collection('users').where('userID', '==', uid).get().then((snap) => {
+            return snap.docs[0].id
+        })
+            .then((id) => {
+                firestore.collection('users').
+                    doc(id).
+                    collection('measurements').
+                    where('measurementDate', '>=', dates.from).
+                    where('measurementDate', '<=', dates.to).
+                    get().
+                    then((snap) => {
+                        dispatch({
+                            type: "SUCCESS_FETCHING_MEASUREMENTS_DATA",
+                            payloads: snap
+                        })
+                    });
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+
 }

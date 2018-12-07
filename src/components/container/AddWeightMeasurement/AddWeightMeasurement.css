@@ -1,5 +1,15 @@
 .add-weight-measurement{
     padding-left: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-weight-measurement-preloader {
+    height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-weight-measurement form > div,
