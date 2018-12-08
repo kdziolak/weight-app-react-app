@@ -2,7 +2,8 @@ const measurement = (
   state = {
     measurementsData: [],
     error: '',
-    redirect: false
+    redirect: false,
+    loader: false
   },
   action = {}
 ) => {
@@ -31,6 +32,22 @@ const measurement = (
         ...state,
         redirect: false
       }
+    case "FILTER_MEASUREMENTS_DATA":
+      if (action.payloads === undefined) return state;
+      state = {
+        ...state,
+        loader: true,
+        measurementsData: action.payloads.map(el => el.data())
+      }
+      return state;
+    case "RESET_FILTER":
+      if (action.payloads === undefined) return state;
+      state = {
+        ...state,
+        loader: false,
+        measurementsData: null
+      }
+      return state;
     default: {
       return state;
     }

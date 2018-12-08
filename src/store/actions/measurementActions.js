@@ -73,7 +73,6 @@ export function deleteMeasurementFromDB(elemToRemove) {
 }
 
 export function filterMeasurementsByDate(dates) {
-    console.log(dates)
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         let firestore = getFirestore();
         let uid = getState().firebase.auth.uid;
@@ -84,18 +83,32 @@ export function filterMeasurementsByDate(dates) {
                 firestore.collection('users').
                     doc(id).
                     collection('measurements').
-                    where('measurementDate', '>=', dates.from).
-                    where('measurementDate', '<=', dates.to).
                     get().
                     then((snap) => {
-                        dispatch({
-                            type: "SUCCESS_FETCHING_MEASUREMENTS_DATA",
-                            payloads: snap
+                        return snap.docs
+
+                    }).then((docs) => {
+                        let arr = docs.filter(el => new Date(el.data().measurementDate) >= dates.from && new Date(el.data().measurementDate) <= dates.to)
+                        arr.sort((a, b) => {
+                            console.log(a, b)
+                            return new Date(b.data().measurementDate) - new Date(a.data().measurementDate)
+
                         })
-                    });
+                        dispatch({
+                            type: "FILTER_MEASUREMENTS_DATA",
+                            payloads: arr
+                        })
+                    })
             }).catch(err => {
                 console.log(err)
             })
     }
+}
 
+export function resetFilter() {
+    return dispatch => {
+        dispatch({
+            type: 'RESET_FILTER'
+        })
+    }
 }

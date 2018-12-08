@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
-import { deleteMeasurementFromDB, changeRedirectState, filterMeasurementsByDate } from '../../../store/actions/measurementActions'
+import { deleteMeasurementFromDB, changeRedirectState, filterMeasurementsByDate, resetFilter } from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
@@ -25,6 +25,7 @@ class MeasurementsResults extends Component {
       from: '',
       to: ''
     },
+    preloader: false,
     measurements: [],
     lastPerPage: 0,
     perPage: 8
@@ -78,59 +79,38 @@ class MeasurementsResults extends Component {
       maxDate: new Date(),
       format: 'dd mmmm yyyy',
       onSelect: function (date) {
+        that.props.resetFilter();
         if (target.id === 'from-date-input') {
-          that.props.filterMeasurementsByDate({ from: moment(date).format('DD MMMM YYYY'), to: moment(new Date()).format('DD MMMM YYYY') })
+          that.props.filterMeasurementsByDate({ from: date, to: new Date() })
         }
-        // if (target.id === 'from-date-input') {
-        //   that.setState({
-        //     ...that.state,
-        //     filterDates: {
-        //       ...that.state.filterDates,
-        //       from: moment(date).format('DD MMMM YYYY')
-        //     }
-        //   })
-        // } else if (target.id === 'to-date-input') {
-        //   that.setState({
-        //     filterDates: {
-        //       ...that.state.filterDates,
-        //       to: moment(date).format('DD MMMM YYYY')
-        //     }
-        //   })
-        // }
-        that.filterDataTable(that.props.measurements, that.state.filterDates, 'measurementDate')
       }
     }
     M.Datepicker.init(e.target, datepickerOptions)
   }
 
-  filterDataTable = (measurements, filterDatas, option) => {
-    let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
-    if (!filterData.length) filterData = [{
-      measurementDate: "",
-      measurementType: "Not found",
-      weightValue: ""
-    }]
-    this.setState({
-      measurements: filterData
-    })
-  }
+  // filterDataTable = (measurements, filterDatas, option) => {
+  //   // let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
+  //   // if (!filterData.length) filterData = [{
+  //   //   measurementDate: "",
+  //   //   measurementType: "Not found",
+  //   //   weightValue: ""
+  //   // }]
+  //   this.setState({
+  //     measurements: this.props.filterMeasurements
+  //   })
+  // }
 
   componentDidMount() {
     this.props.changeRedirectState()
     M.AutoInit();
   }
 
-  componentDidUpdate(prevState) {
-    if (this.props.filterMeasurements.length && prevState.measurements.length !== this.props.filterMeasurements.length) {
-      this.setState({
-        measurements: this.props.filterMeasurements
-      })
-    }
+  componentDidUpdate() {
     M.AutoInit()
   }
 
   render() {
-    let measurements = this.state.measurements.length ? this.state.measurements : this.props.measurements
+    let measurements = this.props.filterMeasurements.length ? this.props.filterMeasurements : this.props.measurements
 
     const renderTableOrSpinner = this.props.measurements.length ? (
       <div className='table-height'>
@@ -224,7 +204,8 @@ const mapDispatchToProp = dispatch => {
   return {
     deleteMeasurementFromDB: (elemToRemove) => dispatch(deleteMeasurementFromDB(elemToRemove)),
     changeRedirectState: () => dispatch(changeRedirectState()),
-    filterMeasurementsByDate: dates => dispatch(filterMeasurementsByDate(dates))
+    filterMeasurementsByDate: dates => dispatch(filterMeasurementsByDate(dates)),
+    resetFilter: () => dispatch(resetFilter())
   }
 }
 
