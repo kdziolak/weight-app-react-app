@@ -11,6 +11,7 @@ import Preloader from '../../presentational/Preloader/Preloader';
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
 import moment from 'moment'
 import M from 'materialize-css'
+import { isArray } from 'util';
 
 class MeasurementsResults extends Component {
 
@@ -81,13 +82,17 @@ class MeasurementsResults extends Component {
       onSelect: function (date) {
         that.props.resetFilter();
         if (target.id === 'from-date-input') {
-          that.props.filterMeasurementsByDate({ from: date, to: new Date() })
+          let dates = { from: date, to: new Date() }
+          that.setState({
+            filterDates: dates,
+            preloader: true
+          })
+          that.props.filterMeasurementsByDate(dates)
         }
       }
     }
     M.Datepicker.init(e.target, datepickerOptions)
   }
-
   // filterDataTable = (measurements, filterDatas, option) => {
   //   // let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
   //   // if (!filterData.length) filterData = [{
@@ -105,14 +110,19 @@ class MeasurementsResults extends Component {
     M.AutoInit();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.filterMeasurements.length !== this.props.filterMeasurements.length) {
+      this.setState({
+        preloader: false
+      })
+    }
     M.AutoInit()
   }
 
   render() {
     let measurements = this.props.filterMeasurements.length ? this.props.filterMeasurements : this.props.measurements
 
-    const renderTableOrSpinner = this.props.measurements.length ? (
+    let renderTableOrSpinner = measurements.length && !this.state.preloader ? (
       <div className='table-height'>
         <ResultsTable
           measurements={measurements}
@@ -196,7 +206,8 @@ const mapStateToProps = state => {
     userAuthID: state.firebase.auth.uid,
     usersID: state.firestore.ordered,
     measurements,
-    filterMeasurements: state.measurement.measurementsData
+    filterMeasurements: state.measurement.measurementsData,
+    loader: state.measurement.loader
   }
 }
 
