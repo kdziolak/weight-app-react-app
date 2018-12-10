@@ -65,6 +65,9 @@ class MeasurementsResults extends Component {
   handleClick = e => {
     let measurement = this.props.measurements.find(el => el.id === e.target.parentNode.dataset.key)
     this.props.deleteMeasurementFromDB(measurement)
+    if (this.state.filterDates.from) {
+      this.props.filterMeasurementsByDate(this.state.filterDates)
+    }
   }
 
   showDatepicker = (e) => {
@@ -110,8 +113,12 @@ class MeasurementsResults extends Component {
     M.AutoInit();
   }
 
+  componentWillUnmount() {
+    this.props.resetFilter()
+  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.filterMeasurements.length !== this.props.filterMeasurements.length) {
+    if (prevProps.filterMeasurements !== this.props.filterMeasurements) {
       this.setState({
         preloader: false
       })
@@ -120,9 +127,16 @@ class MeasurementsResults extends Component {
   }
 
   render() {
-    let measurements = this.props.filterMeasurements.length ? this.props.filterMeasurements : this.props.measurements
-
-    let renderTableOrSpinner = measurements.length && !this.state.preloader ? (
+    let measurements = this.props.filterMeasurements.length ? this.props.measurements.filter(el => {
+      let date = false;
+      this.props.filterMeasurements.forEach(filterMeasurement => {
+        if (el.measurementDate === filterMeasurement.measurementDate) {
+          date = true;
+        }
+      })
+      return date;
+    }) : this.props.measurements
+    let renderTableOrSpinner = (measurements.length && !this.state.preloader) ? (
       <div className='table-height'>
         <ResultsTable
           measurements={measurements}
@@ -137,7 +151,6 @@ class MeasurementsResults extends Component {
           <Preloader />
         </div>
       )
-
     return (
       <div className='measurements-results component-padding'>
         <div className="container">
@@ -206,8 +219,7 @@ const mapStateToProps = state => {
     userAuthID: state.firebase.auth.uid,
     usersID: state.firestore.ordered,
     measurements,
-    filterMeasurements: state.measurement.measurementsData,
-    loader: state.measurement.loader
+    filterMeasurements: state.measurement.measurementsData !== undefined ? state.measurement.measurementsData : []
   }
 }
 

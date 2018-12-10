@@ -41,11 +41,10 @@ const measurement = (
       }
       return state;
     case "RESET_FILTER":
-      if (action.payloads === undefined) return state;
       state = {
         ...state,
         loader: false,
-        measurementsData: null
+        measurementsData: []
       }
       return state;
     default: {
