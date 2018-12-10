@@ -10,7 +10,11 @@ const ResultsTable = (props) => {
                     <td>{el.measurementDate}</td>
                     <td>{el.measurementType}</td>
                     <td>{el.weightValue}</td>
-                    <td><Button btnNumber={el.id} clickHandle={props.handleClick} classes='btn btn-floating red waves-effect waves-light ' content={<i className="material-icons">delete</i>} /></td>
+                    {el.measurementType === 'not found' ? (
+                        <td></td>
+                    ) : (
+                            <td><Button btnNumber={el.id} clickHandle={props.handleClick} classes='btn btn-floating red waves-effect waves-light' content={<i className="material-icons">delete</i>} /></td>
+                        )}
                 </tr>
             );
     })

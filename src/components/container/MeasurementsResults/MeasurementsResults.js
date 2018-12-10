@@ -11,7 +11,6 @@ import Preloader from '../../presentational/Preloader/Preloader';
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
 import moment from 'moment'
 import M from 'materialize-css'
-import { isArray } from 'util';
 
 class MeasurementsResults extends Component {
 
@@ -74,7 +73,11 @@ class MeasurementsResults extends Component {
     let target = e.target;
     let that = this;
     let datepickerOptions = {
+
       onOpen: function () {
+        if (that.state.filterDates.from === '') {
+          this.isOpen = false;
+        }
         this.doneBtn.remove()
       },
       autoClose: true,
@@ -92,6 +95,16 @@ class MeasurementsResults extends Component {
           })
           that.props.filterMeasurementsByDate(dates)
         }
+        // if (target.id === 'to-date-input' && that.state.filterDates.from !== '') {
+        //   let dates = { from: that.state.filterDates.from, to: date }
+        //   that.setState({
+        //     filterDates: dates,
+        //     preloader: true
+        //   })
+        //   that.props.filterMeasurementsByDate(dates)
+        // } else {
+        //   return M.toast({ html: 'brak poczatkowej daty', classes: 'red' })
+        // }
       }
     }
     M.Datepicker.init(e.target, datepickerOptions)
@@ -136,6 +149,7 @@ class MeasurementsResults extends Component {
       })
       return date;
     }) : this.props.measurements
+    if (!this.props.filterMeasurements.length && this.state.filterDates.from) measurements = [{ measurementDate: '', measurementType: 'not found', weightValue: '' }]
     let renderTableOrSpinner = (measurements.length && !this.state.preloader) ? (
       <div className='table-height'>
         <ResultsTable
