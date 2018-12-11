@@ -105,6 +105,30 @@ export function filterMeasurementsByDate(dates) {
     }
 }
 
+export function filterMeasurementsByValues(values) {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        let firestore = getFirestore();
+        let uid = getState().firebase.auth.uid;
+        let fire = async () => {
+            let measurementsArr = []
+            let docID = await firestore.collection('users').where('userID', '==', uid).get()
+            docID = docID.docs[0].id
+            let measurements = await firestore.collection('users').doc(docID).collection('measurements').get()
+            measurements = measurements.docs
+            measurements.forEach(measurement => {
+                if (measurement.data().weightValue >= values.from && measurement.data().weightValue <= values.to) {
+                    measurementsArr = [...measurementsArr, measurement]
+                }
+            })
+            dispatch({
+                type: "FILTER_MEASUREMENTS_DATA",
+                payloads: measurementsArr
+            })
+        }
+        fire();
+    }
+}
+
 export function resetFilter() {
     return dispatch => {
         dispatch({

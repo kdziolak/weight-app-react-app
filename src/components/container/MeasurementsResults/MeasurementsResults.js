@@ -5,11 +5,10 @@ import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { firestoreConnect, isEmpty } from 'react-redux-firebase'
-import { deleteMeasurementFromDB, changeRedirectState, filterMeasurementsByDate, resetFilter } from '../../../store/actions/measurementActions'
+import { deleteMeasurementFromDB, changeRedirectState, filterMeasurementsByDate, filterMeasurementsByValues, resetFilter } from '../../../store/actions/measurementActions'
 import ResultsTable from '../../presentational/ResultsTable/ResultsTable'
 import Preloader from '../../presentational/Preloader/Preloader';
 import FilterCollapsible from '../../presentational/FilterCollapsible/FilterCollapsible'
-import moment from 'moment'
 import M from 'materialize-css'
 
 class MeasurementsResults extends Component {
@@ -45,6 +44,7 @@ class MeasurementsResults extends Component {
 
 
   onChangeHandle = e => {
+    if (e.target.id === 'to-weight-input' && this.state.filterValues.from === '') return M.toast({ html: 'brak poczatkowej daty', classes: 'red' });
     this.setState({
       measurements: this.props.measurements,
       filterValues: {
@@ -53,10 +53,14 @@ class MeasurementsResults extends Component {
       }
     })
     if (e.target.value !== '') {
-      this.filterDataTable(this.props.measurements, {
-        ...this.state.filterValues,
-        [e.target.dataset.key]: e.target.value
-      }, 'weightValue')
+      this.setState({
+        preloader: true
+      })
+      if (e.target.id === 'to-weight-input') {
+        this.props.filterMeasurementsByValues({ from: this.state.filterValues.from, to: e.target.value })
+      } else if (e.target.id === 'from-weight-input') {
+        this.props.filterMeasurementsByValues({ from: e.target.value, to: this.state.filterValues.to })
+      }
     }
 
   }
@@ -64,6 +68,9 @@ class MeasurementsResults extends Component {
   handleClick = e => {
     let measurement = this.props.measurements.find(el => el.id === e.target.parentNode.dataset.key)
     this.props.deleteMeasurementFromDB(measurement)
+    this.setState({
+      preloader: true
+    })
     if (this.state.filterDates.from) {
       this.props.filterMeasurementsByDate(this.state.filterDates)
     }
@@ -72,12 +79,11 @@ class MeasurementsResults extends Component {
   showDatepicker = (e) => {
     let target = e.target;
     let that = this;
+    if (e.target.id === 'to-date-input' && this.state.filterDates.from === '') {
+      return M.toast({ html: 'You have to fill "from" input.', classes: 'red' })
+    }
     let datepickerOptions = {
-
       onOpen: function () {
-        if (that.state.filterDates.from === '') {
-          this.isOpen = false;
-        }
         this.doneBtn.remove()
       },
       autoClose: true,
@@ -95,16 +101,14 @@ class MeasurementsResults extends Component {
           })
           that.props.filterMeasurementsByDate(dates)
         }
-        // if (target.id === 'to-date-input' && that.state.filterDates.from !== '') {
-        //   let dates = { from: that.state.filterDates.from, to: date }
-        //   that.setState({
-        //     filterDates: dates,
-        //     preloader: true
-        //   })
-        //   that.props.filterMeasurementsByDate(dates)
-        // } else {
-        //   return M.toast({ html: 'brak poczatkowej daty', classes: 'red' })
-        // }
+        if (target.id === 'to-date-input') {
+          let dates = { from: that.state.filterDates.from, to: date }
+          that.setState({
+            filterDates: dates,
+            preloader: true
+          })
+          that.props.filterMeasurementsByDate(dates)
+        }
       }
     }
     M.Datepicker.init(e.target, datepickerOptions)
@@ -131,7 +135,7 @@ class MeasurementsResults extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.filterMeasurements !== this.props.filterMeasurements) {
+    if (prevProps.filterMeasurements !== this.props.filterMeasurements || prevProps.measurements !== this.props.measurements) {
       this.setState({
         preloader: false
       })
@@ -242,6 +246,7 @@ const mapDispatchToProp = dispatch => {
     deleteMeasurementFromDB: (elemToRemove) => dispatch(deleteMeasurementFromDB(elemToRemove)),
     changeRedirectState: () => dispatch(changeRedirectState()),
     filterMeasurementsByDate: dates => dispatch(filterMeasurementsByDate(dates)),
+    filterMeasurementsByValues: values => dispatch(filterMeasurementsByValues(values)),
     resetFilter: () => dispatch(resetFilter())
   }
 }

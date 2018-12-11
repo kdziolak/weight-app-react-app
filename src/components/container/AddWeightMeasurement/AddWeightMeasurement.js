@@ -80,6 +80,7 @@ class AddWeightMeasurement extends Component {
 
 
     onSubmitHandle = e => {
+        console.log(e.keyCode)
         let { weight, date } = this.state.inputValues
         e.preventDefault()
         if (weight && date) {
@@ -158,9 +159,7 @@ class AddWeightMeasurement extends Component {
                                             )
                                         })
                                     }
-
-                                    <Button classes='btn btn-large blue waves-effect' content='Add weight mesurement' />
-
+                                    <Button onKeyUp={this.onSubmitHandle} classes={`btn btn-large blue waves-effect ${inputValues.weight && inputValues.date ? '' : 'disabled'}`} content='Add weight mesurement' />
                                 </form>
                             </div>
                         </div>
