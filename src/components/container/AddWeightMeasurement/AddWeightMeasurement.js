@@ -38,7 +38,8 @@ class AddWeightMeasurement extends Component {
         ],
         previousWeightValue: 50,
         lastWeightMesurementDate: '21.09.2018',
-        spinner: false
+        spinner: false,
+        componentIsReady: false
     }
 
     showDatepicker = (e) => {
@@ -112,6 +113,11 @@ class AddWeightMeasurement extends Component {
                 message: ''
             })
         }
+    }
+    componentDidMount() {
+        this.setState({
+            componentIsReady: true
+        })
     }
 
     render() {
