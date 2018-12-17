@@ -1,0 +1,11 @@
+'use strict';var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/__tests__/AddBodySizeMeasurement.test.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _reactTestingLibrary = require('react-testing-library');
+var _AddBodySizeMeasurement = require('../components/container/AddBodySizeMeasurement/AddBodySizeMeasurement');var _AddBodySizeMeasurement2 = _interopRequireDefault(_AddBodySizeMeasurement);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+afterEach(_reactTestingLibrary.cleanup);
+
+test('without crashing', () => {var _render =
+    (0, _reactTestingLibrary.render)(_react2.default.createElement(_AddBodySizeMeasurement2.default, { __source: { fileName: _jsxFileName, lineNumber: 8 }, __self: undefined }));const container = _render.container;
+    const div = container.firstChild;
+    expect(divno).toBe('div');
+});

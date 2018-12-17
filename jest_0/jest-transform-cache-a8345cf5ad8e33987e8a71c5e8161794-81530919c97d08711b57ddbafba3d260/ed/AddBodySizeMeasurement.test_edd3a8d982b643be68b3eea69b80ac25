@@ -1,0 +1,9 @@
+'use strict';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _reactTestingLibrary = require('react-testing-library');
+var _AddBodySizeMeasurement = require('../components/container/AddBodySizeMeasurement/AddBodySizeMeasurement');var _AddBodySizeMeasurement2 = _interopRequireDefault(_AddBodySizeMeasurement);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+afterEach(_reactTestingLibrary.cleanup);
+
+test('without crashing', () => {
+    expect();
+});

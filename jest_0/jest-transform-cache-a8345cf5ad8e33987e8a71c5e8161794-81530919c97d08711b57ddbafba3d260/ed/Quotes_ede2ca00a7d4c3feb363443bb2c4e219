@@ -1,0 +1,25 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/presentational/Quotes/Quotes.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+require('./Quotes.css');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const Quotes = props => {
+  const randNumber = Math.floor(Math.random() * props.quotes.length);
+  const quot = props.quotes.length ? _react2.default.createElement('blockquote', { className: 'quote-text flow-text white-text center-align', __source: { fileName: _jsxFileName, lineNumber: 6 }, __self: undefined }, props.quotes[randNumber].text) : null;
+  const author = props.quotes.length ? _react2.default.createElement('p', { className: 'author-text right white-text', __source: { fileName: _jsxFileName, lineNumber: 7 }, __self: undefined }, props.quotes[randNumber].from) : null;
+  return (
+    _react2.default.createElement('div', { className: 'quotes quotes-bg', __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: undefined },
+      _react2.default.createElement('div', { className: 'quotes-bg-alpha', __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: undefined },
+        _react2.default.createElement('div', { className: 'quote-container', __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: undefined },
+
+          quot,
+
+          _react2.default.createElement('br', { __source: { fileName: _jsxFileName, lineNumber: 15 }, __self: undefined }),
+
+          author))));
+
+
+
+
+
+};exports.default =
+
+Quotes;

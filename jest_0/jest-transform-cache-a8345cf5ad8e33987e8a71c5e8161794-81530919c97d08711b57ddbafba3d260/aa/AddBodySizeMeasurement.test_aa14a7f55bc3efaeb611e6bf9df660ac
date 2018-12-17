@@ -1,0 +1,60 @@
+'use strict';var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/__tests__/AddBodySizeMeasurement.test.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _enzyme = require('enzyme');
+var _AddBodySizeMeasurement = require('../components/container/AddBodySizeMeasurement/AddBodySizeMeasurement');var _AddBodySizeMeasurement2 = _interopRequireDefault(_AddBodySizeMeasurement);
+var _HeaderTitle = require('../components/presentational/HeaderTitle/HeaderTitle');var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+
+describe('<App />', () => {
+    let appWrapper;
+    let appInstance;
+    const app = (disableLifecycleMethods = false) =>
+    (0, _enzyme.shallow)(_react2.default.createElement(_AddBodySizeMeasurement2.default, { __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: undefined }), { disableLifecycleMethods });
+
+    beforeEach(() => {
+        appWrapper = app();
+        appInstance = appWrapper.instance();
+    });
+
+    afterEach(() => {
+        appWrapper = undefined;
+        appInstance = undefined;
+    });
+
+    it('renders without crashing', () => {
+        expect(app().exists()).toBe(true);
+    });
+
+    it('renders a div', () => {
+        expect(
+        appWrapper.
+        first().
+        type()).
+        toBe('div');
+    });
+
+    describe('the rendered div', () => {
+        const div = () => appWrapper.first();
+
+        it('contains everything else that gets rendered', () => {
+            // Podczas wywoływania children() na wrapperze, enzyme pomija w wyszukiwaniu zewnętrzny węzeł. 
+            // Dzięki temu możemy sprawdzić czy zawartość diva
+            // faktycznie zawiera wszystko co renderuje <App />
+            expect(div().children()).toEqual(appWrapper.children());
+        });
+    });
+    it('renders <HeaderTitle />', () => {
+        // Metoda find zwraca listę odnalezionych komponentów.
+        // Najłatwiej sprawdzić czy komponent został wyrenderowany 
+        // poprzez prostą asercję jej długości.
+        expect(appWrapper.find(_HeaderTitle2.default).length).toBe(1);
+    });
+
+    it('renders <SearchBar />', () => {
+        // toBe używamy do porównywania wartości prymitywnych
+        expect(appWrapper.find(SearchBar).length).toBe(1);
+    });
+
+    it('renders <CoinList />', () => {
+        expect(appWrapper.find(CoinList).length).toBe(1);
+    });
+});

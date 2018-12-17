@@ -1,0 +1,56 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });const measurement = (
+state = {
+  measurementsData: [],
+  error: '',
+  redirect: false,
+  loader: false },
+
+action = {}) =>
+{
+  switch (action.type) {
+    case "ADDED_DATA_TO_DATABASE":
+      state = {
+        error: '',
+        redirect: true };
+
+      return state;
+    case "SUCCESS_FETCHING_MEASUREMENTS_DATA":
+      state = {
+        error: '',
+        redirect: false,
+        measurementsData: action.payloads.docs.map(el => el.data()) };
+
+      return state;
+    case "ERROR_FETCHING_MEASUREMENTS_DATA":
+      state = Object.assign({},
+      state, {
+        error: action.err });
+
+      return state;
+    case 'CHANGE_REDIRECT_STATE':
+      state = Object.assign({},
+      state, {
+        redirect: false });
+
+    case "FILTER_MEASUREMENTS_DATA":
+      if (action.payloads === undefined) return state;
+      state = Object.assign({},
+      state, {
+        loader: true,
+        measurementsData: action.payloads.map(el => el.data()) });
+
+      return state;
+    case "RESET_FILTER":
+      state = Object.assign({},
+      state, {
+        loader: false,
+        measurementsData: [] });
+
+      return state;
+    default:{
+        return state;
+      }}
+
+};exports.default =
+
+measurement;

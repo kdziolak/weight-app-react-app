@@ -1,0 +1,277 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/MeasurementsResults/MeasurementsResults.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+require('./MeasurementsResults.css');
+var _HeaderTitle = require('../../presentational/HeaderTitle/HeaderTitle');var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);
+var _reactPaginate = require('react-paginate');var _reactPaginate2 = _interopRequireDefault(_reactPaginate);
+var _reactRedux = require('react-redux');
+var _redux = require('redux');
+var _reactReduxFirebase = require('react-redux-firebase');
+var _measurementActions = require('../../../store/actions/measurementActions');
+var _ResultsTable = require('../../presentational/ResultsTable/ResultsTable');var _ResultsTable2 = _interopRequireDefault(_ResultsTable);
+var _Preloader = require('../../presentational/Preloader/Preloader');var _Preloader2 = _interopRequireDefault(_Preloader);
+var _FilterCollapsible = require('../../presentational/FilterCollapsible/FilterCollapsible');var _FilterCollapsible2 = _interopRequireDefault(_FilterCollapsible);
+var _materializeCss = require('materialize-css');var _materializeCss2 = _interopRequireDefault(_materializeCss);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class MeasurementsResults extends _react.Component {constructor(...args) {var _temp;return _temp = super(...args), this.
+
+
+    state = {
+      search: 'date',
+      filterDates: {
+        from: '',
+        to: '' },
+
+      filterValues: {
+        from: '',
+        to: '' },
+
+      preloader: false,
+      measurements: [],
+      lastPerPage: 0,
+      perPage: 8 }, this.
+
+
+    onSelectHandle = e => {
+      this.setState({
+        search: e.target.value,
+        filterDates: {
+          from: '',
+          to: '' },
+
+        measurements: this.props.measurements });
+
+
+    }, this.
+
+
+    onChangeHandle = e => {
+      if (e.target.id === 'to-weight-input' && this.state.filterValues.from === '') return _materializeCss2.default.toast({ html: 'brak poczatkowej daty', classes: 'red' });
+      this.setState({
+        measurements: this.props.measurements,
+        filterValues: Object.assign({},
+        this.state.filterValues, {
+          [e.target.dataset.key]: e.target.value }) });
+
+
+      if (e.target.value !== '') {
+        this.setState({
+          preloader: true });
+
+        if (e.target.id === 'to-weight-input') {
+          this.props.filterMeasurementsByValues({ from: this.state.filterValues.from, to: e.target.value });
+        } else if (e.target.id === 'from-weight-input') {
+          this.props.filterMeasurementsByValues({ from: e.target.value, to: this.state.filterValues.to });
+        }
+      }
+
+    }, this.
+
+    handleClick = e => {
+      let measurement = this.props.measurements.find(el => el.id === e.target.parentNode.dataset.key);
+      this.props.deleteMeasurementFromDB(measurement);
+      this.setState({
+        preloader: true });
+
+      if (this.state.filterDates.from) {
+        this.props.filterMeasurementsByDate(this.state.filterDates);
+      }
+    }, this.
+
+    showDatepicker = e => {
+      let target = e.target;
+      let that = this;
+      if (e.target.id === 'to-date-input' && this.state.filterDates.from === '') {
+        return _materializeCss2.default.toast({ html: 'You have to fill "from" input.', classes: 'red' });
+      }
+      let datepickerOptions = {
+        onOpen: function () {
+          this.doneBtn.remove();
+        },
+        autoClose: true,
+        defaultDate: new Date(),
+        minDate: that.state.filterDates.from && target.id === 'to-date-input' ? new Date(that.state.filterDates.from) : null,
+        maxDate: new Date(),
+        format: 'dd mmmm yyyy',
+        onSelect: function (date) {
+          that.props.resetFilter();
+          if (target.id === 'from-date-input') {
+            let dates = { from: date, to: new Date() };
+            that.setState({
+              filterDates: dates,
+              preloader: true });
+
+            that.props.filterMeasurementsByDate(dates);
+          }
+          if (target.id === 'to-date-input') {
+            let dates = { from: that.state.filterDates.from, to: date };
+            that.setState({
+              filterDates: dates,
+              preloader: true });
+
+            that.props.filterMeasurementsByDate(dates);
+          }
+        } };
+
+      _materializeCss2.default.Datepicker.init(e.target, datepickerOptions);
+    }, _temp;}
+  // filterDataTable = (measurements, filterDatas, option) => {
+  //   // let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
+  //   // if (!filterData.length) filterData = [{
+  //   //   measurementDate: "",
+  //   //   measurementType: "Not found",
+  //   //   weightValue: ""
+  //   // }]
+  //   this.setState({
+  //     measurements: this.props.filterMeasurements
+  //   })
+  // }
+
+  componentDidMount() {
+    this.props.changeRedirectState();
+    _materializeCss2.default.AutoInit();
+  }
+
+  componentWillUnmount() {
+    this.props.resetFilter();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.filterMeasurements !== this.props.filterMeasurements || prevProps.measurements !== this.props.measurements) {
+      this.setState({
+        preloader: false });
+
+    }
+    _materializeCss2.default.AutoInit();
+  }
+
+  render() {
+    let measurements = this.props.filterMeasurements.length ? this.props.measurements.filter(el => {
+      let date = false;
+      this.props.filterMeasurements.forEach(filterMeasurement => {
+        if (el.measurementDate === filterMeasurement.measurementDate) {
+          date = true;
+        }
+      });
+      return date;
+    }) : this.props.measurements;
+    if (!this.props.filterMeasurements.length && this.state.filterDates.from) measurements = [{ measurementDate: '', measurementType: 'not found', weightValue: '' }];
+    let renderTableOrSpinner = measurements.length && !this.state.preloader ?
+    _react2.default.createElement('div', { className: 'table-height', __source: { fileName: _jsxFileName, lineNumber: 158 }, __self: this },
+      _react2.default.createElement(_ResultsTable2.default, {
+        measurements: measurements,
+        perPage: this.state.perPage,
+        lastPerPage: this.state.lastPerPage,
+        handleClick: this.handleClick, __source: { fileName: _jsxFileName, lineNumber: 159 }, __self: this })) :
+
+
+
+
+    _react2.default.createElement('div', { className: 'spinner-container', __source: { fileName: _jsxFileName, lineNumber: 168 }, __self: this },
+      _react2.default.createElement(_Preloader2.default, { __source: { fileName: _jsxFileName, lineNumber: 169 }, __self: this }));
+
+
+    return (
+      _react2.default.createElement('div', { className: 'measurements-results component-padding', __source: { fileName: _jsxFileName, lineNumber: 173 }, __self: this },
+        _react2.default.createElement('div', { className: 'container', __source: { fileName: _jsxFileName, lineNumber: 174 }, __self: this },
+          _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 175 }, __self: this },
+            _react2.default.createElement('div', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 176 }, __self: this },
+              _react2.default.createElement(_HeaderTitle2.default, { headerNumber: 3, content: 'Your progress!', classes: 'blue-text text-darken-1', __source: { fileName: _jsxFileName, lineNumber: 177 }, __self: this }))),
+
+
+          _react2.default.createElement(_FilterCollapsible2.default, {
+            search: this.state.search,
+            onSelectHandle: this.onSelectHandle,
+            onChangeHandle: this.onChangeHandle,
+            showDatepicker: this.showDatepicker, __source: { fileName: _jsxFileName, lineNumber: 180 }, __self: this }),
+
+          _react2.default.createElement('div', { className: 'card-panel', __source: { fileName: _jsxFileName, lineNumber: 186 }, __self: this },
+            _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 187 }, __self: this },
+
+              this.props.fetchError ?
+              _react2.default.createElement('div', { className: 'col s12 center-align', __source: { fileName: _jsxFileName, lineNumber: 190 }, __self: this },
+                _react2.default.createElement('p', { className: 'flow-text red white-text z-depth-2', __source: { fileName: _jsxFileName, lineNumber: 191 }, __self: this }, 'Sorry. You don\'t have any activities.')) :
+
+
+              _react2.default.createElement('div', { className: 'col s12 center-align table-flex', __source: { fileName: _jsxFileName, lineNumber: 194 }, __self: this },
+
+                renderTableOrSpinner,
+
+
+                _react2.default.createElement(_reactPaginate2.default, {
+                  pageCount: Math.ceil(this.props.measurements.length / 8),
+                  pageRangeDisplayed: 3,
+                  marginPagesDisplayed: 2,
+                  containerClassName: 'pagination center-align hide-on-med-and-down',
+                  pageClassName: 'waves-effect',
+                  activeClassName: 'active',
+                  onPageChange: e => {
+                    let pageNumber = e.selected + 1;
+                    let perPage = 8 * pageNumber;
+                    let lastPerPage = 8 * pageNumber - 8;
+
+                    this.setState({
+                      lastPerPage,
+                      perPage });
+
+                  }, __source: { fileName: _jsxFileName, lineNumber: 199 }, __self: this })))))));
+
+
+
+
+
+
+
+
+
+
+
+  }}
+
+
+const mapStateToProps = state => {
+  let measurements = {};
+  if (!(0, _reactReduxFirebase.isEmpty)(state.firestore.ordered.measurements)) {
+    measurements = state.firestore.ordered.measurements;
+  }
+  return {
+    fetchError: state.measurement.error,
+    userAuthID: state.firebase.auth.uid,
+    usersID: state.firestore.ordered,
+    measurements,
+    filterMeasurements: state.measurement.measurementsData !== undefined ? state.measurement.measurementsData : [] };
+
+};
+
+const mapDispatchToProp = dispatch => {
+  return {
+    deleteMeasurementFromDB: elemToRemove => dispatch((0, _measurementActions.deleteMeasurementFromDB)(elemToRemove)),
+    changeRedirectState: () => dispatch((0, _measurementActions.changeRedirectState)()),
+    filterMeasurementsByDate: dates => dispatch((0, _measurementActions.filterMeasurementsByDate)(dates)),
+    filterMeasurementsByValues: values => dispatch((0, _measurementActions.filterMeasurementsByValues)(values)),
+    resetFilter: () => dispatch((0, _measurementActions.resetFilter)()) };
+
+};exports.default =
+
+(0, _redux.compose)(
+(0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp),
+(0, _reactReduxFirebase.firestoreConnect)(props => {
+  if ((0, _reactReduxFirebase.isEmpty)(props.usersID)) {
+    return [
+    { collection: 'users' }];
+
+  }var _props$usersID$users$ =
+  props.usersID.users.filter(user => user.userID === props.userAuthID),_props$usersID$users$2 = _slicedToArray(_props$usersID$users$, 1);let user = _props$usersID$users$2[0];
+  return [
+  {
+    collection: 'users',
+    doc: user.id,
+    subcollections: [
+    {
+      collection: 'measurements',
+      orderBy: ['measurementDate', 'desc'] }],
+
+
+    storeAs: 'measurements' }];
+
+
+}))(
+MeasurementsResults);

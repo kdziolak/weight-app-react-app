@@ -1,0 +1,9 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/presentational/Paragraph/Paragraph.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const Paragraph = props => {
+  return (
+    _react2.default.createElement('p', { className: props.classes, __source: { fileName: _jsxFileName, lineNumber: 5 }, __self: undefined }, props.content));
+
+};exports.default =
+
+Paragraph;

@@ -1,0 +1,71 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/SignUp/SignUp.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+require('./SignUp.css');
+var _reactRouterDom = require('react-router-dom');
+var _reactRedux = require('react-redux');
+var _authActions = require('../../../store/actions/authActions');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class SignUp extends _react.Component {constructor(...args) {var _temp;return _temp = super(...args), this.
+
+        state = {
+            email: '',
+            password: '' }, this.
+
+
+        handleChange = e => {
+            this.setState({
+                [e.target.id]: e.target.value });
+
+        }, this.
+
+        handleSubmit = e => {
+            e.preventDefault();
+            this.props.signUp(this.state);
+        }, _temp;}
+
+    render() {
+        return (
+            _react2.default.createElement('div', { className: 'signup-page container center-align', __source: { fileName: _jsxFileName, lineNumber: 27 }, __self: this },
+                _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 28 }, __self: this },
+                    _react2.default.createElement('div', { className: 'col', __source: { fileName: _jsxFileName, lineNumber: 29 }, __self: this },
+                        _react2.default.createElement('h2', { className: 'blue-text text-darken-3', __source: { fileName: _jsxFileName, lineNumber: 30 }, __self: this }, 'Sign up to your best weight control app!'))),
+
+
+                _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 33 }, __self: this },
+                    _react2.default.createElement('div', { className: 'col s10 l8 offset-s1 offset-l2', __source: { fileName: _jsxFileName, lineNumber: 34 }, __self: this },
+                        _react2.default.createElement('form', { className: 'blue lighten-5 z-depth-2', onSubmit: this.handleSubmit, __source: { fileName: _jsxFileName, lineNumber: 35 }, __self: this },
+                            _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 36 }, __self: this },
+                                _react2.default.createElement('div', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 37 }, __self: this },
+                                    _react2.default.createElement('div', { className: 'input-field', __source: { fileName: _jsxFileName, lineNumber: 38 }, __self: this },
+                                        _react2.default.createElement('input', { id: 'email', type: 'email', className: 'email', value: this.state.email, onChange: this.handleChange, __source: { fileName: _jsxFileName, lineNumber: 39 }, __self: this }),
+                                        _react2.default.createElement('label', { htmlFor: 'email', __source: { fileName: _jsxFileName, lineNumber: 40 }, __self: this }, 'Email:')),
+
+                                    _react2.default.createElement('div', { className: 'input-field', __source: { fileName: _jsxFileName, lineNumber: 42 }, __self: this },
+                                        _react2.default.createElement('input', { id: 'password', type: 'password', className: 'password blue-text text-darken-4', value: this.state.password, onChange: this.handleChange, __source: { fileName: _jsxFileName, lineNumber: 43 }, __self: this }),
+                                        _react2.default.createElement('label', { htmlFor: 'password', __source: { fileName: _jsxFileName, lineNumber: 44 }, __self: this }, 'Password:')),
+
+                                    _react2.default.createElement('div', { 'class': 'right-align', __source: { fileName: _jsxFileName, lineNumber: 46 }, __self: this },
+                                        _react2.default.createElement(_reactRouterDom.Link, { to: '/login', __source: { fileName: _jsxFileName, lineNumber: 47 }, __self: this }, 'Back to login page.')),
+
+
+
+                                    this.state.errorMessage ? _react2.default.createElement('p', { className: 'error red lighten-1 white-text', __source: { fileName: _jsxFileName, lineNumber: 51 }, __self: this }, this.state.errorMessage) : null,
+
+
+                                    _react2.default.createElement('button', { className: 'btn btn-large blue darken-2 waves-effect waves-light', __source: { fileName: _jsxFileName, lineNumber: 54 }, __self: this }, 'Sign Up'))))))));
+
+
+
+
+
+
+
+    }}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signUp: userData => dispatch((0, _authActions.signUp)(userData)) };
+
+};exports.default =
+
+(0, _reactRedux.connect)(null, mapDispatchToProps)(SignUp);

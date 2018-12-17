@@ -1,0 +1,76 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/presentational/ProfileCollection/ProfileCollection.js';
+
+// import '../ProfileCollectionItem/ProfileCollectionItem'
+var _react = require('react');var _react2 = _interopRequireDefault(_react);require('./ProfileCollection.css');var _ProfileCollectionItem = require('../ProfileCollectionItem/ProfileCollectionItem');var _ProfileCollectionItem2 = _interopRequireDefault(_ProfileCollectionItem);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const ProfileCollection = props => {const
+    handleClick = props.handleClick,handleChange = props.handleChange,handleSubmit = props.handleSubmit;
+    return (
+        _react2.default.createElement('ul', { className: 'profile-collection collection', __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: undefined },
+            _react2.default.createElement(_ProfileCollectionItem2.default, {
+                htmlFor: 'personal-name',
+                collectionValue: 'Name',
+                btnID: 'editUserName',
+                inputID: 'valueName',
+                inputType: 'text',
+                editBool: props.editBool.editUserName,
+                handleClick: handleClick,
+                handleSubmit: handleSubmit,
+                handleChange: handleChange,
+                userValue: (props.userValues.valueName === "Noname" || props.userValues.valueName === '') && props.userProfile ? props.userProfile.valueName : props.userValues.valueName, __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: undefined }),
+
+            _react2.default.createElement(_ProfileCollectionItem2.default, {
+                htmlFor: 'personal-age',
+                collectionValue: 'Age',
+                btnID: 'editUserAge',
+                inputID: 'valueAge',
+                inputType: 'number',
+                editBool: props.editBool.editUserAge,
+                handleClick: handleClick,
+                handleSubmit: handleSubmit,
+                handleChange: handleChange,
+                userValue: (props.userValues.valueAge === 0 || props.userValues.valueAge === '') && props.userProfile ? props.userProfile.valueAge : props.userValues.valueAge, __source: { fileName: _jsxFileName, lineNumber: 22 }, __self: undefined }),
+
+            _react2.default.createElement(_ProfileCollectionItem2.default, {
+                htmlFor: 'personal-gender',
+                collectionValue: 'Gender',
+                userValue: (props.userValues.valueGender === "Choose gender." || props.userValues.valueGender === '') && props.userProfile ? props.userProfile.valueGender : props.userValues.valueGender,
+                btnID: 'editUserGender',
+                inputID: 'valueGender',
+                inputType: 'radio',
+                editBool: props.editBool.editUserGender,
+                handleClick: handleClick,
+                handleSubmit: handleSubmit,
+                handleChange: handleChange, __source: { fileName: _jsxFileName, lineNumber: 34 }, __self: undefined }),
+
+            _react2.default.createElement(_ProfileCollectionItem2.default, {
+                htmlFor: 'personal-growth',
+                collectionValue: 'Growth',
+                userValue: (props.userValues.valueGrowth === 0 || props.userValues.valueGrowth === '') && props.userProfile ? props.userProfile.valueGrowth : props.userValues.valueGrowth,
+                btnID: 'editUserGrowth',
+                inputID: 'valueGrowth',
+                inputType: 'number',
+                unite: 'cm',
+                editBool: props.editBool.editUserGrowth,
+                handleClick: handleClick,
+                handleSubmit: handleSubmit,
+                handleChange: handleChange, __source: { fileName: _jsxFileName, lineNumber: 46 }, __self: undefined }),
+
+            _react2.default.createElement(_ProfileCollectionItem2.default, {
+                htmlFor: 'personal-weight',
+                collectionValue: 'Weight',
+                userValue: (props.userValues.valueWeight === 0 || props.userValues.valueWeight === '') && props.userProfile ? props.userProfile.valueWeight : props.userValues.valueWeight,
+                btnID: 'editUserWeight',
+                inputID: 'valueWeight',
+                inputType: 'number',
+                unite: 'kg',
+                editBool: props.editBool.editUserWeight,
+                handleClick: handleClick,
+                handleSubmit: handleSubmit,
+                handleChange: handleChange, __source: { fileName: _jsxFileName, lineNumber: 59 }, __self: undefined })));
+
+
+
+};exports.default =
+
+ProfileCollection;

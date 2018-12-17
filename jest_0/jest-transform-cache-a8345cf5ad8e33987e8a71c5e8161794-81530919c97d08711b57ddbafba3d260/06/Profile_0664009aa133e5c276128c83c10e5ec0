@@ -1,0 +1,204 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/Profile/Profile.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _ProfileCollection = require('../../presentational/ProfileCollection/ProfileCollection');var _ProfileCollection2 = _interopRequireDefault(_ProfileCollection);
+var _reactRedux = require('react-redux');
+var _userActions = require('../../../store/actions/userActions');
+require('./Profile.css');
+var _reactReduxFirebase = require('react-redux-firebase');
+var _redux = require('redux');
+var _materializeCss = require('materialize-css');var _materializeCss2 = _interopRequireDefault(_materializeCss);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class Profile extends _react.Component {constructor(...args) {var _temp;return _temp = super(...args), this.
+
+        state = {
+            editBool: {
+                editUserName: false,
+                editUserAge: false,
+                editUserGrowth: false,
+                editUserWeight: false,
+                editUserGender: false },
+
+            userValues: {
+                tmpValue: '',
+                valueName: 'Noname',
+                valueGrowth: 0,
+                valueWeight: 0,
+                valueGender: 'Choose gender.',
+                valueAge: 0 },
+
+            message: '',
+            userProfile: {} }, this.
+
+
+        handleClick = e => {
+            let stateTmp;
+            let tmpValue = e.target.id;
+            let edit = !this.state.editBool[e.target.id];
+
+            if (this.state.userValues.tmpValue) {
+                stateTmp = '';
+            }
+
+            this.setState({
+                editBool: Object.assign({},
+                this.state.editBool, {
+                    [this.state.userValues.tmpValue]: stateTmp,
+                    [e.target.id]: edit }),
+
+                userValues: Object.assign({},
+                this.state.userValues, {
+                    tmpValue: tmpValue }) });
+
+
+        }, this.
+
+        handleSubmit = e => {
+            e.preventDefault();
+            let edit = false;
+            this.setState({
+                editBool: Object.assign({},
+                this.state.editBool, {
+                    [this.state.userValues.tmpValue]: edit }) });
+
+
+
+        }, this.
+
+        handleChange = e => {
+            let value;
+            value = e.target.value;
+            if (e.target.classList.contains('radioMale')) value = "Male";
+            if (e.target.classList.contains('radioFemale')) value = "Female";
+            this.setState({
+                userValues: Object.assign({},
+                this.state.userValues, {
+                    [e.target.id]: value }),
+
+                message: '' });
+
+        }, this.
+
+        saveProfile = () => {var _state$userValues =
+            this.state.userValues;let valueAge = _state$userValues.valueAge,valueName = _state$userValues.valueName,valueWeight = _state$userValues.valueWeight,valueGrowth = _state$userValues.valueGrowth;
+            let message = '';
+            let color = '';
+            if (valueAge !== 0 && valueName !== 'Noname' && valueWeight !== 0 && valueGrowth !== 0) {
+                this.props.addUserData(this.state.userValues);
+                message = 'Profile has been saved.';
+                color = 'green';
+                this.setState({
+                    message });
+
+            } else {
+                message = 'Check all values are correct.';
+                color = 'red';
+                this.setState({
+                    message });
+
+            }
+            _materializeCss2.default.toast({ html: `${message}`, classes: color });
+        }, this.
+
+        editProfile = () => {
+            this.props.editUserProfile(this.state.userValues);
+            _materializeCss2.default.toast({ html: `Updated your profile.`, classes: 'orange' });
+        }, _temp;}
+
+
+    render() {
+        let renderProfile = this.props.usersProfile.map((userProfile, i) => {
+            if (userProfile.userID === this.props.userAuthID) {
+                return (
+                    _react2.default.createElement(_ProfileCollection2.default, {
+                        key: i,
+                        handleClick: this.handleClick,
+                        handleSubmit: this.handleSubmit,
+                        handleChange: this.handleChange,
+                        editBool: this.state.editBool,
+                        userValues: this.state.userValues,
+                        userProfile: userProfile, __source: { fileName: _jsxFileName, lineNumber: 111 }, __self: this }));
+
+
+            }
+            return null;
+        });
+        if (!this.props.usersProfile || renderProfile[0] === null) {
+            return (
+                _react2.default.createElement('div', { className: 'profile container spiner-height', __source: { fileName: _jsxFileName, lineNumber: 126 }, __self: this },
+                    _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 127 }, __self: this },
+                        _react2.default.createElement('div', { className: 'col s12 center-align', __source: { fileName: _jsxFileName, lineNumber: 128 }, __self: this },
+                            _react2.default.createElement('div', { 'class': 'preloader-wrapper big active', __source: { fileName: _jsxFileName, lineNumber: 129 }, __self: this },
+                                _react2.default.createElement('div', { 'class': 'spinner-layer spinner-blue-only', __source: { fileName: _jsxFileName, lineNumber: 130 }, __self: this },
+                                    _react2.default.createElement('div', { 'class': 'circle-clipper left', __source: { fileName: _jsxFileName, lineNumber: 131 }, __self: this },
+                                        _react2.default.createElement('div', { 'class': 'circle', __source: { fileName: _jsxFileName, lineNumber: 132 }, __self: this })),
+                                    _react2.default.createElement('div', { 'class': 'gap-patch', __source: { fileName: _jsxFileName, lineNumber: 133 }, __self: this },
+                                        _react2.default.createElement('div', { 'class': 'circle', __source: { fileName: _jsxFileName, lineNumber: 134 }, __self: this })),
+                                    _react2.default.createElement('div', { 'class': 'circle-clipper right', __source: { fileName: _jsxFileName, lineNumber: 135 }, __self: this },
+                                        _react2.default.createElement('div', { 'class': 'circle', __source: { fileName: _jsxFileName, lineNumber: 136 }, __self: this }))))))));
+
+
+
+
+
+
+
+
+        }
+
+        return (
+            _react2.default.createElement('div', { className: 'profile', __source: { fileName: _jsxFileName, lineNumber: 148 }, __self: this },
+                _react2.default.createElement('div', { className: 'container', __source: { fileName: _jsxFileName, lineNumber: 149 }, __self: this },
+                    _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 150 }, __self: this },
+                        _react2.default.createElement('div', { className: 'col center-align', __source: { fileName: _jsxFileName, lineNumber: 151 }, __self: this },
+                            _react2.default.createElement('h3', { __source: { fileName: _jsxFileName, lineNumber: 152 }, __self: this }, 'My profile'))),
+
+
+                    _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 155 }, __self: this },
+                        _react2.default.createElement('div', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 156 }, __self: this },
+                            renderProfile[0] !== null ? renderProfile :
+                            _react2.default.createElement(_ProfileCollection2.default, {
+
+                                handleClick: this.handleClick,
+                                handleSubmit: this.handleSubmit,
+                                handleChange: this.handleChange,
+                                editBool: this.state.editBool,
+                                userValues: this.state.userValues, __source: { fileName: _jsxFileName, lineNumber: 158 }, __self: this }))),
+
+
+
+
+
+                    _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 170 }, __self: this },
+
+                        _react2.default.createElement('div', { className: 'col s12 m4 offset-m4 offset-s1', __source: { fileName: _jsxFileName, lineNumber: 172 }, __self: this },
+                            renderProfile[0] === null ?
+                            _react2.default.createElement('button', { onClick: this.saveProfile, className: 'btn-large blue waves-effect', __source: { fileName: _jsxFileName, lineNumber: 174 }, __self: this }, 'Save your profile') :
+                            _react2.default.createElement('button', { onClick: this.editProfile, className: 'btn-large blue waves-effect', __source: { fileName: _jsxFileName, lineNumber: 175 }, __self: this }, 'Edit your profile'))))));
+
+
+
+
+
+
+    }}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addUserData: user => dispatch((0, _userActions.addUserData)(user)),
+        editUserProfile: (user, userID) => dispatch((0, _userActions.editUserProfile)(user, userID)) };
+
+};
+const mapStateToProps = state => {
+    let usersProfile = state.firestore.ordered.users ? state.firestore.ordered.users : [];
+    return {
+        usersProfile,
+        userAuthID: state.firebase.auth.uid };
+
+};exports.default =
+
+(0, _redux.compose)(
+(0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps),
+(0, _reactReduxFirebase.firestoreConnect)([
+{ collection: 'users' }]))(
+
+Profile);

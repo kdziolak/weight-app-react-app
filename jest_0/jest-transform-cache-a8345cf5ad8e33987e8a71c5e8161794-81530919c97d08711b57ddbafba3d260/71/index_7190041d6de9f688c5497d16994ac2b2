@@ -1,0 +1,14 @@
+'use strict';var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/index.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _reactDom = require('react-dom');var _reactDom2 = _interopRequireDefault(_reactDom);
+require('./index.css');
+var _App = require('./App');var _App2 = _interopRequireDefault(_App);
+var _reactRedux = require('react-redux');
+var _rootReducer = require('./store/rootReducer');var _rootReducer2 = _interopRequireDefault(_rootReducer);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+_rootReducer2.default.firebaseAuthIsReady.then(() => {
+    _reactDom2.default.render(
+    _react2.default.createElement(_reactRedux.Provider, { store: _rootReducer2.default, __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: undefined },
+        _react2.default.createElement(_App2.default, { __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: undefined })),
+
+    document.getElementById('root'));
+});

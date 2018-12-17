@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render <HeaderTitle/> component 1`] = `
+HTMLCollection {
+  "0": <h1 />,
+  Symbol(HTMLCollection internal slots): Object {
+    "conflictElements": Object {},
+    "element": <div
+      data-testid="add-body-size-measurement-text"
+>
+      <h1 />
+</div>,
+    "keys": Array [],
+    "length": 1,
+    "query": [Function],
+    "version": 4,
+  },
+}
+`;

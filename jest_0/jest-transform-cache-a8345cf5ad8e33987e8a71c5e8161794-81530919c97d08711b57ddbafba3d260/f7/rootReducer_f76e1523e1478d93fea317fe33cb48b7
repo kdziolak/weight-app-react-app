@@ -1,0 +1,24 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _redux = require('redux');
+var _reduxThunk = require('redux-thunk');var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+var _reduxLogger = require('redux-logger');var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+var _reduxFirestore = require('redux-firestore');
+var _reactReduxFirebase = require('react-redux-firebase');
+var _firebase = require('../firebase');var _firebase2 = _interopRequireDefault(_firebase);
+
+var _userReducer = require('./reducers/userReducer');var _userReducer2 = _interopRequireDefault(_userReducer);
+var _authReducer = require('./reducers/authReducer');var _authReducer2 = _interopRequireDefault(_authReducer);
+var _measurementReducer = require('./reducers/measurementReducer');var _measurementReducer2 = _interopRequireDefault(_measurementReducer);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}exports.default =
+
+(0, _redux.createStore)(
+(0, _redux.combineReducers)({
+    measurement: _measurementReducer2.default,
+    auth: _authReducer2.default,
+    user: _userReducer2.default,
+    firestore: _reduxFirestore.firestoreReducer,
+    firebase: _reactReduxFirebase.firebaseReducer }),
+
+{},
+(0, _redux.compose)(
+(0, _redux.applyMiddleware)(_reduxThunk2.default.withExtraArgument({ getFirebase: _reactReduxFirebase.getFirebase, getFirestore: _reduxFirestore.getFirestore }), _reduxLogger2.default),
+(0, _reduxFirestore.reduxFirestore)(_firebase2.default),
+(0, _reactReduxFirebase.reactReduxFirebase)(_firebase2.default, { useFirestoreForProfile: true, userProfile: 'usersAuth', attachAuthIsReady: true })));

@@ -1,0 +1,25 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/presentational/OptionCard/OptionCard.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _reactRouterDom = require('react-router-dom');
+
+require('./OptionCard.css');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const OptionCard = props => {
+    return (
+        _react2.default.createElement(_reactRouterDom.Link, { className: 'option-card col s12 m6', to: props.link, __source: { fileName: _jsxFileName, lineNumber: 8 }, __self: undefined },
+            _react2.default.createElement('div', { className: 'card ' + props.color + ' lighten-2', __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: undefined },
+                _react2.default.createElement('div', { className: 'card-flex card-content', __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: undefined },
+                    _react2.default.createElement('div', { className: 'weight-img left-aling', __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: undefined },
+                        _react2.default.createElement('img', { className: `responsive-img ${props.imgClass}`, src: props.img, alt: props.content, __source: { fileName: _jsxFileName, lineNumber: 12 }, __self: undefined })),
+
+                    _react2.default.createElement('span', { className: 'card-title white-text right-align', __source: { fileName: _jsxFileName, lineNumber: 14 }, __self: undefined },
+
+                        props.content)))));
+
+
+
+
+
+
+};exports.default =
+
+OptionCard;

@@ -1,0 +1,39 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/presentational/ProfileCollectionItem/ProfileCollectionItem.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const ProfileCollectionItem = props => {const
+    htmlFor = props.htmlFor,collectionValue = props.collectionValue,userValue = props.userValue,unite = props.unite,editBool = props.editBool,inputID = props.inputID,formID = props.formID,handleChange = props.handleChange,handleClick = props.handleClick,handleSubmit = props.handleSubmit,inputType = props.inputType,btnID = props.btnID;
+    const form = collectionValue === 'Gender' ?
+    _react2.default.createElement('form', { onSubmit: handleSubmit, __source: { fileName: _jsxFileName, lineNumber: 6 }, __self: undefined },
+        _react2.default.createElement('p', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 7 }, __self: undefined },
+            _react2.default.createElement('label', { __source: { fileName: _jsxFileName, lineNumber: 8 }, __self: undefined },
+                _react2.default.createElement('input', { id: inputID, onChange: handleChange, className: btnID + ' radioMale', name: collectionValue, type: 'radio', __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: undefined }),
+                _react2.default.createElement('span', { __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: undefined }, 'Male'))),
+
+
+        _react2.default.createElement('p', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 13 }, __self: undefined },
+            _react2.default.createElement('label', { __source: { fileName: _jsxFileName, lineNumber: 14 }, __self: undefined },
+                _react2.default.createElement('input', { id: inputID, onChange: handleChange, className: btnID + ' radioFemale', name: collectionValue, type: 'radio', __source: { fileName: _jsxFileName, lineNumber: 15 }, __self: undefined }),
+                _react2.default.createElement('span', { __source: { fileName: _jsxFileName, lineNumber: 16 }, __self: undefined }, 'Female')))) :
+
+
+
+
+    _react2.default.createElement('form', { onSubmit: handleSubmit, __source: { fileName: _jsxFileName, lineNumber: 21 }, __self: undefined },
+        _react2.default.createElement('div', { className: `input-field col s12 ${formID}`, __source: { fileName: _jsxFileName, lineNumber: 22 }, __self: undefined },
+            _react2.default.createElement('input', { onChange: handleChange, id: inputID, autoFocus: true, type: inputType, __source: { fileName: _jsxFileName, lineNumber: 23 }, __self: undefined }),
+            _react2.default.createElement('label', { htmlFor: inputID, __source: { fileName: _jsxFileName, lineNumber: 24 }, __self: undefined }, 'New ', collectionValue)));
+
+
+    return (
+        _react2.default.createElement('li', { className: 'collection-item', __source: { fileName: _jsxFileName, lineNumber: 28 }, __self: undefined },
+            _react2.default.createElement('div', { className: 'collection-content', __source: { fileName: _jsxFileName, lineNumber: 29 }, __self: undefined },
+                _react2.default.createElement('label', { htmlFor: htmlFor, className: 'flow-text', __source: { fileName: _jsxFileName, lineNumber: 30 }, __self: undefined }, collectionValue, ': '),
+                _react2.default.createElement('span', { id: htmlFor, className: 'personal-name flow-text', __source: { fileName: _jsxFileName, lineNumber: 31 }, __self: undefined }, userValue, ' ', unite ? unite : null)),
+
+            editBool ? form : null,
+            _react2.default.createElement('button', { onClick: handleClick, id: btnID, className: 'btn blue white-text far fa-edit secondary-content', __source: { fileName: _jsxFileName, lineNumber: 34 }, __self: undefined })));
+
+
+};exports.default =
+
+ProfileCollectionItem;

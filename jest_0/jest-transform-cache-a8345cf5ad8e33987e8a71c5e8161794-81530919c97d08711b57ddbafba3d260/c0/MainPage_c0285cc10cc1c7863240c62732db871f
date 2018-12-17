@@ -1,0 +1,52 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/MainPage/MainPage.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _Quotes = require('../../presentational/Quotes/Quotes');var _Quotes2 = _interopRequireDefault(_Quotes);
+require('./MainPage.css');
+var _OptionCard = require('../../presentational/OptionCard/OptionCard');var _OptionCard2 = _interopRequireDefault(_OptionCard);
+var _HeaderTitle = require('../../presentational/HeaderTitle/HeaderTitle');var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);
+var _weight = require('../../../img/weight.png');var _weight2 = _interopRequireDefault(_weight);
+var _test = require('../../../img/test.png');var _test2 = _interopRequireDefault(_test);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class MainPage extends _react.Component {constructor(...args) {var _temp;return _temp = super(...args), this.
+
+    state = {
+      quotes: [],
+      optionContents: ['add weight measurement', 'show measurements results', 'add meal today', 'check your progress', 'add workout'],
+      imgs: [_weight2.default, _test2.default],
+      colorCards: ['pink', 'purple', 'cyan', 'light-green', 'orange'],
+      links: ['/measurement/add', '/measurement/results', '/', '/', '/'],
+      imgClass: ['add-weight-img', 'show-results-img'] }, _temp;}
+
+
+  componentDidMount() {
+    fetch('https://gist.githubusercontent.com/b1nary/ea8fff806095bcedacce/raw/6e6de20d7514b93dd69b149289264997b49459dd/enterpreneur-quotes.json').
+    then(res => res.json()).
+    then(json => {
+      let quotes = json;
+      this.setState({
+        quotes });
+
+    });
+
+
+  }
+
+  render() {
+    return (
+      _react2.default.createElement('div', { className: 'main-page center-align', __source: { fileName: _jsxFileName, lineNumber: 35 }, __self: this },
+        _react2.default.createElement(_Quotes2.default, { quotes: this.state.quotes, __source: { fileName: _jsxFileName, lineNumber: 36 }, __self: this }),
+        _react2.default.createElement(_HeaderTitle2.default, { headerNumber: 2, content: 'What do you want to do?', __source: { fileName: _jsxFileName, lineNumber: 37 }, __self: this }),
+        _react2.default.createElement('div', { className: 'container', __source: { fileName: _jsxFileName, lineNumber: 38 }, __self: this },
+          _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 39 }, __self: this },
+
+            this.state.optionContents.map((text, i) => {
+              return (
+                _react2.default.createElement(_OptionCard2.default, { key: i, content: text, link: this.state.links[i], color: this.state.colorCards[i], img: this.state.imgs[i], imgClass: this.state.imgClass[i], __source: { fileName: _jsxFileName, lineNumber: 43 }, __self: this }));
+
+            })))));
+
+
+
+
+
+
+  }}exports.default = MainPage;

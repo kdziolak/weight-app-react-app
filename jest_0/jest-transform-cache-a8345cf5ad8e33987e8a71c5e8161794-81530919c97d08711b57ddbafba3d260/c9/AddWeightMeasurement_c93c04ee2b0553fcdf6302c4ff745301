@@ -1,0 +1,220 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/AddWeightMeasurement/AddWeightMeasurement.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+require('./AddWeightMeasurement.css');
+var _reactRedux = require('react-redux');
+var _reactReduxFirebase = require('react-redux-firebase');
+var _redux = require('redux');
+var _moment = require('moment');var _moment2 = _interopRequireDefault(_moment);
+var _reactRouterDom = require('react-router-dom');
+var _HeaderTitle = require('../../presentational/HeaderTitle/HeaderTitle');var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);
+var _Paragraph = require('../../presentational/Paragraph/Paragraph');var _Paragraph2 = _interopRequireDefault(_Paragraph);
+var _Preloader = require('../../presentational/Preloader/Preloader');var _Preloader2 = _interopRequireDefault(_Preloader);
+var _InputField = require('../../presentational/InputField/InputField');var _InputField2 = _interopRequireDefault(_InputField);
+var _Button = require('../../presentational/Button/Button');var _Button2 = _interopRequireDefault(_Button);
+var _measurementActions = require('../../../store/actions/measurementActions');
+var _materializeCss = require('materialize-css');var _materializeCss2 = _interopRequireDefault(_materializeCss);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+
+class AddWeightMeasurement extends _react.Component {constructor(...args) {var _temp;return _temp = super(...args), this.
+        state = {
+            inputValues: {
+                weight: '',
+                date: '' },
+
+            inputsArray: [
+            {
+                type: 'number',
+                id: 'new-weight-input',
+                label: 'Add new weight',
+                min: 1,
+                max: 200,
+                classes: 'blue-text text-darken-3' },
+
+            {
+                type: 'text',
+                id: 'date-input',
+                label: 'Date',
+                classes: 'datepicker blue-text text-darken-3' }],
+
+
+            previousWeightValue: 50,
+            lastWeightMesurementDate: '21.09.2018',
+            spinner: false,
+            componentIsReady: false }, this.
+
+
+        showDatepicker = e => {
+            let datepickerOptions = {
+                onOpen: function () {
+                    this.doneBtn.remove();
+                },
+                autoClose: true,
+                defaultDate: new Date(),
+                maxDate: new Date(),
+                format: 'dd mmmm yyyy',
+                i18n: {
+                    done: null },
+
+                disableDayFn: day => {
+                    let dates = [];
+                    if ((0, _reactReduxFirebase.isEmpty)(this.props.measurements)) return false;
+                    this.props.measurements.forEach(measurement => {
+                        let date = new Date(measurement.measurementDate).toDateString();
+                        dates = [...dates, date];
+                    });
+                    if (dates.indexOf(day.toDateString()) >= 0) {
+                        return true;
+                    }
+                    return false;
+                },
+                onSelect: date => {
+                    this.setState({
+                        inputValues: Object.assign({},
+                        this.state.inputValues, {
+                            date: (0, _moment2.default)(date).format('DD MMMM YYYY') }) });
+
+
+                } };
+
+            _materializeCss2.default.Datepicker.init(e.target, datepickerOptions);
+        }, this.
+
+
+
+        onSubmitHandle = e => {
+            console.log(e.keyCode);var _state$inputValues =
+            this.state.inputValues;let weight = _state$inputValues.weight,date = _state$inputValues.date;
+            e.preventDefault();
+            if (weight && date) {
+                this.props.sendDataToDatabase(this.state.inputValues);
+                this.setState({
+                    inputValues: {
+                        weight: '',
+                        date: '' },
+
+                    spinner: true });
+
+                _materializeCss2.default.toast({ html: `New weight has been added.`, classes: 'green' });
+            } else {
+                _materializeCss2.default.toast({ html: `Incorrect data. Fill inputs field.`, classes: 'red' });
+            }
+        }, this.
+
+        handleOnChange = e => {
+            if (e.target.value === '0') {
+                _materializeCss2.default.toast({ html: `First number cannot be zero.`, classes: 'orange' });
+                e.target.value = '';
+            }
+            if (e.target.id === 'new-weight-input') {
+                this.setState({
+                    inputValues: Object.assign({},
+                    this.state.inputValues, {
+                        weight: e.target.value }),
+
+                    message: '' });
+
+            }
+        }, _temp;}
+    componentDidMount() {
+        this.setState({
+            componentIsReady: true });
+
+    }
+
+    render() {var _state =
+        this.state;let inputsArray = _state.inputsArray,inputValues = _state.inputValues;
+        let lastMeasurement = this.props.measurements.length ? this.props.measurements[0] : {};let
+        measurementDate = lastMeasurement.measurementDate,weightValue = lastMeasurement.weightValue;
+
+        if (this.state.spinner && !this.props.redirect)
+        return (
+            _react2.default.createElement('div', { className: 'add-weight-measurement container add-weight-measurement-preloader', __source: { fileName: _jsxFileName, lineNumber: 130 }, __self: this },
+                _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 131 }, __self: this },
+                    _react2.default.createElement('div', { className: 'col s12 center-align', __source: { fileName: _jsxFileName, lineNumber: 132 }, __self: this },
+                        _react2.default.createElement(_Preloader2.default, { __source: { fileName: _jsxFileName, lineNumber: 133 }, __self: this })))));
+
+
+
+
+
+        return (
+            _react2.default.createElement('div', { className: 'add-weight-measurement', __source: { fileName: _jsxFileName, lineNumber: 140 }, __self: this },
+                _react2.default.createElement('div', { className: 'container', __source: { fileName: _jsxFileName, lineNumber: 141 }, __self: this },
+                    _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 142 }, __self: this },
+                        _react2.default.createElement('div', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 143 }, __self: this },
+                            _react2.default.createElement(_HeaderTitle2.default, { headerNumber: 3, content: 'Add new weight', classes: 'blue-text text-darken-1', __source: { fileName: _jsxFileName, lineNumber: 144 }, __self: this }))),
+
+
+                    _react2.default.createElement('div', { className: 'card-panel', __source: { fileName: _jsxFileName, lineNumber: 147 }, __self: this },
+                        _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 148 }, __self: this },
+                            _react2.default.createElement('div', { className: 'col s12 center-align', __source: { fileName: _jsxFileName, lineNumber: 149 }, __self: this },
+                                _react2.default.createElement(_Paragraph2.default, { classes: 'flow-text', content: `Your last weight measurement showed at ${weightValue ? weightValue : ''} kg and has been added ${measurementDate ? measurementDate : ''}`, __source: { fileName: _jsxFileName, lineNumber: 150 }, __self: this }))),
+
+
+                        _react2.default.createElement('div', { className: 'row center-align', __source: { fileName: _jsxFileName, lineNumber: 153 }, __self: this },
+                            _react2.default.createElement('div', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 154 }, __self: this },
+                                _react2.default.createElement('form', { onSubmit: this.onSubmitHandle, __source: { fileName: _jsxFileName, lineNumber: 155 }, __self: this },
+
+                                    inputsArray.map((input, i) => {
+                                        return _react2.default.createElement(_InputField2.default, { minVal: input.min ? input.min : null,
+                                            maxVal: input.max ? input.max : null,
+                                            value: input.id === 'date-input' ? inputValues.date : inputValues.weight,
+                                            showDatepicker: input.id === 'date-input' ? this.showDatepicker : null,
+                                            changeValue: this.handleOnChange, key: i, type: input.type, id: input.id,
+                                            classes: input.classes,
+                                            label: input.label, __source: { fileName: _jsxFileName, lineNumber: 158 }, __self: this });
+
+                                    }),
+
+                                    _react2.default.createElement(_Button2.default, { onKeyUp: this.onSubmitHandle, classes: `btn btn-large blue waves-effect ${inputValues.weight && inputValues.date ? '' : 'disabled'}`, content: 'Add weight mesurement', __source: { fileName: _jsxFileName, lineNumber: 168 }, __self: this })))),
+
+
+
+                        this.props.redirect ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/measurement/results', __source: { fileName: _jsxFileName, lineNumber: 172 }, __self: this }) : null))));
+
+
+
+
+    }}
+
+
+const mapStateToProps = state => {
+
+    return {
+        redirect: state.measurement.redirect,
+        userAuthID: state.firebase.auth.uid,
+        usersID: state.firestore.ordered,
+        measurements: !(0, _reactReduxFirebase.isEmpty)(state.firestore.ordered.measurements) ? state.firestore.ordered.measurements : {} };
+
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        sendDataToDatabase: data => dispatch((0, _measurementActions.sendDataToDatabase)(data)) };
+
+};exports.default =
+
+(0, _redux.compose)(
+(0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps),
+(0, _reactReduxFirebase.firestoreConnect)(props => {
+    if ((0, _reactReduxFirebase.isEmpty)(props.usersID)) {
+        return [
+        { collection: 'users' }];
+
+    }
+    // props.usersID.users.forEach(user => console.log(user.userID))
+    var _props$usersID$users$ = props.usersID.users.filter(user => user.userID === props.userAuthID),_props$usersID$users$2 = _slicedToArray(_props$usersID$users$, 1);let user = _props$usersID$users$2[0];
+    return [
+    {
+        collection: 'users',
+        doc: user.id,
+        subcollections: [
+        {
+            collection: 'measurements',
+            orderBy: ['measurementDate', 'desc'] }],
+
+
+        storeAs: 'measurements' }];
+
+
+}))(
+AddWeightMeasurement);
