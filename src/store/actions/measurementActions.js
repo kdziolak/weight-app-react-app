@@ -116,7 +116,7 @@ export function filterMeasurementsByValues(values) {
             let measurements = await firestore.collection('users').doc(docID).collection('measurements').get()
             measurements = measurements.docs
             measurements.forEach(measurement => {
-                if (measurement.data().weightValue >= values.from && measurement.data().weightValue <= values.to) {
+                if (measurement.data().weightValue >= values.from && (measurement.data().weightValue <= values.to || values.to === '')) {
                     measurementsArr = [...measurementsArr, measurement]
                 }
             })

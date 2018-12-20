@@ -61,6 +61,11 @@ class MeasurementsResults extends Component {
       } else if (e.target.id === 'from-weight-input') {
         this.props.filterMeasurementsByValues({ from: e.target.value, to: this.state.filterValues.to })
       }
+    } else if (e.target.id === 'from-weight-input' && e.target.value === '') {
+      this.setState({
+        preloader: true
+      })
+      this.props.resetFilter();
     }
 
   }
@@ -73,6 +78,8 @@ class MeasurementsResults extends Component {
     })
     if (this.state.filterDates.from) {
       this.props.filterMeasurementsByDate(this.state.filterDates)
+    } else {
+      this.props.resetFilter();
     }
   }
 
@@ -113,17 +120,6 @@ class MeasurementsResults extends Component {
     }
     M.Datepicker.init(e.target, datepickerOptions)
   }
-  // filterDataTable = (measurements, filterDatas, option) => {
-  //   // let filterData = measurements.filter(measurement => ((measurement[option].toString() >= filterDatas.from && measurement[option].toString() <= filterDatas.to) || (measurement[option].toString() >= filterDatas.from && filterDatas.to === '')))
-  //   // if (!filterData.length) filterData = [{
-  //   //   measurementDate: "",
-  //   //   measurementType: "Not found",
-  //   //   weightValue: ""
-  //   // }]
-  //   this.setState({
-  //     measurements: this.props.filterMeasurements
-  //   })
-  // }
 
   componentDidMount() {
     this.props.changeRedirectState()

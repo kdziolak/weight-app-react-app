@@ -1,0 +1,14 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/AddBodySizeMeasurement/AddBodySizeMeasurement.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+var _HeaderTitle = require('../../presentational/HeaderTitle/HeaderTitle');var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class AddBodySizeMeasurement extends _react.Component {
+    render() {
+        return (
+            _react2.default.createElement('div', { 'data-testid': 'add-body-size-measurement-text', __source: { fileName: _jsxFileName, lineNumber: 7 }, __self: this },
+                _react2.default.createElement(_HeaderTitle2.default, { headerNumber: 3, content: 'Add new weight', classes: 'blue-text text-darken-1', __source: { fileName: _jsxFileName, lineNumber: 8 }, __self: this })));
+
+    }}exports.default =
+
+
+
+AddBodySizeMeasurement;

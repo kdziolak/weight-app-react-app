@@ -1,0 +1,10 @@
+.add-body-size-img-scale {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.add-body-size-img-scale img{
+    display: block;
+    height: 70vh;
+}

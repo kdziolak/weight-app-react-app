@@ -8,9 +8,11 @@ import fbConfing from '../firebase'
 import user from './reducers/userReducer'
 import auth from './reducers/authReducer'
 import measurement from './reducers/measurementReducer'
+import bodyMeasurement from './reducers/bodyMeasurementReducer'
 
 export default createStore(
     combineReducers({
+        bodyMeasurement: bodyMeasurement,
         measurement: measurement,
         auth: auth,
         user: user,
@@ -19,8 +21,8 @@ export default createStore(
     }),
     {},
     compose(
-        applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore}), logger),
+        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }), logger),
         reduxFirestore(fbConfing),
-        reactReduxFirebase(fbConfing, {useFirestoreForProfile: true, userProfile: 'usersAuth', attachAuthIsReady: true})
+        reactReduxFirebase(fbConfing, { useFirestoreForProfile: true, userProfile: 'usersAuth', attachAuthIsReady: true })
     )
-  );
+);

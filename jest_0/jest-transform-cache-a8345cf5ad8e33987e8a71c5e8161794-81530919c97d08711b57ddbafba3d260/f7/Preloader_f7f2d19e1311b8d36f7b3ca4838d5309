@@ -1,0 +1,21 @@
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = "/home/kamil/Documents/Projects/weight-app-react-app/src/components/presentational/Preloader/Preloader.js";var _react = require("react");var _react2 = _interopRequireDefault(_react);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const Preloader = () => {
+    return (
+        _react2.default.createElement("div", { className: "preloader-wrapper big active", __source: { fileName: _jsxFileName, lineNumber: 5 }, __self: undefined },
+            _react2.default.createElement("div", { className: "spinner-layer spinner-blue-only ", __source: { fileName: _jsxFileName, lineNumber: 6 }, __self: undefined },
+                _react2.default.createElement("div", { className: "circle-clipper left", __source: { fileName: _jsxFileName, lineNumber: 7 }, __self: undefined },
+                    _react2.default.createElement("div", { className: "circle", __source: { fileName: _jsxFileName, lineNumber: 8 }, __self: undefined })),
+
+                _react2.default.createElement("div", { className: "gap-patch", __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: undefined },
+                    _react2.default.createElement("div", { className: "circle", __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: undefined })),
+
+                _react2.default.createElement("div", { className: "circle-clipper right", __source: { fileName: _jsxFileName, lineNumber: 13 }, __self: undefined },
+                    _react2.default.createElement("div", { className: "circle", __source: { fileName: _jsxFileName, lineNumber: 14 }, __self: undefined })))));
+
+
+
+
+};exports.default =
+
+Preloader;

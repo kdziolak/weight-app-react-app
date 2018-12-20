@@ -1,0 +1,118 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/home/kamil/Documents/Projects/weight-app-react-app/src/components/container/LoginPage/LoginPage.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+require('./LoginPage.css');
+var _reactRouterDom = require('react-router-dom');
+var _reactRedux = require('react-redux');
+var _authActions = require('../../../store/actions/authActions');
+var _HeaderTitle = require('../../presentational/HeaderTitle/HeaderTitle');var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);
+var _Button = require('../../presentational/Button/Button');var _Button2 = _interopRequireDefault(_Button);
+var _Preloader = require('../../presentational/Preloader/Preloader');var _Preloader2 = _interopRequireDefault(_Preloader);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class LoginPage extends _react.Component {constructor(...args) {var _temp;return _temp = super(...args), this.
+
+        state = {
+            email: '',
+            password: '',
+            loading: false,
+            errorMessage: '' }, this.
+
+
+        handleChange = e => {
+            this.setState({
+                [e.target.id]: e.target.value });
+
+        }, this.
+
+        handleSubmit = e => {
+            e.preventDefault();
+            this.props.signIn(this.state);
+            this.setState({
+                loading: true,
+                email: '',
+                password: '' });
+
+        }, _temp;}
+
+    render() {
+        return (
+            _react2.default.createElement('div', { className: 'login-page', __source: { fileName: _jsxFileName, lineNumber: 37 }, __self: this },
+                _react2.default.createElement('div', { className: 'bg-alpha', __source: { fileName: _jsxFileName, lineNumber: 38 }, __self: this },
+                    _react2.default.createElement('div', { className: 'container center-align', __source: { fileName: _jsxFileName, lineNumber: 39 }, __self: this },
+                        _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 40 }, __self: this },
+                            _react2.default.createElement('div', { className: 'col s12 center-align', __source: { fileName: _jsxFileName, lineNumber: 41 }, __self: this },
+                                _react2.default.createElement(_HeaderTitle2.default, { headerNumber: 2, classes: 'blue-text text-lighten-1', content: 'Login to your best weight control app!', __source: { fileName: _jsxFileName, lineNumber: 42 }, __self: this }))),
+
+
+                        _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 45 }, __self: this },
+                            _react2.default.createElement('div', { className: 'col s10 l8 offset-s1 offset-l2', __source: { fileName: _jsxFileName, lineNumber: 46 }, __self: this },
+                                _react2.default.createElement('form', { className: 'blue lighten-5 z-depth-2', onSubmit: this.handleSubmit, __source: { fileName: _jsxFileName, lineNumber: 47 }, __self: this },
+
+                                    this.state.loading && !this.props.errorMessage ?
+                                    _react2.default.createElement('div', { className: 'row spiner-login', __source: { fileName: _jsxFileName, lineNumber: 50 }, __self: this },
+                                        _react2.default.createElement('div', { className: 'col s12 center-align', __source: { fileName: _jsxFileName, lineNumber: 51 }, __self: this },
+                                            _react2.default.createElement(_Preloader2.default, { __source: { fileName: _jsxFileName, lineNumber: 52 }, __self: this }))) :
+
+
+
+                                    _react2.default.createElement('div', { className: 'row', __source: { fileName: _jsxFileName, lineNumber: 56 }, __self: this },
+                                        _react2.default.createElement('div', { className: 'col s12', __source: { fileName: _jsxFileName, lineNumber: 57 }, __self: this },
+                                            _react2.default.createElement('div', { className: 'input-field', __source: { fileName: _jsxFileName, lineNumber: 58 }, __self: this },
+                                                _react2.default.createElement('input', { id: 'email', type: 'email', className: 'email', value: this.state.email, onChange: this.handleChange, __source: { fileName: _jsxFileName, lineNumber: 59 }, __self: this }),
+                                                _react2.default.createElement('label', { htmlFor: 'email', __source: { fileName: _jsxFileName, lineNumber: 60 }, __self: this }, 'Email:')),
+
+                                            _react2.default.createElement('div', { className: 'input-field', __source: { fileName: _jsxFileName, lineNumber: 62 }, __self: this },
+                                                _react2.default.createElement('input', { id: 'password', type: 'password', className: 'password blue-text text-darken-4', value: this.state.password, onChange: this.handleChange, __source: { fileName: _jsxFileName, lineNumber: 63 }, __self: this }),
+                                                _react2.default.createElement('label', { htmlFor: 'password', __source: { fileName: _jsxFileName, lineNumber: 64 }, __self: this }, 'Password:')),
+
+                                            _react2.default.createElement('div', { className: 'login-links', __source: { fileName: _jsxFileName, lineNumber: 66 }, __self: this },
+                                                _react2.default.createElement(_reactRouterDom.Link, { to: '/', className: 'remind-password', __source: { fileName: _jsxFileName, lineNumber: 67 }, __self: this }, 'Forget your password?'),
+                                                _react2.default.createElement(_reactRouterDom.Link, { to: '/signup', __source: { fileName: _jsxFileName, lineNumber: 68 }, __self: this }, 'Create account.')),
+
+                                            _react2.default.createElement(_Button2.default, { classes: `btn btn-large blue darken-2 waves-effect waves-light`, content: 'Log In', __source: { fileName: _jsxFileName, lineNumber: 70 }, __self: this }))))))))));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }}
+
+
+const mapStateToProps = state => {
+    return {
+        errorMessage: state.auth.errorMessage };
+
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signIn: loginData => dispatch((0, _authActions.signIn)(loginData)) };
+
+};exports.default =
+
+(0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginPage);

@@ -8,6 +8,7 @@ import AddWeightMeasurement from './components/container/AddWeightMeasurement/Ad
 import Profile from './components/container/Profile/Profile'
 import SignUp from './components/container/SignUp/SignUp'
 import MeasurementsResults from './components/container/MeasurementsResults/MeasurementsResults';
+import AddBodySizeMeasurement from './components/container/AddBodySizeMeasurement/AddBodySizeMeasurement';
 
 class App extends Component {
 
@@ -26,6 +27,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/measurement/add' render={() => (!isEmpty ? <AddWeightMeasurement /> : <Redirect to='/login' />)} />
             <Route exact path='/measurement/results' render={() => (!isEmpty ? <MeasurementsResults /> : <Redirect to='/login' />)} />
+            <Route exact path='/measurement/add-body-size' render={() => (!isEmpty ? <AddBodySizeMeasurement /> : <Redirect to='/login' />)} />
           </Switch>
           <Route exact path='/profile' render={() => (!isEmpty ? <Profile /> : <Redirect to='/login' />)} />
         </div>
