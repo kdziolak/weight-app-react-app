@@ -19,11 +19,14 @@ class AddBodySizeMeasurement extends Component {
     }
 
     handleChange = (e) => {
-        console.log(e.target.dataset.key)
+        this.setState({
+            bodyPartsSize: {
+                [e.target.dataset.key]: e.target.value
+            }
+        })
     }
 
     render() {
-
         return (
             <div data-testid="add-body-size-measurement-text" className='add-body-size-measurement component-padding' >
                 <div className='container'>

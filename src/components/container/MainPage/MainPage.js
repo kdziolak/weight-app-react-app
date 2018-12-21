@@ -5,16 +5,60 @@ import OptionCard from '../../presentational/OptionCard/OptionCard';
 import HeaderTitle from '../../presentational/HeaderTitle/HeaderTitle'
 import Weight from '../../../img/weight.png'
 import Table from '../../../img/test.png'
+import BodySize from '../../../img/healthy.png'
+
+
+
 
 export default class MainPage extends Component {
 
+  datas = [
+    {
+      id: 0,
+      optionContents: 'add weight measurement',
+      img: Weight,
+      colorCard: 'pink',
+      link: '/measurement/add',
+      imgClass: 'show-results-img'
+    },
+    {
+      id: 1,
+      optionContents: 'show measurements results',
+      img: Table,
+      colorCard: 'cyan',
+      link: '/measurement/results',
+      imgClass: 'show-results-img'
+    },
+    {
+      id: 2,
+      optionContents: 'add body size measurement',
+      colorCard: 'indigo',
+      img: BodySize,
+      link: '/measurement/add-body-size',
+      imgClass: 'show-results-img'
+    },
+    // {
+    //   id: 3,
+    //   optionContents: 'check your progress',
+    //   colorCard: 'light-green',
+    //   link: '/',
+    // },
+    // {
+    //   id: 4,
+    //   optionContents: 'add workout',
+    //   colorCard: 'orange',
+    //   link: '/',
+    // },
+    // {
+    //   id: 5,
+    //   optionContents: 'add meal today',
+    //   colorCard: 'purple',
+    //   link: '/',
+    // },
+  ]
+
   state = {
     quotes: [],
-    optionContents: ['add weight measurement', 'show measurements results', 'add meal today', 'check your progress', 'add workout'],
-    imgs: [Weight, Table],
-    colorCards: ['pink', 'purple', 'cyan', 'light-green', 'orange'],
-    links: ['/measurement/add', '/measurement/results', '/', '/', '/'],
-    imgClass: ['add-weight-img', 'show-results-img']
   }
 
   componentDidMount() {
@@ -38,9 +82,10 @@ export default class MainPage extends Component {
         <div className="container">
           <div className="row">
             {
-              this.state.optionContents.map((text, i) => {
+              this.datas.map(data => {
+                const { optionContents, imgClass, img, colorCard, link, id } = data;
                 return (
-                  <OptionCard key={i} content={text} link={this.state.links[i]} color={this.state.colorCards[i]} img={this.state.imgs[i]} imgClass={this.state.imgClass[i]} />
+                  <OptionCard key={id} content={optionContents} link={link} color={colorCard} img={img} imgClass={imgClass} />
                 );
               })
             }
