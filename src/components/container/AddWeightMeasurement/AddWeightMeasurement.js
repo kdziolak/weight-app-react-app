@@ -27,6 +27,7 @@ class AddWeightMeasurement extends Component {
                 label: 'Add new weight',
                 min: 1,
                 max: 200,
+                step: '0.01',
                 classes: 'blue-text text-darken-3'
             },
             {
@@ -161,7 +162,8 @@ class AddWeightMeasurement extends Component {
                                                 showDatepicker={input.id === 'date-input' ? this.showDatepicker : null}
                                                 changeValue={this.handleOnChange} key={i} type={input.type} id={input.id}
                                                 classes={input.classes}
-                                                label={input.label} />
+                                                label={input.label}
+                                                step={input.step} />
                                             )
                                         })
                                     }
@@ -203,10 +205,11 @@ export default compose(
         }
         // props.usersID.users.forEach(user => console.log(user.userID))
         let [user] = props.usersID.users.filter(user => user.userID === props.userAuthID)
+
         return [
             {
                 collection: 'users',
-                doc: user.id,
+                // doc: user.id,
                 subcollections: [
                     {
                         collection: 'measurements',

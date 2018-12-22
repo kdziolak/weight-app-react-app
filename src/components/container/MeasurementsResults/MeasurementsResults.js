@@ -259,7 +259,7 @@ export default compose(
     return [
       {
         collection: 'users',
-        doc: user.id,
+        doc: '',
         subcollections: [
           {
             collection: 'measurements',

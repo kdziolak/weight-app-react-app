@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import { addUserData } from './store/actions/userActions'
 import LoginPage from './components/container/LoginPage/LoginPage'
 import Menu from './components/container/Menu/Menu'
 import MainPage from './components/container/MainPage/MainPage'
@@ -12,6 +15,22 @@ import AddBodySizeMeasurement from './components/container/AddBodySizeMeasuremen
 
 class App extends Component {
 
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.users !== this.props.users) {
+      let that = this;
+      //Perform some operation here
+      let users = this.props.users
+      Object.keys(users).forEach(key => {
+        // console.log(users[key].userID === this.props.userAuth)
+        if (users[key].userID === this.props.userAuth) {
+          return;
+        } else {
+          that.props.addUserData({})
+        }
+      });
+    }
+  }
   render() {
     const { isEmpty } = this.props;
 
@@ -37,10 +56,25 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+
   return {
     isEmpty: state.firebase.auth.isEmpty,
+    userAuth: state.firebase.auth.uid,
+    users: state.firestore.data.users
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addUserData: (user) => dispatch(addUserData(user)),
   }
 }
 
 
-export default connect(mapStateToProps)(App);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'users' }
+  ])
+)(App)
+
